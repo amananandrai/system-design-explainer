@@ -16,7 +16,7 @@ import "@xyflow/react/dist/style.css";
 import ArchitectureNode from "./ArchitectureNode";
 import TierNode from "./TierNode";
 import type { Provider, SystemDesign } from "@/types/schema";
-import { edgeStyles, systemToFlow } from "@/lib/transformDiagram";
+import { edgeStyles, systemToFlow, type FlowHighlight } from "@/lib/transformDiagram";
 import { layoutSystem, type SystemLayout } from "@/lib/layout";
 
 const nodeTypes = { architecture: ArchitectureNode, tier: TierNode };
@@ -25,6 +25,7 @@ interface ArchitectureDiagramProps {
   system: SystemDesign;
   provider: Provider;
   selectedNodeId: string | null;
+  flowHighlight?: FlowHighlight | null;
   onNodeSelect: (nodeId: string | null) => void;
 }
 
@@ -32,6 +33,7 @@ export default function ArchitectureDiagram({
   system,
   provider,
   selectedNodeId,
+  flowHighlight = null,
   onNodeSelect,
 }: ArchitectureDiagramProps) {
   const [computed, setComputed] = useState<{ slug: string; layout: SystemLayout } | null>(null);
@@ -48,9 +50,9 @@ export default function ArchitectureDiagram({
 
   const layout = computed?.slug === system.slug ? computed.layout : null;
 
-  const flow = useMemo(
-    () => (layout ? systemToFlow(system, provider, layout, selectedNodeId) : null),
-    [system, provider, layout, selectedNodeId],
+  const graph = useMemo(
+    () => (layout ? systemToFlow(system, provider, layout, selectedNodeId, flowHighlight) : null),
+    [system, provider, layout, selectedNodeId, flowHighlight],
   );
 
   const protocols = useMemo(
@@ -64,12 +66,12 @@ export default function ArchitectureDiagram({
 
   return (
     <div className="relative h-full w-full rounded-2xl border border-slate-800 bg-slate-950/50">
-      {flow ? (
+      {graph ? (
         // Remount per system so fitView frames each new diagram.
         <FlowCanvas
           key={system.slug}
-          nodes={flow.nodes}
-          edges={flow.edges}
+          nodes={graph.nodes}
+          edges={graph.edges}
           protocols={protocols}
           onNodeSelect={onNodeSelect}
         />

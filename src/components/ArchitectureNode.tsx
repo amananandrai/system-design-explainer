@@ -15,6 +15,8 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
     <div
       style={{ width: NODE_WIDTH, height: NODE_HEIGHT }}
       className={`architecture-node flex cursor-pointer items-center gap-2.5 rounded-xl border bg-slate-900 px-3 shadow-lg transition-all ${
+        nodeData.dimmed ? "opacity-30" : ""
+      } ${
         selected
           ? "border-slate-200 ring-2 ring-white/25"
           : "border-slate-700 hover:border-slate-500"

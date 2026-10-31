@@ -11,6 +11,7 @@ export interface ArchitectureNodeData extends Record<string, unknown> {
   genericLabel: string;
   category: ComponentCategory | undefined;
   mapped: boolean;
+  dimmed: boolean;
 }
 
 export interface TierNodeData extends Record<string, unknown> {
@@ -29,12 +30,31 @@ export const edgeStyles: Record<Protocol, { label: string; color: string; dash?:
   cdc: { label: "Change data capture", color: "#fb923c", dash: "2 4" },
 };
 
+const FLOW_COLOR = "#fbbf24";
+
+/** A request-flow walkthrough in progress: the current step's edge and the ones already shown. */
+export interface FlowHighlight {
+  activeEdgeId: string;
+  visitedEdgeIds: Set<string>;
+}
+
 export function systemToFlow(
   system: SystemDesign,
   provider: Provider,
   layout: SystemLayout,
   selectedNodeId: string | null,
+  flow: FlowHighlight | null = null,
 ): { nodes: Node[]; edges: Edge[] } {
+  const flowNodeIds = new Set<string>();
+  if (flow) {
+    for (const edge of system.edges) {
+      if (edge.id === flow.activeEdgeId || flow.visitedEdgeIds.has(edge.id)) {
+        flowNodeIds.add(edge.from);
+        flowNodeIds.add(edge.to);
+      }
+    }
+  }
+
   const tierNodes: Node<TierNodeData>[] = layout.tierBoxes.map((box) => ({
     id: `tier-${box.id}`,
     type: "tier",
@@ -63,15 +83,20 @@ export function systemToFlow(
         genericLabel: node.label,
         category: kind?.category,
         mapped: resolved.mapped,
+        dimmed: flow !== null && !flowNodeIds.has(node.id),
       },
     };
   });
 
   const edges: Edge[] = system.edges.map((edge) => {
     const style = edgeStyles[edge.protocol ?? "default"];
+    const isActiveStep = flow?.activeEdgeId === edge.id;
+    const isVisitedStep = flow?.visitedEdgeIds.has(edge.id) ?? false;
     const touchesSelection =
       selectedNodeId !== null && (edge.from === selectedNodeId || edge.to === selectedNodeId);
-    const dimmed = selectedNodeId !== null && !touchesSelection;
+    const emphasised = flow ? isActiveStep || isVisitedStep : touchesSelection;
+    const dimmed = flow ? !emphasised : selectedNodeId !== null && !touchesSelection;
+    const color = isActiveStep ? FLOW_COLOR : style.color;
 
     return {
       id: edge.id,
@@ -79,18 +104,18 @@ export function systemToFlow(
       target: edge.to,
       type: "smoothstep",
       label: edge.label,
-      animated: style.animated,
-      markerEnd: { type: MarkerType.ArrowClosed, color: style.color, width: 16, height: 16 },
+      animated: isActiveStep || style.animated,
+      markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
       style: {
-        stroke: style.color,
-        strokeWidth: touchesSelection ? 2.5 : 1.5,
-        strokeDasharray: style.dash,
-        opacity: dimmed ? 0.25 : 1,
+        stroke: color,
+        strokeWidth: isActiveStep ? 3.5 : emphasised ? 2.5 : 1.5,
+        strokeDasharray: isActiveStep ? undefined : style.dash,
+        opacity: dimmed ? 0.15 : 1,
       },
-      labelStyle: { fill: "#cbd5e1", fontSize: 11 },
+      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "#cbd5e1", fontSize: 11 },
       labelBgStyle: { fill: "#0f172a" },
       labelBgPadding: [4, 2] as [number, number],
-      zIndex: touchesSelection ? 1 : 0,
+      zIndex: isActiveStep ? 2 : emphasised ? 1 : 0,
     };
   });
 
