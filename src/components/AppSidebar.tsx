@@ -1,24 +1,24 @@
 "use client";
 
-import type { ApplicationArchitecture } from "@/data/types";
-import { categoryLabels } from "@/data/applications";
+import type { SystemDesign } from "@/types/schema";
+import { systemCategoryLabels } from "@/content";
 
 interface AppSidebarProps {
-  applications: ApplicationArchitecture[];
-  selectedId: string;
-  onSelect: (id: string) => void;
+  systems: SystemDesign[];
+  selectedSlug: string;
+  onSelect: (slug: string) => void;
 }
 
 export default function AppSidebar({
-  applications,
-  selectedId,
+  systems,
+  selectedSlug,
   onSelect,
 }: AppSidebarProps) {
-  const grouped = applications.reduce<Record<string, ApplicationArchitecture[]>>(
-    (acc, app) => {
-      const key = app.category;
+  const grouped = systems.reduce<Record<string, SystemDesign[]>>(
+    (acc, system) => {
+      const key = system.category;
       if (!acc[key]) acc[key] = [];
-      acc[key].push(app);
+      acc[key].push(system);
       return acc;
     },
     {},
@@ -27,37 +27,37 @@ export default function AppSidebar({
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-slate-800 bg-slate-950">
       <div className="border-b border-slate-800 px-4 py-5">
-        <h1 className="text-lg font-bold tracking-tight text-white">ArchViz</h1>
+        <h1 className="text-lg font-bold tracking-tight text-white">System Design Explainer</h1>
         <p className="mt-1 text-xs text-slate-400">
-          Interactive system design diagrams
+          How large systems are built, on any cloud
         </p>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        {Object.entries(grouped).map(([category, apps]) => (
+        {Object.entries(grouped).map(([category, items]) => (
           <div key={category} className="mb-5">
             <p className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
-              {categoryLabels[category as ApplicationArchitecture["category"]]}
+              {systemCategoryLabels[category as SystemDesign["category"]]}
             </p>
             <ul className="space-y-1">
-              {apps.map((app) => (
-                <li key={app.id}>
+              {items.map((system) => (
+                <li key={system.slug}>
                   <button
                     type="button"
-                    onClick={() => onSelect(app.id)}
+                    onClick={() => onSelect(system.slug)}
                     className={`w-full rounded-lg px-3 py-2.5 text-left transition-colors ${
-                      selectedId === app.id
+                      selectedSlug === system.slug
                         ? "bg-indigo-600 text-white shadow-md shadow-indigo-900/40"
                         : "text-slate-300 hover:bg-slate-800 hover:text-white"
                     }`}
                   >
-                    <span className="block text-sm font-medium">{app.name}</span>
+                    <span className="block text-sm font-medium">{system.name}</span>
                     <span
                       className={`mt-0.5 block truncate text-xs ${
-                        selectedId === app.id ? "text-indigo-200" : "text-slate-500"
+                        selectedSlug === system.slug ? "text-indigo-200" : "text-slate-500"
                       }`}
                     >
-                      {app.tagline}
+                      {system.tagline}
                     </span>
                   </button>
                 </li>

@@ -1,11 +1,11 @@
 "use client";
 
-import type { CloudProvider } from "@/data/types";
-import { cloudProviders } from "@/data/cloudMappings";
+import type { Provider } from "@/types/schema";
+import { providers } from "@/content/providers";
 
 interface CloudProviderSelectorProps {
-  selected: CloudProvider;
-  onChange: (provider: CloudProvider) => void;
+  selected: Provider;
+  onChange: (provider: Provider) => void;
 }
 
 export default function CloudProviderSelector({
@@ -18,7 +18,7 @@ export default function CloudProviderSelector({
         Cloud
       </span>
       <div className="flex rounded-xl border border-slate-700 bg-slate-900 p-1">
-        {cloudProviders.map((provider) => {
+        {providers.map((provider) => {
           const isActive = selected === provider.id;
           return (
             <button
@@ -36,7 +36,7 @@ export default function CloudProviderSelector({
                   : undefined
               }
             >
-              {provider.name}
+              {provider.shortName}
             </button>
           );
         })}

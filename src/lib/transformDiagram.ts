@@ -1,80 +1,54 @@
 import type { Node, Edge } from "@xyflow/react";
-import type { ApplicationArchitecture, CloudProvider } from "@/data/types";
-import {
-  categoryColors,
-  cloudProviders,
-  getServiceDescription,
-  getServiceLabel,
-} from "@/data/cloudMappings";
+import type { ComponentCategory, Provider, SystemDesign } from "@/types/schema";
+import { getComponentKind } from "@/content";
+import { resolveService } from "./resolve";
 
 export interface ArchitectureNodeData extends Record<string, unknown> {
+  nodeId: string;
+  kindId: string;
   label: string;
   genericLabel: string;
-  cloudLabel: string;
-  description: string;
-  serviceType: string;
-  category: string;
-  provider: CloudProvider;
-  providerColor: string;
+  role: string;
+  category: ComponentCategory | undefined;
+  provider: Provider;
+  mapped: boolean;
 }
 
-export function architectureToFlow(
-  architecture: ApplicationArchitecture,
-  provider: CloudProvider,
+export function systemToFlow(
+  system: SystemDesign,
+  provider: Provider,
 ): { nodes: Node<ArchitectureNodeData>[]; edges: Edge[] } {
-  const providerMeta = cloudProviders.find((p) => p.id === provider)!;
-
-  const nodes: Node<ArchitectureNodeData>[] = architecture.nodes.map((node) => {
-    const cloudLabel = getServiceLabel(node.serviceType, provider, node.label);
+  const nodes: Node<ArchitectureNodeData>[] = system.nodes.map((node, index) => {
+    const kind = getComponentKind(node.kind);
+    const resolved = resolveService(node, kind, provider);
 
     return {
       id: node.id,
       type: "architecture",
-      position: node.position,
+      // Grid fallback until auto-layout replaces hand-placed positions.
+      position: node.position ?? { x: (index % 5) * 240, y: Math.floor(index / 5) * 140 },
       data: {
-        label: provider === "generic" ? node.label : cloudLabel,
+        nodeId: node.id,
+        kindId: node.kind,
+        label: resolved.label,
         genericLabel: node.label,
-        cloudLabel,
-        description: node.description,
-        serviceType: node.serviceType,
-        category: node.category,
+        role: node.role,
+        category: kind?.category,
         provider,
-        providerColor: providerMeta.accent,
+        mapped: resolved.mapped,
       },
     };
   });
 
-  const edges: Edge[] = architecture.edges.map((edge) => ({
+  const edges: Edge[] = system.edges.map((edge) => ({
     id: edge.id,
-    source: edge.source,
-    target: edge.target,
+    source: edge.from,
+    target: edge.to,
     label: edge.label,
-    animated: edge.animated,
+    animated: edge.protocol === "async" || edge.protocol === "stream",
     style: { stroke: "#475569", strokeWidth: 1.5 },
     labelStyle: { fill: "#94a3b8", fontSize: 11 },
   }));
 
   return { nodes, edges };
-}
-
-export function getCategoryColor(category: string): string {
-  return categoryColors[category] ?? "#64748b";
-}
-
-export function getNodeDetailLines(
-  data: ArchitectureNodeData,
-  provider: CloudProvider,
-): { label: string; value: string }[] {
-  const providerName = cloudProviders.find((p) => p.id === provider)?.name ?? provider;
-  const serviceDesc = getServiceDescription(data.serviceType);
-
-  return [
-    { label: "Component", value: data.genericLabel },
-    ...(provider !== "generic"
-      ? [{ label: providerName + " Service", value: data.cloudLabel }]
-      : []),
-    { label: "Category", value: data.category },
-    { label: "Description", value: data.description },
-    ...(serviceDesc ? [{ label: "Service Type", value: serviceDesc }] : []),
-  ];
 }

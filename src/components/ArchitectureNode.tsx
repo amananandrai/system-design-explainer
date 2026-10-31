@@ -3,7 +3,7 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import type { ArchitectureNodeData } from "@/lib/transformDiagram";
-import { getCategoryColor } from "@/lib/transformDiagram";
+import { getCategoryColor } from "@/lib/resolve";
 
 function ArchitectureNodeComponent({ data, selected }: NodeProps) {
   const nodeData = data as ArchitectureNodeData;
@@ -32,9 +32,9 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
           <p className="mt-0.5 text-sm font-semibold leading-snug text-white">
             {nodeData.label}
           </p>
-          {nodeData.provider !== "generic" && (
+          {nodeData.mapped && (
             <p className="mt-1 truncate text-[11px] text-slate-500">
-              was: {nodeData.genericLabel}
+              {nodeData.genericLabel}
             </p>
           )}
         </div>

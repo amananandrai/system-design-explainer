@@ -2,37 +2,54 @@
 
 import { X } from "lucide-react";
 import type { Node } from "@xyflow/react";
-import type { CloudProvider } from "@/data/types";
-import {
-  getCategoryColor,
-  getNodeDetailLines,
-  type ArchitectureNodeData,
-} from "@/lib/transformDiagram";
-import { cloudProviders } from "@/data/cloudMappings";
+import type { Provider, ServiceOption, ServiceProvider, SystemDesign } from "@/types/schema";
+import type { ArchitectureNodeData } from "@/lib/transformDiagram";
+import { getCategoryColor } from "@/lib/resolve";
+import { getComponentKind } from "@/content";
+import { getProvider, providers } from "@/content/providers";
 
 interface NodeDetailPanelProps {
   node: Node<ArchitectureNodeData> | null;
-  provider: CloudProvider;
+  system: SystemDesign;
+  provider: Provider;
   onClose: () => void;
+}
+
+const serviceProviders = providers.filter(
+  (p): p is typeof p & { id: ServiceProvider } => p.id !== "generic",
+);
+
+function OptionList({ options }: { options: ServiceOption[] }) {
+  return (
+    <ul className="mt-1 space-y-0.5">
+      {options.map((option) => (
+        <li key={option.name} className="text-sm text-slate-200">
+          {option.name}
+          {option.note && <span className="text-xs text-slate-500"> — {option.note}</span>}
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default function NodeDetailPanel({
   node,
+  system,
   provider,
   onClose,
 }: NodeDetailPanelProps) {
   if (!node) {
     return (
-      <aside className="flex h-full w-72 shrink-0 flex-col border-l border-slate-800 bg-slate-950 px-5 py-6">
+      <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950 px-5 py-6">
         <h2 className="text-sm font-semibold text-white">Component Details</h2>
         <p className="mt-3 text-sm leading-relaxed text-slate-400">
-          Click any node in the diagram to inspect its role and see how it maps
-          across cloud providers.
+          Click any node in the diagram to see its role, the service each cloud
+          offers for it, and open-source alternatives.
         </p>
         <div className="mt-6 rounded-xl border border-dashed border-slate-700 p-4">
           <p className="text-xs text-slate-500">
-            Tip: Switch between Generic, AWS, Azure, and GCP to instantly
-            relabel every component with the equivalent managed service.
+            Tip: Switch between Generic, AWS, GCP, Azure and Open source to
+            relabel every component with the equivalent service.
           </p>
         </div>
       </aside>
@@ -40,21 +57,26 @@ export default function NodeDetailPanel({
   }
 
   const data = node.data;
-  const lines = getNodeDetailLines(data, provider);
+  const kind = getComponentKind(data.kindId);
+  const systemNode = system.nodes.find((n) => n.id === data.nodeId);
   const color = getCategoryColor(data.category);
-  const providerName = cloudProviders.find((p) => p.id === provider)?.name;
 
   return (
-    <aside className="flex h-full w-72 shrink-0 flex-col border-l border-slate-800 bg-slate-950">
+    <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950">
       <div className="flex items-start justify-between border-b border-slate-800 px-5 py-4">
         <div>
           <span
             className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
             style={{ backgroundColor: color }}
           >
-            {data.category}
+            {kind?.name ?? data.category}
           </span>
-          <h2 className="mt-2 text-base font-semibold text-white">{data.label}</h2>
+          <h2 className="mt-2 text-base font-semibold text-white">{data.genericLabel}</h2>
+          {data.mapped && (
+            <p className="mt-0.5 text-sm" style={{ color: getProvider(provider).accent }}>
+              {data.label}
+            </p>
+          )}
         </div>
         <button
           type="button"
@@ -66,30 +88,82 @@ export default function NodeDetailPanel({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-5 py-4">
-        <dl className="space-y-4">
-          {lines.map((line) => (
-            <div key={line.label}>
-              <dt className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-                {line.label}
-              </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-slate-200">
-                {line.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
+      <div className="flex-1 space-y-5 overflow-y-auto px-5 py-4">
+        <section>
+          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            Role in {system.name}
+          </h3>
+          <p className="mt-1 text-sm leading-relaxed text-slate-200">{data.role}</p>
+        </section>
 
-        {provider !== "generic" && (
-          <div
-            className="mt-6 rounded-xl border p-4"
-            style={{ borderColor: cloudProviders.find((p) => p.id === provider)?.accent + "55" }}
-          >
-            <p className="text-xs font-medium text-slate-300">
-              Mapped to {providerName}
-            </p>
-            <p className="mt-1 text-sm font-semibold text-white">{data.cloudLabel}</p>
-          </div>
+        {kind && (
+          <section>
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              What it is
+            </h3>
+            <p className="mt-1 text-sm leading-relaxed text-slate-300">{kind.what}</p>
+          </section>
+        )}
+
+        {kind && (Object.keys(kind.providers).length > 0 || kind.thirdParty.length > 0) && (
+          <section>
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              Options by provider
+            </h3>
+            <div className="mt-2 space-y-2">
+              {serviceProviders.map((p) => {
+                const options = kind.providers[p.id];
+                const override = systemNode?.overrides?.[p.id];
+                if (!options && !override) return null;
+                const active = provider === p.id;
+                return (
+                  <div
+                    key={p.id}
+                    className={`rounded-lg border px-3 py-2 ${active ? "" : "border-slate-800"}`}
+                    style={active ? { borderColor: p.accent } : undefined}
+                  >
+                    <p className="text-xs font-semibold" style={{ color: p.accent }}>
+                      {p.shortName}
+                    </p>
+                    {override && (
+                      <p className="mt-1 text-sm text-slate-200">
+                        {override} <span className="text-xs text-slate-500">— used here</span>
+                      </p>
+                    )}
+                    {options && <OptionList options={options} />}
+                  </div>
+                );
+              })}
+              {kind.thirdParty.length > 0 && (
+                <div className="rounded-lg border border-slate-800 px-3 py-2">
+                  <p className="text-xs font-semibold text-slate-400">Third-party (any cloud)</p>
+                  <OptionList options={kind.thirdParty} />
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {kind && kind.whenToUse.length > 0 && (
+          <section>
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              When to use
+            </h3>
+            <ul className="mt-1 list-disc space-y-0.5 pl-4 text-sm text-slate-300">
+              {kind.whenToUse.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </section>
+        )}
+
+        {kind && kind.pitfalls.length > 0 && (
+          <section>
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              Pitfalls
+            </h3>
+            <ul className="mt-1 list-disc space-y-0.5 pl-4 text-sm text-slate-300">
+              {kind.pitfalls.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </section>
         )}
       </div>
     </aside>

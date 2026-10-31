@@ -14,39 +14,39 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import ArchitectureNode from "./ArchitectureNode";
-import type { ApplicationArchitecture, CloudProvider } from "@/data/types";
+import type { Provider, SystemDesign } from "@/types/schema";
 import {
-  architectureToFlow,
+  systemToFlow,
   type ArchitectureNodeData,
 } from "@/lib/transformDiagram";
-import { getCategoryColor } from "@/lib/transformDiagram";
+import { getCategoryColor } from "@/lib/resolve";
 
 const nodeTypes = { architecture: ArchitectureNode };
 
 interface ArchitectureDiagramProps {
-  architecture: ApplicationArchitecture;
-  provider: CloudProvider;
+  system: SystemDesign;
+  provider: Provider;
   onNodeSelect: (node: Node<ArchitectureNodeData> | null) => void;
 }
 
 export default function ArchitectureDiagram({
-  architecture,
+  system,
   provider,
   onNodeSelect,
 }: ArchitectureDiagramProps) {
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
-    () => architectureToFlow(architecture, provider),
-    [architecture, provider],
+    () => systemToFlow(system, provider),
+    [system, provider],
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   useEffect(() => {
-    const transformed = architectureToFlow(architecture, provider);
+    const transformed = systemToFlow(system, provider);
     setNodes(transformed.nodes);
     setEdges(transformed.edges);
-  }, [architecture, provider, setNodes, setEdges]);
+  }, [system, provider, setNodes, setEdges]);
 
   const onSelectionChange = useCallback(
     ({ nodes: selectedNodes }: OnSelectionChangeParams) => {

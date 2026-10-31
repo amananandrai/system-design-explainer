@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ArchViz — Interactive System Design Diagrams",
+  title: "System Design Explainer",
   description:
-    "Explore high-level architecture diagrams of Uber, YouTube, Instagram, Amazon, Redis and more. Switch between AWS, Azure, and GCP cloud mappings interactively.",
+    "How YouTube, Instagram, Uber, Amazon and more are built. Interactive architecture diagrams you can switch between AWS, Google Cloud, Azure and open-source tools.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
