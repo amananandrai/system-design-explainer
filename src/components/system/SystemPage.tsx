@@ -38,16 +38,16 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
 
   return (
     <>
-      <header className="border-b border-slate-800 px-8 pb-6 pt-8">
+      <header className="border-b border-slate-800 px-4 pb-6 pt-6 md:px-8 md:pt-8">
         <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300">
           {systemCategoryLabels[system.category]} · {difficultyLabels[system.difficulty]}
         </p>
-        <h1 className="mt-2 text-3xl font-bold text-white">{system.name}</h1>
+        <h1 className="mt-2 text-2xl font-bold text-white md:text-3xl">{system.name}</h1>
         <p className="mt-1 text-lg text-slate-300">{system.tagline}</p>
         <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-400">{system.description}</p>
         {system.concepts.length > 0 && (
           <div className="mt-4 flex flex-wrap items-center gap-1.5">
-            <span className="mr-1 text-xs text-slate-500">Concepts:</span>
+            <span className="mr-1 text-xs text-slate-400">Concepts:</span>
             {system.concepts.map((slug) => (
               <Link
                 key={slug}
@@ -63,7 +63,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
 
       <nav
         aria-label="Sections"
-        className="sticky top-0 z-20 flex gap-1 overflow-x-auto border-b border-slate-800 bg-slate-950/95 px-6 py-2 backdrop-blur"
+        className="sticky top-0 z-20 flex gap-1 overflow-x-auto border-b border-slate-800 bg-slate-950/95 px-2 py-2 backdrop-blur md:px-6"
       >
         {sections.map((s, i) => (
           <a
@@ -77,7 +77,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
         ))}
       </nav>
 
-      <div className="space-y-14 px-8 py-10">
+      <div className="space-y-12 px-4 py-8 md:space-y-14 md:px-8 md:py-10">
         {!isComplete && (
           <p className="rounded-xl border border-dashed border-slate-700 px-4 py-3 text-sm text-slate-400">
             The full write-up for {system.name} (requirements, APIs, estimates, data model and flows) is
@@ -96,25 +96,25 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
 
         {system.apis.length > 0 && (
           <Section id="apis" n={number("apis")} title="API design">
-            <div className="overflow-hidden rounded-xl border border-slate-800">
-              <table className="w-full text-left text-sm">
-                <tbody className="divide-y divide-slate-800">
-                  {system.apis.map((api) => (
-                    <tr key={`${api.method} ${api.path}`} className="bg-slate-900/40">
-                      <td className="w-20 px-4 py-2.5 align-top">
-                        <span
-                          className={`rounded px-1.5 py-0.5 font-mono text-[11px] font-semibold ${methodColors[api.method] ?? "text-slate-300"}`}
-                        >
-                          {api.method}
-                        </span>
-                      </td>
-                      <td className="px-2 py-2.5 align-top font-mono text-[13px] text-slate-100">{api.path}</td>
-                      <td className="px-4 py-2.5 text-slate-400">{api.purpose}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {/* Rows stack on phones: method + path, then purpose underneath. */}
+            <ul className="divide-y divide-slate-800 overflow-hidden rounded-xl border border-slate-800 text-sm">
+              {system.apis.map((api) => (
+                <li
+                  key={`${api.method} ${api.path}`}
+                  className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-2 gap-y-1 bg-slate-900/40 px-4 py-2.5 md:grid-cols-[4.5rem_minmax(0,1fr)_minmax(0,1.2fr)]"
+                >
+                  <span className="self-start">
+                    <span
+                      className={`rounded px-1.5 py-0.5 font-mono text-[11px] font-semibold ${methodColors[api.method] ?? "text-slate-300"}`}
+                    >
+                      {api.method}
+                    </span>
+                  </span>
+                  <span className="break-words font-mono text-[13px] text-slate-100">{api.path}</span>
+                  <span className="col-start-2 text-slate-400 md:col-start-3">{api.purpose}</span>
+                </li>
+              ))}
+            </ul>
           </Section>
         )}
 
@@ -123,7 +123,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {system.estimates.map((e) => (
                 <div key={e.label} className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
-                  <p className="text-xs font-medium uppercase tracking-wider text-slate-500">{e.label}</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-slate-400">{e.label}</p>
                   <p className="mt-1 text-2xl font-bold text-white">{e.value}</p>
                   {e.derivation && (
                     <p className="mt-2 font-mono text-[12px] leading-relaxed text-slate-400">{e.derivation}</p>
@@ -138,7 +138,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
           <Section id="data-model" n={number("data-model")} title="Data model">
             <div className="overflow-x-auto rounded-xl border border-slate-800">
               <table className="w-full min-w-[720px] text-left text-sm">
-                <thead className="bg-slate-900 text-[11px] uppercase tracking-wider text-slate-500">
+                <thead className="bg-slate-900 text-[11px] uppercase tracking-wider text-slate-400">
                   <tr>
                     <th className="px-4 py-2.5 font-semibold">Entity</th>
                     <th className="px-4 py-2.5 font-semibold">Store</th>
@@ -230,7 +230,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
         )}
 
         {system.sources.length > 0 && (
-          <footer className="border-t border-slate-800 pt-6 text-xs text-slate-500">
+          <footer className="border-t border-slate-800 pt-6 text-xs text-slate-400">
             Based on: {system.sources.join(" · ")}
           </footer>
         )}
@@ -267,7 +267,7 @@ function Section({
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{title}</h3>
       <BulletList items={items} className="mt-3" />
     </div>
   );

@@ -14,7 +14,7 @@ export default function CloudProviderSelector({
 }: CloudProviderSelectorProps) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+      <span className="text-xs font-medium uppercase tracking-wider text-slate-400">
         Cloud
       </span>
       <div className="flex rounded-xl border border-slate-700 bg-slate-900 p-1">

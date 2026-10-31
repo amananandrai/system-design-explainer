@@ -54,7 +54,7 @@ export default function SystemCatalogue({
     <>
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3">
-          <Search size={14} className="text-slate-500" />
+          <Search size={14} className="text-slate-400" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -110,7 +110,7 @@ export default function SystemCatalogue({
         )}
       </div>
 
-      <p className="mt-4 text-xs text-slate-500">
+      <p className="mt-4 text-xs text-slate-400">
         {visible.length} of {cards.length} systems
       </p>
 
@@ -121,7 +121,7 @@ export default function SystemCatalogue({
               href={`/systems/${card.slug}`}
               className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900/40 p-5 transition-colors hover:border-slate-600 hover:bg-slate-900"
             >
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
                 {card.categoryLabel} · {card.difficultyLabel}
               </p>
               <p className="mt-1 text-lg font-semibold text-white">{card.name}</p>
@@ -134,11 +134,11 @@ export default function SystemCatalogue({
                     </span>
                   ))}
                   {card.concepts.length > 4 && (
-                    <span className="px-1 text-[11px] text-slate-500">+{card.concepts.length - 4}</span>
+                    <span className="px-1 text-[11px] text-slate-400">+{card.concepts.length - 4}</span>
                   )}
                 </div>
               )}
-              <p className="mt-3 text-xs text-slate-500">
+              <p className="mt-3 text-xs text-slate-400">
                 {card.componentCount} components · {card.flowCount} walkthroughs
                 {!card.complete && " · diagram only"}
               </p>
@@ -148,7 +148,7 @@ export default function SystemCatalogue({
       </ul>
 
       {visible.length === 0 && (
-        <p className="mt-10 text-center text-sm text-slate-500">No systems match these filters.</p>
+        <p className="mt-10 text-center text-sm text-slate-400">No systems match these filters.</p>
       )}
     </>
   );

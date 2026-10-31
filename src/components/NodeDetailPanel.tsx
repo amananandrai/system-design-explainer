@@ -24,7 +24,7 @@ function OptionList({ options }: { options: ServiceOption[] }) {
       {options.map((option) => (
         <li key={option.name} className="text-sm text-slate-200">
           {option.name}
-          {option.note && <span className="text-xs text-slate-500"> — {option.note}</span>}
+          {option.note && <span className="text-xs text-slate-400"> — {option.note}</span>}
         </li>
       ))}
     </ul>
@@ -46,7 +46,7 @@ export default function NodeDetailPanel({
   const color = getCategoryColor(kind?.category);
 
   return (
-    <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950">
+    <aside className="flex h-full w-full shrink-0 flex-col border-l border-slate-800 bg-slate-950 md:w-80">
       <div className="flex items-start justify-between border-b border-slate-800 px-5 py-4">
         <div>
           <span
@@ -74,7 +74,7 @@ export default function NodeDetailPanel({
 
       <div className="flex-1 space-y-5 overflow-y-auto px-5 py-4">
         <section>
-          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
             Role in {system.name}
           </h3>
           <p className="mt-1 text-sm leading-relaxed text-slate-200">{systemNode.role}</p>
@@ -82,7 +82,7 @@ export default function NodeDetailPanel({
 
         {kind && (
           <section>
-            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               What it is
             </h3>
             <p className="mt-1 text-sm leading-relaxed text-slate-300">{kind.what}</p>
@@ -91,7 +91,7 @@ export default function NodeDetailPanel({
 
         {kind && (Object.keys(kind.providers).length > 0 || kind.thirdParty.length > 0) && (
           <section>
-            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Options by provider
             </h3>
             <div className="mt-2 space-y-2">
@@ -111,7 +111,7 @@ export default function NodeDetailPanel({
                     </p>
                     {override && (
                       <p className="mt-1 text-sm text-slate-200">
-                        {override} <span className="text-xs text-slate-500">— used here</span>
+                        {override} <span className="text-xs text-slate-400">— used here</span>
                       </p>
                     )}
                     {options && <OptionList options={options} />}
@@ -130,7 +130,7 @@ export default function NodeDetailPanel({
 
         {kind && kind.whenToUse.length > 0 && (
           <section>
-            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               When to use
             </h3>
             <ul className="mt-1 list-disc space-y-0.5 pl-4 text-sm text-slate-300">
@@ -141,7 +141,7 @@ export default function NodeDetailPanel({
 
         {kind && kind.pitfalls.length > 0 && (
           <section>
-            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Pitfalls
             </h3>
             <ul className="mt-1 list-disc space-y-0.5 pl-4 text-sm text-slate-300">
@@ -152,7 +152,7 @@ export default function NodeDetailPanel({
 
         {kind && kind.concepts.length > 0 && (
           <section>
-            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
               Concepts
             </h3>
             <div className="mt-1.5 flex flex-wrap gap-1.5">

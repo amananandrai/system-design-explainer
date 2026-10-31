@@ -21,7 +21,7 @@ export default function ComponentsPage() {
     .filter((g) => g.items.length > 0 && g.category !== "client");
 
   return (
-    <div className="px-8 py-10">
+    <div className="px-4 py-6 md:px-8 md:py-10">
       <h1 className="text-3xl font-bold text-white">Components</h1>
       <p className="mt-2 max-w-2xl text-slate-400">
         The building blocks behind every design, with the default service on each cloud and open-source
@@ -36,7 +36,7 @@ export default function ComponentsPage() {
             </h2>
             <div className="mt-3 overflow-x-auto rounded-xl border border-slate-800">
               <table className="w-full min-w-[900px] text-left text-sm">
-                <thead className="bg-slate-900 text-[11px] uppercase tracking-wider text-slate-500">
+                <thead className="bg-slate-900 text-[11px] uppercase tracking-wider text-slate-400">
                   <tr>
                     <th className="w-60 px-4 py-2.5 font-semibold">Component</th>
                     {serviceProviders.map((p) => (
@@ -71,11 +71,11 @@ export default function ComponentsPage() {
                                 <>
                                   {options[0].name}
                                   {options.length > 1 && (
-                                    <span className="ml-1 text-xs text-slate-500">+{options.length - 1}</span>
+                                    <span className="ml-1 text-xs text-slate-400">+{options.length - 1}</span>
                                   )}
                                 </>
                               ) : c.thirdParty.length > 0 ? (
-                                <span className="text-xs text-slate-500">Third-party</span>
+                                <span className="text-xs text-slate-400">Third-party</span>
                               ) : (
                                 <span className="text-slate-600">—</span>
                               )}

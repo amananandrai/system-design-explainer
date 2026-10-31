@@ -16,6 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Absolute base for OG image URLs; set NEXT_PUBLIC_SITE_URL to the deployed origin.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "System Design Explainer",
   description:
     "How YouTube, Instagram, Uber, Amazon and more are built. Interactive architecture diagrams you can switch between AWS, Google Cloud, Azure and open-source tools.",
@@ -36,11 +38,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
-        <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-100">
+      <body className="min-h-full bg-slate-950">
+        <a
+          href="#main-content"
+          className="sr-only z-50 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Skip to content
+        </a>
+        <div className="flex h-dvh flex-col overflow-hidden bg-slate-950 text-slate-100 md:flex-row">
           <SiteNav systemGroups={systemGroups} searchIndex={buildSearchIndex()} />
           {/* The single scroll container; section anchors and sticky headers live inside it. */}
-          <main className="min-w-0 flex-1 overflow-y-auto scroll-smooth">{children}</main>
+          <main id="main-content" tabIndex={-1} className="min-h-0 min-w-0 flex-1 overflow-y-auto scroll-smooth focus:outline-none">
+            {children}
+          </main>
         </div>
       </body>
     </html>

@@ -29,13 +29,13 @@ export default function HomePage() {
     .map(([value, label]) => ({ value, label }));
 
   return (
-    <div className="px-8 py-10">
+    <div className="px-4 py-6 md:px-8 md:py-10">
       <h1 className="text-3xl font-bold text-white">How are large systems built?</h1>
       <p className="mt-2 max-w-2xl text-slate-400">
         Each system walks through requirements, capacity estimates, the data model and an interactive
         architecture you can switch between AWS, Google Cloud, Azure and open-source tools.
       </p>
-      <p className="mt-3 text-sm text-slate-500">
+      <p className="mt-3 text-sm text-slate-400">
         {systems.length} systems ·{" "}
         <Link href="/components" className="text-slate-300 hover:text-white">
           {components.length} components

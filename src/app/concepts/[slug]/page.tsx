@@ -27,7 +27,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
   const usedByComponents = componentsUsingConcept(concept.slug);
 
   return (
-    <div className="max-w-4xl px-8 py-10">
+    <div className="max-w-4xl px-4 py-6 md:px-8 md:py-10">
       <Link href="/concepts" className="text-xs text-slate-400 hover:text-white">
         ← All concepts
       </Link>
@@ -107,7 +107,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
-      <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</h2>
+      <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{title}</h2>
       <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-300 marker:text-slate-600">
         {items.map((item) => (
           <li key={item}>{item}</li>

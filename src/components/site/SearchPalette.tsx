@@ -57,7 +57,7 @@ export default function SearchPalette({
         className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl"
       >
         <div className="flex items-center gap-3 border-b border-slate-800 px-4">
-          <Search size={16} className="shrink-0 text-slate-500" />
+          <Search size={16} className="shrink-0 text-slate-400" />
           <input
             ref={inputRef}
             value={query}
@@ -78,13 +78,13 @@ export default function SearchPalette({
             placeholder="Search systems, components, services, concepts…"
             className="h-12 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
           />
-          <kbd className="rounded border border-slate-700 px-1.5 py-0.5 text-[10px] text-slate-500">Esc</kbd>
+          <kbd className="rounded border border-slate-700 px-1.5 py-0.5 text-[10px] text-slate-400">Esc</kbd>
         </div>
 
         {query && (
           <ul className="max-h-[50vh] overflow-y-auto py-2" role="listbox">
             {results.length === 0 && (
-              <li className="px-4 py-6 text-center text-sm text-slate-500">No matches for “{query}”</li>
+              <li className="px-4 py-6 text-center text-sm text-slate-400">No matches for “{query}”</li>
             )}
             {results.map((item, i) => (
               <li key={item.href} role="option" aria-selected={i === active}>

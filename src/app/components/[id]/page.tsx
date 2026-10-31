@@ -42,7 +42,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
   const usages = usagesOfComponent(kind.id);
 
   return (
-    <div className="max-w-5xl px-8 py-10">
+    <div className="max-w-5xl px-4 py-6 md:px-8 md:py-10">
       <Link href="/components" className="text-xs text-slate-400 hover:text-white">
         ← All components
       </Link>
@@ -117,7 +117,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
       <section className="mt-10">
         <h2 className="text-xl font-bold text-white">Used in</h2>
         {usages.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-500">Not used in any system yet.</p>
+          <p className="mt-2 text-sm text-slate-400">Not used in any system yet.</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {usages.map(({ system, nodes }) => (
@@ -154,7 +154,7 @@ function OptionList({ options }: { options: ServiceOption[] }) {
         <li key={o.name} className="flex items-baseline justify-between gap-3 text-sm">
           <span className="text-slate-200">
             {o.name}
-            {o.note && <span className="text-xs text-slate-500"> — {o.note}</span>}
+            {o.note && <span className="text-xs text-slate-400"> — {o.note}</span>}
           </span>
           <span
             className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
@@ -172,7 +172,7 @@ function OptionList({ options }: { options: ServiceOption[] }) {
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{title}</h3>
       <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-slate-300 marker:text-slate-600">
         {items.map((item) => (
           <li key={item}>{item}</li>

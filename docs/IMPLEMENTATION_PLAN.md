@@ -5,6 +5,24 @@ interactive architecture diagram for each, and lets the reader switch the diagra
 Cloud, Azure and Open-source / self-hosted**, with alternatives listed for every component.
 Content comes from the PDFs (see [NOTES.md](NOTES.md)); there is **no PDF reader**.
 
+## Status
+
+| Milestone | State |
+|---|---|
+| 0 Repo cleanup | Done |
+| 1 Unified data model | Done |
+| 2 Diagram engine (ELK layout, URL state) | Done |
+| 3 System page + walkthroughs | Done |
+| 4 Content wave 1 (10 systems) | Done |
+| 5 Catalogue, components, concepts, search | Done |
+| 6 Content wave 2 (25 systems) | Done — 35 of 36 systems written up (Redis is diagram-only) |
+| 7 Polish & deploy (mobile, a11y, OG images, static export, e2e) | Done |
+| Phase 2 / Phase 3 | Not started |
+
+Deviations from the original plan: concepts are validated TypeScript data rather than MDX; search is
+a small built-in matcher instead of Pagefind/Fuse; diagrams have no minimap; provider icons are
+generic (lucide) until the official icon licences are checked.
+
 ---
 
 ## 1. Current state of the repo

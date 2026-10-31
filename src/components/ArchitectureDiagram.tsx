@@ -76,7 +76,7 @@ export default function ArchitectureDiagram({
           onNodeSelect={onNodeSelect}
         />
       ) : (
-        <div className="flex h-full items-center justify-center text-sm text-slate-500">
+        <div className="flex h-full items-center justify-center text-sm text-slate-400">
           Laying out diagram…
         </div>
       )}

@@ -32,7 +32,7 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
         <KindIcon kindId={nodeData.kindId} size={18} />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-[10px] font-medium uppercase tracking-wide text-slate-500">
+        <p className="truncate text-[10px] font-medium uppercase tracking-wide text-slate-400">
           {nodeData.kindName}
         </p>
         <p className="line-clamp-2 text-[13px] font-semibold leading-snug text-white">

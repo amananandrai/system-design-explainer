@@ -9,6 +9,8 @@ import NodeDetailPanel from "@/components/NodeDetailPanel";
 import { providerSchema, type Provider, type SystemDesign } from "@/types/schema";
 import type { FlowHighlight } from "@/lib/transformDiagram";
 import { PLAY_FLOW_EVENT, updateSearchParams } from "@/lib/url";
+import { useMediaQuery } from "@/lib/useMediaQuery";
+import TierList from "./TierList";
 
 const STEP_INTERVAL_MS = 2600;
 
@@ -29,6 +31,11 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
 
   const [playing, setPlaying] = useState(false);
 
+  // Phones get a tiered list by default; a pan-and-zoom canvas is awkward on small screens.
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [preferDiagram, setPreferDiagram] = useState(false);
+  const showDiagram = isDesktop || preferDiagram;
+
   const flowHighlight = useMemo<FlowHighlight | null>(() => {
     if (!activeFlow) return null;
     return {
@@ -36,6 +43,11 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
       visitedEdgeIds: new Set(activeFlow.steps.slice(0, step).map((s) => s.edge)),
     };
   }, [activeFlow, step]);
+
+  const activeNodeIds = useMemo(() => {
+    const edge = activeFlow && system.edges.find((e) => e.id === activeFlow.steps[step].edge);
+    return new Set(edge ? [edge.from, edge.to] : []);
+  }, [activeFlow, step, system.edges]);
 
   const goToStep = useCallback((next: number) => {
     updateSearchParams({ step: String(next) });
@@ -84,7 +96,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
         />
         {system.flows.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-slate-500">Walkthrough</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-slate-400">Walkthrough</span>
             <div className="flex rounded-xl border border-slate-700 bg-slate-900 p-1">
               {system.flows.map((flow) => (
                 <button
@@ -105,17 +117,46 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
         )}
       </div>
 
+      {!isDesktop && (
+        <div className="flex items-center justify-between border-b border-slate-800 px-4 py-2">
+          <span className="text-xs text-slate-400">Tap a component for details</span>
+          <button
+            type="button"
+            onClick={() => setPreferDiagram(!preferDiagram)}
+            className="rounded-lg border border-slate-700 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-slate-500"
+          >
+            {preferDiagram ? "Show as list" : "Show diagram"}
+          </button>
+        </div>
+      )}
+
       {/* The diagram gets the full width; details slide over it when a node is selected. */}
-      <div className="relative h-[min(78vh,820px)] min-h-[520px] p-3">
-        <ArchitectureDiagram
-          system={system}
-          provider={provider}
-          selectedNodeId={selectedNodeId}
-          flowHighlight={flowHighlight}
-          onNodeSelect={handleNodeSelect}
-        />
+      <div className={`relative p-3 ${showDiagram ? "h-[min(78vh,820px)] min-h-[420px] md:min-h-[520px]" : ""}`}>
+        {showDiagram ? (
+          <ArchitectureDiagram
+            system={system}
+            provider={provider}
+            selectedNodeId={selectedNodeId}
+            flowHighlight={flowHighlight}
+            onNodeSelect={handleNodeSelect}
+          />
+        ) : (
+          <TierList
+            system={system}
+            provider={provider}
+            selectedNodeId={selectedNodeId}
+            activeNodeIds={activeNodeIds}
+            onNodeSelect={handleNodeSelect}
+          />
+        )}
         {selectedNodeId && (
-          <div className="absolute inset-y-0 right-0 z-10 shadow-2xl shadow-black/60">
+          <div
+            className={
+              isDesktop
+                ? "absolute inset-y-0 right-0 z-10 shadow-2xl shadow-black/60"
+                : "fixed inset-0 z-40 bg-slate-950"
+            }
+          >
             <NodeDetailPanel
               nodeId={selectedNodeId}
               system={system}
@@ -127,7 +168,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
       </div>
 
       {activeFlow && (
-        <div className="flex items-center gap-4 border-t border-amber-500/30 bg-amber-500/5 px-4 py-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-amber-500/30 bg-amber-500/5 px-4 py-3">
           <div className="flex shrink-0 items-center gap-1">
             <IconButton label="Previous step" disabled={step === 0} onClick={() => goToStep(step - 1)}>
               <ChevronLeft size={16} />
