@@ -14,7 +14,6 @@ export const redis: SystemDesignInput = {
       kind: "web-client",
       label: "Application Client",
       role: "Services using Redis for cache, pub/sub, or sessions",
-      position: { x: 80, y: 160 },
     },
     {
       id: "proxy",
@@ -27,7 +26,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis endpoint",
         oss: "Envoy / Twemproxy",
       },
-      position: { x: 320, y: 160 },
     },
     {
       id: "sentinel",
@@ -40,7 +38,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis HA",
         oss: "Redis Sentinel",
       },
-      position: { x: 560, y: 40 },
     },
     {
       id: "primary-1",
@@ -53,7 +50,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis primary",
         oss: "Redis primary",
       },
-      position: { x: 560, y: 140 },
     },
     {
       id: "replica-1",
@@ -66,7 +62,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis replica",
         oss: "Redis replica",
       },
-      position: { x: 800, y: 140 },
     },
     {
       id: "primary-2",
@@ -79,7 +74,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis primary",
         oss: "Redis primary",
       },
-      position: { x: 560, y: 260 },
     },
     {
       id: "replica-2",
@@ -92,7 +86,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis replica",
         oss: "Redis replica",
       },
-      position: { x: 800, y: 260 },
     },
     {
       id: "primary-3",
@@ -105,7 +98,6 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis primary",
         oss: "Redis primary",
       },
-      position: { x: 560, y: 380 },
     },
     {
       id: "replica-3",
@@ -118,14 +110,12 @@ export const redis: SystemDesignInput = {
         azure: "Azure Managed Redis replica",
         oss: "Redis replica",
       },
-      position: { x: 800, y: 380 },
     },
     {
       id: "monitoring",
       kind: "observability",
       label: "Monitoring",
       role: "Latency, memory usage, and keyspace metrics",
-      position: { x: 1040, y: 260 },
     },
   ],
   edges: [

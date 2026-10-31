@@ -81,8 +81,6 @@ export const nodeSchema = z.object({
   /** Replace the catalogue's default service name for a provider. */
   overrides: z.partialRecord(providerSchema, z.string()).optional(),
   group: z.string().optional(),
-  /** Temporary until auto-layout lands; optional so new systems can omit it. */
-  position: z.object({ x: z.number(), y: z.number() }).optional(),
 });
 export type SystemNode = z.infer<typeof nodeSchema>;
 

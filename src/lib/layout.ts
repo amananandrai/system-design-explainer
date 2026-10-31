@@ -1,0 +1,106 @@
+import ELK from "elkjs/lib/elk.bundled.js";
+import type { ComponentCategory, SystemDesign } from "@/types/schema";
+import { getComponentKind } from "@/content";
+
+export const NODE_WIDTH = 200;
+export const NODE_HEIGHT = 84;
+
+/** Columns of the diagram, left to right. Every component category lands in one tier. */
+export const tiers = [
+  { id: "clients", label: "Clients" },
+  { id: "edge", label: "Edge & security" },
+  { id: "services", label: "Services" },
+  { id: "async", label: "Async & streaming" },
+  { id: "data", label: "Data" },
+  { id: "platform", label: "Analytics & platform" },
+] as const;
+export type TierId = (typeof tiers)[number]["id"];
+
+const tierByCategory: Record<ComponentCategory, TierId> = {
+  client: "clients",
+  edge: "edge",
+  security: "edge",
+  compute: "services",
+  messaging: "async",
+  storage: "data",
+  database: "data",
+  cache: "data",
+  analytics: "platform",
+  ml: "platform",
+  ops: "platform",
+  external: "platform",
+};
+
+export function tierOf(category: ComponentCategory | undefined): TierId {
+  return category ? tierByCategory[category] : "services";
+}
+
+export interface SystemLayout {
+  positions: Record<string, { x: number; y: number }>;
+  /** Bounding box of each tier that has at least one node. */
+  tierBoxes: { id: TierId; label: string; x: number; y: number; width: number; height: number }[];
+}
+
+const elk = new ELK();
+const cache = new Map<string, Promise<SystemLayout>>();
+
+const TIER_PADDING = 20;
+const TIER_HEADER = 28;
+
+/** Layered top-to-bottom layout; ELK partitions keep each tier in its own horizontal band. */
+export function layoutSystem(system: SystemDesign): Promise<SystemLayout> {
+  const cached = cache.get(system.slug);
+  if (cached) return cached;
+
+  const tierIndex = new Map(tiers.map((t, i) => [t.id, i]));
+  const nodeTier = new Map(
+    system.nodes.map((n) => [n.id, tierOf(getComponentKind(n.kind)?.category)]),
+  );
+
+  const result = elk
+    .layout({
+      id: "root",
+      layoutOptions: {
+        "elk.algorithm": "layered",
+        "elk.direction": "DOWN",
+        "elk.partitioning.activate": "true",
+        "elk.spacing.nodeNode": "32",
+        // Room for one band's bottom padding plus the next band's header.
+        "elk.layered.spacing.nodeNodeBetweenLayers": String(2 * TIER_PADDING + TIER_HEADER + 16),
+        "elk.layered.nodePlacement.strategy": "BRANDES_KOEPF",
+        "elk.layered.crossingMinimization.strategy": "LAYER_SWEEP",
+      },
+      children: system.nodes.map((n) => ({
+        id: n.id,
+        width: NODE_WIDTH,
+        height: NODE_HEIGHT,
+        layoutOptions: { "elk.partitioning.partition": String(tierIndex.get(nodeTier.get(n.id)!)) },
+      })),
+      edges: system.edges.map((e) => ({ id: e.id, sources: [e.from], targets: [e.to] })),
+    })
+    .then((graph) => {
+      const positions: SystemLayout["positions"] = {};
+      for (const child of graph.children ?? []) {
+        positions[child.id] = { x: child.x ?? 0, y: child.y ?? 0 };
+      }
+
+      const xs = Object.values(positions).map((p) => p.x);
+      const left = Math.min(...xs) - TIER_PADDING;
+      const right = Math.max(...xs) + NODE_WIDTH + TIER_PADDING;
+
+      const tierBoxes = tiers.flatMap((tier) => {
+        const ys = system.nodes
+          .filter((n) => nodeTier.get(n.id) === tier.id)
+          .map((n) => positions[n.id].y);
+        if (ys.length === 0) return [];
+        const top = Math.min(...ys) - TIER_PADDING - TIER_HEADER;
+        const bottom = Math.max(...ys) + NODE_HEIGHT + TIER_PADDING;
+        return [{ id: tier.id, label: tier.label, x: left, y: top, width: right - left, height: bottom - top }];
+      });
+
+      return { positions, tierBoxes };
+    });
+
+  cache.set(system.slug, result);
+  return result;
+}

@@ -1,15 +1,13 @@
 "use client";
 
 import { X } from "lucide-react";
-import type { Node } from "@xyflow/react";
 import type { Provider, ServiceOption, ServiceProvider, SystemDesign } from "@/types/schema";
-import type { ArchitectureNodeData } from "@/lib/transformDiagram";
-import { getCategoryColor } from "@/lib/resolve";
+import { getCategoryColor, resolveService } from "@/lib/resolve";
 import { getComponentKind } from "@/content";
 import { getProvider, providers } from "@/content/providers";
 
 interface NodeDetailPanelProps {
-  node: Node<ArchitectureNodeData> | null;
+  nodeId: string | null;
   system: SystemDesign;
   provider: Provider;
   onClose: () => void;
@@ -33,12 +31,14 @@ function OptionList({ options }: { options: ServiceOption[] }) {
 }
 
 export default function NodeDetailPanel({
-  node,
+  nodeId,
   system,
   provider,
   onClose,
 }: NodeDetailPanelProps) {
-  if (!node) {
+  const systemNode = system.nodes.find((n) => n.id === nodeId);
+
+  if (!systemNode) {
     return (
       <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950 px-5 py-6">
         <h2 className="text-sm font-semibold text-white">Component Details</h2>
@@ -56,10 +56,9 @@ export default function NodeDetailPanel({
     );
   }
 
-  const data = node.data;
-  const kind = getComponentKind(data.kindId);
-  const systemNode = system.nodes.find((n) => n.id === data.nodeId);
-  const color = getCategoryColor(data.category);
+  const kind = getComponentKind(systemNode.kind);
+  const resolved = resolveService(systemNode, kind, provider);
+  const color = getCategoryColor(kind?.category);
 
   return (
     <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950">
@@ -69,12 +68,12 @@ export default function NodeDetailPanel({
             className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
             style={{ backgroundColor: color }}
           >
-            {kind?.name ?? data.category}
+            {kind?.name ?? systemNode.kind}
           </span>
-          <h2 className="mt-2 text-base font-semibold text-white">{data.genericLabel}</h2>
-          {data.mapped && (
+          <h2 className="mt-2 text-base font-semibold text-white">{systemNode.label}</h2>
+          {resolved.mapped && (
             <p className="mt-0.5 text-sm" style={{ color: getProvider(provider).accent }}>
-              {data.label}
+              {resolved.label}
             </p>
           )}
         </div>
@@ -93,7 +92,7 @@ export default function NodeDetailPanel({
           <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
             Role in {system.name}
           </h3>
-          <p className="mt-1 text-sm leading-relaxed text-slate-200">{data.role}</p>
+          <p className="mt-1 text-sm leading-relaxed text-slate-200">{systemNode.role}</p>
         </section>
 
         {kind && (
@@ -113,7 +112,7 @@ export default function NodeDetailPanel({
             <div className="mt-2 space-y-2">
               {serviceProviders.map((p) => {
                 const options = kind.providers[p.id];
-                const override = systemNode?.overrides?.[p.id];
+                const override = systemNode.overrides?.[p.id];
                 if (!options && !override) return null;
                 const active = provider === p.id;
                 return (
