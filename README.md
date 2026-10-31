@@ -38,8 +38,9 @@ installed with `PLAYWRIGHT_CHANNEL=msedge` (or `chrome`).
 ## Deploy
 
 `./out` is plain static files — upload it to any static host (GitHub Pages, Netlify, Vercel,
-Cloudflare Pages, S3 + CloudFront). Set `NEXT_PUBLIC_SITE_URL` to the public origin before building
-so social preview images get absolute URLs:
+Cloudflare Pages, S3 + CloudFront). On Vercel the production domain is used automatically; elsewhere,
+set `NEXT_PUBLIC_SITE_URL` to the public origin before building so social preview images get
+absolute URLs:
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://example.com npm run build

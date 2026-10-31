@@ -16,8 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  // Absolute base for OG image URLs; set NEXT_PUBLIC_SITE_URL to the deployed origin.
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  // Absolute base for OG image URLs: an explicit site URL, else Vercel's production domain.
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : "http://localhost:3000"),
+  ),
   title: "System Design Explainer",
   description:
     "How YouTube, Instagram, Uber, Amazon and more are built. Interactive architecture diagrams you can switch between AWS, Google Cloud, Azure and open-source tools.",
