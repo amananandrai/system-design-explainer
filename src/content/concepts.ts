@@ -432,4 +432,56 @@ export const conceptInputs: ConceptInput[] = [
     ],
     related: ["event-driven", "search-indexing"],
   },
+  {
+    slug: "bloom-filter",
+    name: "Bloom filters",
+    summary: "A tiny probabilistic set that answers 'definitely not seen' or 'probably seen' using a few bits per item.",
+    explanation: [
+      "Checking billions of items (URLs a crawler has visited, usernames taken) against a database is slow. A Bloom filter hashes each item to a few bit positions; if any bit is unset, the item was never added. False positives are possible, false negatives are not.",
+    ],
+    howItWorks: [
+      "k hash functions set k bits per inserted item.",
+      "Lookups check the same k bits; all set means 'probably present'.",
+      "Size the bit array for the expected item count and acceptable false-positive rate (~10 bits per item ≈ 1%).",
+    ],
+    tradeoffs: [
+      "Can't delete items (use counting Bloom filters) and never gives a definite 'yes'.",
+    ],
+    related: ["caching", "sharding"],
+  },
+  {
+    slug: "prefix-trie",
+    name: "Tries & prefix search",
+    summary: "Store strings by their prefixes so 'top suggestions for what the user has typed so far' is one lookup.",
+    explanation: [
+      "Autocomplete must respond on every keystroke. A trie maps each prefix to its children; storing the top-k completions at each node makes a lookup a single walk down the prefix, with no ranking at query time.",
+    ],
+    howItWorks: [
+      "Build tries offline from query logs, weighting by frequency and recency.",
+      "Shard by prefix range and keep hot prefixes in an in-memory cache.",
+      "Refresh periodically; blend in trending queries from a stream.",
+    ],
+    tradeoffs: [
+      "Memory-hungry; precomputed top-k lists lag behind sudden trends.",
+    ],
+    related: ["caching", "sharding", "search-indexing"],
+  },
+  {
+    slug: "webrtc",
+    name: "WebRTC calling",
+    summary: "Real-time audio and video between browsers and apps, with servers only for signalling and relaying when needed.",
+    explanation: [
+      "Peers exchange connection details through a signalling server (often over WebSockets), then try to connect directly. STUN discovers public addresses; when firewalls block direct paths, a TURN server relays the media. Group calls use an SFU that forwards each stream to the other participants.",
+    ],
+    howItWorks: [
+      "Signalling: offer/answer and ICE candidates over WebSockets.",
+      "STUN for NAT discovery; TURN relays roughly 10–20% of calls.",
+      "SFU for groups; simulcast lets each viewer receive a suitable quality.",
+    ],
+    tradeoffs: [
+      "TURN and SFU bandwidth is the main cost.",
+      "Recording and compliance need extra pipelines.",
+    ],
+    related: ["websockets", "multi-region"],
+  },
 ];

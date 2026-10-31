@@ -13,6 +13,7 @@ import {
   DoorOpen,
   Gauge,
   GitBranch,
+  Handshake,
   Globe,
   KeyRound,
   Layers,
@@ -34,6 +35,7 @@ import {
   Warehouse,
   Waves,
   Workflow,
+  Video,
   Zap,
   type LucideIcon,
 } from "lucide-react";
@@ -73,6 +75,8 @@ const iconsByKind: Record<string, LucideIcon> = {
   coordination: Settings2,
   observability: Gauge,
   payments: CreditCard,
+  "partner-api": Handshake,
+  "webrtc-media": Video,
 };
 
 export function getKindIcon(kindId: string): LucideIcon {

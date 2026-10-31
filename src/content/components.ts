@@ -507,4 +507,38 @@ export const componentCatalogue: ComponentKindInput[] = [
     thirdParty: [m("Stripe"), m("Adyen"), m("Razorpay"), m("PayPal")],
     concepts: ["idempotency", "ledger"],
   },
+  {
+    id: "partner-api",
+    name: "External partner system",
+    category: "external",
+    what: "A system run by someone else that you integrate with: airline and hotel inventories, stock exchanges, credit bureaus, cinema box offices.",
+    whenToUse: ["Inventory or data you don't own", "Regulated networks you must connect to"],
+    pitfalls: ["Slow, rate-limited and sometimes down — cache what you can and wrap calls in timeouts and circuit breakers"],
+    providers: {},
+    thirdParty: [
+      m("Amadeus / Sabre", "travel distribution (GDS)"),
+      m("Stock exchange FIX gateways"),
+      m("Credit bureaus"),
+      m("Cinema / venue box-office systems"),
+    ],
+    concepts: ["idempotency", "back-pressure"],
+  },
+
+  /* Real-time media -------------------------------------------------------- */
+  {
+    id: "webrtc-media",
+    name: "WebRTC media server / TURN",
+    category: "compute",
+    what: "Relays and routes live audio/video: TURN servers get calls through firewalls and an SFU forwards streams in group calls.",
+    whenToUse: ["Video consultations, voice calls, live classes"],
+    pitfalls: ["Bandwidth-heavy and latency-sensitive — deploy close to users", "Recording needs a separate pipeline"],
+    providers: {
+      aws: [m("Amazon Chime SDK"), m("Kinesis Video Streams WebRTC")],
+      gcp: [o("LiveKit / coturn on GKE", "no dedicated managed service")],
+      azure: [m("Azure Communication Services")],
+      oss: [o("LiveKit"), o("coturn", "STUN/TURN"), o("mediasoup"), o("Janus")],
+    },
+    thirdParty: [m("Twilio Video"), m("Agora"), m("Daily")],
+    concepts: ["webrtc", "websockets"],
+  },
 ];
