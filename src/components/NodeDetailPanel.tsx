@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { X } from "lucide-react";
 import type { Provider, ServiceOption, ServiceProvider, SystemDesign } from "@/types/schema";
 import { getCategoryColor, resolveService } from "@/lib/resolve";
-import { getComponentKind } from "@/content";
+import { getComponentKind, getConcept } from "@/content";
 import { getProvider, providers } from "@/content/providers";
 
 interface NodeDetailPanelProps {
@@ -148,7 +149,35 @@ export default function NodeDetailPanel({
             </ul>
           </section>
         )}
+
+        {kind && kind.concepts.length > 0 && (
+          <section>
+            <h3 className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+              Concepts
+            </h3>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {kind.concepts.map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/concepts/${slug}`}
+                  className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-300 hover:bg-emerald-500/20"
+                >
+                  {getConcept(slug)?.name ?? slug}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
+
+      {kind && (
+        <Link
+          href={`/components/${kind.id}`}
+          className="border-t border-slate-800 px-5 py-3 text-sm font-medium text-indigo-300 hover:bg-slate-900 hover:text-indigo-200"
+        >
+          All about {kind.name.toLowerCase()} →
+        </Link>
+      )}
     </aside>
   );
 }

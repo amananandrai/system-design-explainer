@@ -9,6 +9,7 @@ export const instagram: SystemDesignInput = {
   category: "media-social",
   difficulty: 2,
   sources: ["Instagram-like Photo Sharing Service System Design"],
+  concepts: ["fan-out", "presigned-urls", "caching", "sharding", "id-generation", "event-driven", "read-replicas"],
 
   requirements: {
     functional: [

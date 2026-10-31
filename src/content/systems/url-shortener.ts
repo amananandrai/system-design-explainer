@@ -9,6 +9,7 @@ export const urlShortener: SystemDesignInput = {
   category: "infrastructure",
   difficulty: 1,
   sources: ["URL Shortener Service High-Level Design"],
+  concepts: ["id-generation", "caching", "sharding", "leader-election", "rate-limiting"],
 
   requirements: {
     functional: [

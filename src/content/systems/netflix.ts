@@ -12,6 +12,7 @@ export const netflix: SystemDesignInput = {
   category: "media-social",
   difficulty: 3,
   sources: ["System Design: Netflix-like Video Streaming Platform (High-Level)"],
+  concepts: ["adaptive-bitrate-streaming", "caching", "multi-region", "microservices", "event-driven", "sharding"],
 
   requirements: {
     functional: [

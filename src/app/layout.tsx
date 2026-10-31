@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import SiteNav from "@/components/site/SiteNav";
+import { systemCategoryLabels, systems } from "@/content";
+import { buildSearchIndex } from "@/lib/search";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,12 +22,27 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const systemGroups = Object.entries(systemCategoryLabels)
+    .map(([category, label]) => ({
+      label,
+      systems: systems
+        .filter((s) => s.category === category)
+        .map(({ slug, name, tagline, category }) => ({ slug, name, tagline, category })),
+    }))
+    .filter((group) => group.systems.length > 0);
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-100">
+          <SiteNav systemGroups={systemGroups} searchIndex={buildSearchIndex()} />
+          {/* The single scroll container; section anchors and sticky headers live inside it. */}
+          <main className="min-w-0 flex-1 overflow-y-auto scroll-smooth">{children}</main>
+        </div>
+      </body>
     </html>
   );
 }

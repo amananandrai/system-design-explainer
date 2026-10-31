@@ -1,15 +1,33 @@
-import type { ComponentKind, SystemDesign } from "@/types/schema";
+import type { ComponentKind, Concept, SystemDesign } from "@/types/schema";
 
 /** Cross-reference checks the schemas can't express. Returns human-readable problems. */
-export function validateContent(components: ComponentKind[], systems: SystemDesign[]): string[] {
+export function validateContent(
+  components: ComponentKind[],
+  systems: SystemDesign[],
+  concepts: Concept[],
+): string[] {
   const problems: string[] = [];
   const kindIds = new Set<string>();
+  const conceptSlugs = new Set<string>();
+
+  for (const c of concepts) {
+    if (conceptSlugs.has(c.slug)) problems.push(`concept "${c.slug}" is defined twice`);
+    conceptSlugs.add(c.slug);
+  }
+  for (const c of concepts) {
+    for (const r of c.related) {
+      if (!conceptSlugs.has(r)) problems.push(`concept "${c.slug}" links to unknown concept "${r}"`);
+    }
+  }
 
   for (const c of components) {
     if (kindIds.has(c.id)) problems.push(`component "${c.id}" is defined twice`);
     kindIds.add(c.id);
     if (c.category !== "client" && Object.keys(c.providers).length === 0 && c.thirdParty.length === 0) {
       problems.push(`component "${c.id}" has no provider or third-party options`);
+    }
+    for (const r of c.concepts) {
+      if (!conceptSlugs.has(r)) problems.push(`component "${c.id}" links to unknown concept "${r}"`);
     }
   }
 
@@ -18,6 +36,9 @@ export function validateContent(components: ComponentKind[], systems: SystemDesi
     const at = `system "${s.slug}"`;
     if (slugs.has(s.slug)) problems.push(`${at} is defined twice`);
     slugs.add(s.slug);
+    for (const r of s.concepts) {
+      if (!conceptSlugs.has(r)) problems.push(`${at} links to unknown concept "${r}"`);
+    }
 
     const nodeIds = new Set<string>();
     for (const n of s.nodes) {

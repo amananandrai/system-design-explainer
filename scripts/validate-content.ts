@@ -1,8 +1,8 @@
 // Validates every content file: schema (on import) plus cross-references.
-import { components, systems } from "../src/content";
+import { components, concepts, systems } from "../src/content";
 import { validateContent } from "../src/lib/validate";
 
-const problems = validateContent(components, systems);
+const problems = validateContent(components, systems, concepts);
 
 if (problems.length > 0) {
   console.error(`Content validation failed (${problems.length}):`);
@@ -10,4 +10,6 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-console.log(`Content OK: ${components.length} component kinds, ${systems.length} systems.`);
+console.log(
+  `Content OK: ${components.length} component kinds, ${systems.length} systems, ${concepts.length} concepts.`,
+);

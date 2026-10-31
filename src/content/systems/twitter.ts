@@ -9,6 +9,7 @@ export const twitter: SystemDesignInput = {
   category: "media-social",
   difficulty: 3,
   sources: ["Twitter-like Microblogging System Design"],
+  concepts: ["fan-out", "id-generation", "caching", "consistent-hashing", "event-driven", "search-indexing"],
 
   requirements: {
     functional: [

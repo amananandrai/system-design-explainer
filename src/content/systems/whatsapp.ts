@@ -9,6 +9,7 @@ export const whatsapp: SystemDesignInput = {
   category: "media-social",
   difficulty: 2,
   sources: ["High-Level Design: Facebook Messenger-Style Chat Service"],
+  concepts: ["websockets", "consistent-hashing", "sharding", "presigned-urls", "idempotency", "multi-region"],
 
   requirements: {
     functional: [

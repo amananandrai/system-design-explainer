@@ -8,6 +8,7 @@ export const redis: SystemDesignInput = {
   category: "infrastructure",
   difficulty: 2,
   sources: [],
+  concepts: ["caching", "sharding", "consistent-hashing", "read-replicas", "leader-election"],
   nodes: [
     {
       id: "app-client",

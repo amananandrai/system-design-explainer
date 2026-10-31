@@ -12,6 +12,7 @@ export const payments: SystemDesignInput = {
     "Payment Gateway System Design (High-Level Design)",
     "High-Level Design of a Scalable Digital Payments Platform (PayPal/Paytm/PhonePe-like)",
   ],
+  concepts: ["idempotency", "ledger", "event-driven", "authentication", "sharding"],
 
   requirements: {
     functional: [

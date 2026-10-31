@@ -9,6 +9,7 @@ export const uber: SystemDesignInput = {
   category: "mobility",
   difficulty: 3,
   sources: ["Ride-Sharing Platform Architecture Design (Uber-Like)", "Uber Low Level Design"],
+  concepts: ["geospatial-indexing", "websockets", "distributed-locks", "idempotency", "event-driven", "multi-region"],
 
   requirements: {
     functional: [

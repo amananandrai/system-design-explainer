@@ -9,6 +9,7 @@ export const amazon: SystemDesignInput = {
   category: "commerce-fintech",
   difficulty: 3,
   sources: ["Amazon-Like Online Shopping Platform System Design", "Amazon-Style Online Shopping System in Go"],
+  concepts: ["saga", "idempotency", "distributed-locks", "caching", "search-indexing", "change-data-capture", "microservices", "horizontal-scaling"],
 
   requirements: {
     functional: [

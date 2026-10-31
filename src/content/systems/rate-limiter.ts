@@ -9,6 +9,7 @@ export const rateLimiter: SystemDesignInput = {
   category: "infrastructure",
   difficulty: 2,
   sources: ["API Rate Limiter Service High-Level System Design"],
+  concepts: ["rate-limiting", "consistent-hashing", "caching", "leader-election"],
 
   requirements: {
     functional: [

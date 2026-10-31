@@ -9,6 +9,7 @@ export const youtube: SystemDesignInput = {
   category: "media-social",
   difficulty: 3,
   sources: ["YouTube-like Video Streaming Service Design", "Youtube Low level design"],
+  concepts: ["adaptive-bitrate-streaming", "presigned-urls", "back-pressure", "caching", "sharding", "search-indexing", "change-data-capture"],
 
   requirements: {
     functional: [

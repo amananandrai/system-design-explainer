@@ -102,6 +102,8 @@ export const systemSchema = z.object({
   difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   /** Titles of the source PDFs this design is based on. */
   sources: z.array(z.string()).default([]),
+  /** Concept slugs this design demonstrates. */
+  concepts: z.array(z.string()).default([]),
   requirements: z
     .object({ functional: z.array(z.string()), nonFunctional: z.array(z.string()) })
     .default({ functional: [], nonFunctional: [] }),
@@ -148,3 +150,18 @@ export const systemSchema = z.object({
 export type SystemDesign = z.infer<typeof systemSchema>;
 /** Shape content files are written in (optional sections may be omitted). */
 export type SystemDesignInput = z.input<typeof systemSchema>;
+
+/* Concepts ----------------------------------------------------------------- */
+
+export const conceptSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  name: z.string().min(1),
+  /** One or two sentences shown on cards and in search. */
+  summary: z.string().min(1),
+  explanation: z.array(z.string()).min(1),
+  howItWorks: z.array(z.string()).default([]),
+  tradeoffs: z.array(z.string()).default([]),
+  related: z.array(z.string()).default([]),
+});
+export type Concept = z.infer<typeof conceptSchema>;
+export type ConceptInput = z.input<typeof conceptSchema>;
