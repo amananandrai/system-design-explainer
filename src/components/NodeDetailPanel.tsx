@@ -38,23 +38,7 @@ export default function NodeDetailPanel({
 }: NodeDetailPanelProps) {
   const systemNode = system.nodes.find((n) => n.id === nodeId);
 
-  if (!systemNode) {
-    return (
-      <aside className="flex h-full w-80 shrink-0 flex-col border-l border-slate-800 bg-slate-950 px-5 py-6">
-        <h2 className="text-sm font-semibold text-white">Component Details</h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-400">
-          Click any node in the diagram to see its role, the service each cloud
-          offers for it, and open-source alternatives.
-        </p>
-        <div className="mt-6 rounded-xl border border-dashed border-slate-700 p-4">
-          <p className="text-xs text-slate-500">
-            Tip: Switch between Generic, AWS, GCP, Azure and Open source to
-            relabel every component with the equivalent service.
-          </p>
-        </div>
-      </aside>
-    );
-  }
+  if (!systemNode) return null;
 
   const kind = getComponentKind(systemNode.kind);
   const resolved = resolveService(systemNode, kind, provider);

@@ -105,22 +105,25 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
         )}
       </div>
 
-      <div className="flex h-[640px]">
-        <div className="min-w-0 flex-1 p-3">
-          <ArchitectureDiagram
-            system={system}
-            provider={provider}
-            selectedNodeId={selectedNodeId}
-            flowHighlight={flowHighlight}
-            onNodeSelect={handleNodeSelect}
-          />
-        </div>
-        <NodeDetailPanel
-          nodeId={selectedNodeId}
+      {/* The diagram gets the full width; details slide over it when a node is selected. */}
+      <div className="relative h-[min(78vh,820px)] min-h-[520px] p-3">
+        <ArchitectureDiagram
           system={system}
           provider={provider}
-          onClose={() => updateSearchParams({ node: null })}
+          selectedNodeId={selectedNodeId}
+          flowHighlight={flowHighlight}
+          onNodeSelect={handleNodeSelect}
         />
+        {selectedNodeId && (
+          <div className="absolute inset-y-0 right-0 z-10 shadow-2xl shadow-black/60">
+            <NodeDetailPanel
+              nodeId={selectedNodeId}
+              system={system}
+              provider={provider}
+              onClose={() => updateSearchParams({ node: null })}
+            />
+          </div>
+        )}
       </div>
 
       {activeFlow && (

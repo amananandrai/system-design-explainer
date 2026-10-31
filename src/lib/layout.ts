@@ -44,8 +44,12 @@ export interface SystemLayout {
 const elk = new ELK();
 const cache = new Map<string, Promise<SystemLayout>>();
 
-const TIER_PADDING = 20;
-const TIER_HEADER = 28;
+const TIER_PADDING = 16;
+const TIER_HEADER = 24;
+const LAYER_SPACING = 36;
+const BAND_SPACING = 12;
+/** Extra vertical room inserted wherever one tier band ends and the next begins. */
+const BAND_GAP = 2 * TIER_PADDING + TIER_HEADER + BAND_SPACING - LAYER_SPACING;
 
 /** Layered top-to-bottom layout; ELK partitions keep each tier in its own horizontal band. */
 export function layoutSystem(system: SystemDesign): Promise<SystemLayout> {
@@ -64,9 +68,9 @@ export function layoutSystem(system: SystemDesign): Promise<SystemLayout> {
         "elk.algorithm": "layered",
         "elk.direction": "DOWN",
         "elk.partitioning.activate": "true",
-        "elk.spacing.nodeNode": "32",
-        // Room for one band's bottom padding plus the next band's header.
-        "elk.layered.spacing.nodeNodeBetweenLayers": String(2 * TIER_PADDING + TIER_HEADER + 16),
+        "elk.spacing.nodeNode": "24",
+        // Tight spacing inside a tier; band headers are inserted afterwards.
+        "elk.layered.spacing.nodeNodeBetweenLayers": String(LAYER_SPACING),
         "elk.layered.nodePlacement.strategy": "BRANDES_KOEPF",
         "elk.layered.crossingMinimization.strategy": "LAYER_SWEEP",
       },
@@ -79,9 +83,15 @@ export function layoutSystem(system: SystemDesign): Promise<SystemLayout> {
       edges: system.edges.map((e) => ({ id: e.id, sources: [e.from], targets: [e.to] })),
     })
     .then((graph) => {
+      // Partitions keep tiers in order, so pushing each tier down by its rank
+      // among the tiers present opens a gap for band padding and headers.
+      const presentTiers = tiers.filter((t) => system.nodes.some((n) => nodeTier.get(n.id) === t.id));
+      const bandRank = new Map(presentTiers.map((t, i) => [t.id, i]));
+
       const positions: SystemLayout["positions"] = {};
       for (const child of graph.children ?? []) {
-        positions[child.id] = { x: child.x ?? 0, y: child.y ?? 0 };
+        const rank = bandRank.get(nodeTier.get(child.id)!) ?? 0;
+        positions[child.id] = { x: child.x ?? 0, y: (child.y ?? 0) + rank * BAND_GAP };
       }
 
       const xs = Object.values(positions).map((p) => p.x);

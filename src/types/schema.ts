@@ -106,7 +106,13 @@ export const systemSchema = z.object({
     .object({ functional: z.array(z.string()), nonFunctional: z.array(z.string()) })
     .default({ functional: [], nonFunctional: [] }),
   apis: z
-    .array(z.object({ method: z.string(), path: z.string(), purpose: z.string() }))
+    .array(
+      z.object({
+        method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE", "WS", "GRPC"]),
+        path: z.string(),
+        purpose: z.string(),
+      }),
+    )
     .default([]),
   estimates: z
     .array(z.object({ label: z.string(), value: z.string(), derivation: z.string().optional() }))

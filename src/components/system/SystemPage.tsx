@@ -13,6 +13,8 @@ const methodColors: Record<string, string> = {
   PUT: "text-amber-300 bg-amber-500/10",
   PATCH: "text-amber-300 bg-amber-500/10",
   DELETE: "text-rose-300 bg-rose-500/10",
+  WS: "text-violet-300 bg-violet-500/10",
+  GRPC: "text-cyan-300 bg-cyan-500/10",
 };
 
 /** The nine steps every HLD in the source PDFs follows. Empty ones are skipped. */
@@ -158,7 +160,7 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
             title="Architecture"
             intro="Switch cloud provider to relabel every component, click a component for its alternatives, or play a walkthrough."
           >
-            <Suspense fallback={<div className="h-[700px] rounded-2xl border border-slate-800" />}>
+            <Suspense fallback={<div className="h-[min(85vh,880px)] rounded-2xl border border-slate-800" />}>
               <ArchitectureSection system={system} />
             </Suspense>
           </Section>
