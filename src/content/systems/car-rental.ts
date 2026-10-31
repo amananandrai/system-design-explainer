@@ -8,7 +8,6 @@ export const carRental: SystemDesignInput = {
     "Customers reserve a car class at a branch for a date range, not a specific car. Availability is fleet size minus overlapping reservations, cached per branch and class. A reservation holds capacity with a conditional update and places a deposit hold on the card. At pickup a specific vehicle is assigned; telematics report mileage and fuel, and the final charge is captured on return.",
   category: "mobility",
   difficulty: 2,
-  sources: ["Scalable Car Rental System High-Level Architecture Design"],
   concepts: ["distributed-locks", "idempotency", "caching", "event-driven"],
 
   requirements: {
@@ -123,6 +122,7 @@ export const carRental: SystemDesignInput = {
       name: "Pickup and return",
       steps: [
         { edge: "counter-gateway", text: "At pickup, staff open the reservation." },
+        { edge: "gateway-reservation", text: "The reservation service loads the booking and checks the customer's licence." },
         { edge: "reservation-fleet", text: "A specific clean, serviced SUV is assigned." },
         { edge: "vehicles-telemetry", text: "During the rental the car reports mileage and fuel." },
         { edge: "telemetry-fleet", text: "Fleet records the readings." },

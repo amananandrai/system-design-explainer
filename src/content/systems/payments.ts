@@ -8,10 +8,6 @@ export const payments: SystemDesignInput = {
     "Merchants call one API to charge a customer. Card numbers go straight from the browser into a locked-down vault and are replaced by tokens, so almost nothing else touches sensitive data. Each payment is recorded before anything external happens, checked for fraud, routed to an acquiring bank, and written to a double-entry ledger. Idempotency keys make every retry safe, and nightly reconciliation proves the books match the banks.",
   category: "commerce-fintech",
   difficulty: 3,
-  sources: [
-    "Payment Gateway System Design (High-Level Design)",
-    "High-Level Design of a Scalable Digital Payments Platform (PayPal/Paytm/PhonePe-like)",
-  ],
   concepts: ["idempotency", "ledger", "event-driven", "authentication", "sharding"],
 
   requirements: {

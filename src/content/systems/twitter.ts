@@ -8,7 +8,6 @@ export const twitter: SystemDesignInput = {
     "Every tweet gets a time-sortable ID and is stored once, then a fan-out service copies its ID into each follower's cached home timeline so reading a timeline is a single lookup. Accounts with huge followings are handled the other way round: their tweets are merged in when a follower reads. A stream processor counts hashtags to surface trends.",
   category: "media-social",
   difficulty: 3,
-  sources: ["Twitter-like Microblogging System Design"],
   concepts: ["fan-out", "id-generation", "caching", "consistent-hashing", "event-driven", "search-indexing"],
 
   requirements: {

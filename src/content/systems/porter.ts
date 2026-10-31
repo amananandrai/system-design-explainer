@@ -8,7 +8,6 @@ export const porter: SystemDesignInput = {
     "Like ride-hailing, but for goods. The customer picks a vehicle type (bike, mini-truck, truck), pickup and drop points, and gets an upfront fare. Dispatch looks up nearby available drivers of that vehicle type in a geo index and offers the job. Trips include loading time, multiple stops and proof of delivery, and business customers can schedule orders in bulk.",
   category: "mobility",
   difficulty: 2,
-  sources: ["High-Level Design of a Porter-like Logistics Booking Platform"],
   concepts: ["geospatial-indexing", "websockets", "event-driven", "idempotency"],
 
   requirements: {

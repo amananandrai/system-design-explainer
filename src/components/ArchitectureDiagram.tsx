@@ -119,7 +119,7 @@ function FlowCanvas({ nodes: nextNodes, edges: nextEdges, protocols, onNodeSelec
       proOptions={{ hideAttribution: true }}
       className="architecture-flow"
     >
-      <Background gap={20} size={1} color="#1e293b" />
+      <Background gap={20} size={1} color="var(--color-slate-800)" />
       <Controls
         showInteractive={false}
         className="!border-slate-700 !bg-slate-900 !shadow-lg [&>button]:!border-slate-600 [&>button]:!bg-slate-800 [&>button]:!text-slate-200 [&>button:hover]:!bg-slate-700"

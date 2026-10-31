@@ -8,7 +8,6 @@ export const pastebin: SystemDesignInput = {
     "A close cousin of the URL shortener, with bigger values. Paste text goes to object storage, a small metadata record holds the key, owner and expiry, and reads are served from a CDN and cache because popular pastes are read far more than they are written. Expired pastes are removed by a background job.",
   category: "infrastructure",
   difficulty: 1,
-  sources: ["PasteBin High Level Design"],
   concepts: ["id-generation", "caching", "sharding", "rate-limiting"],
 
   requirements: {

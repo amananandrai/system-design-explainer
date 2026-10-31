@@ -6,9 +6,59 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/*
+ * Theming. The UI is written with Tailwind's slate scale for a dark look; the
+ * light theme inverts that scale (and darkens accent tints for contrast) by
+ * redefining the colour variables Tailwind reads. Colours that must not flip
+ * (text on solid buttons, diagram strokes) are written as fixed values.
+ */
+:root {
+  color-scheme: dark;
+  --provider-generic: #94a3b8;
+  --provider-aws: #ff9900;
+  --provider-gcp: #669df6;
+  --provider-azure: #50a0e8;
+  --provider-oss: #4ade80;
+  /* Text on a provider-coloured pill. */
+  --on-provider: #020617;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-white: #0f172a;
+  --color-slate-950: #ffffff;
+  --color-slate-900: #f8fafc;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #cbd5e1;
+  --color-slate-600: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+
+  --color-indigo-200: #3730a3;
+  --color-indigo-300: #4338ca;
+  --color-emerald-300: #047857;
+  --color-sky-300: #0369a1;
+  --color-amber-300: #b45309;
+  --color-rose-200: #9f1239;
+  --color-rose-300: #be123c;
+  --color-violet-300: #6d28d9;
+  --color-cyan-300: #0e7490;
+
+  --provider-generic: #475569;
+  --provider-aws: #c2410c;
+  --provider-gcp: #1d4ed8;
+  --provider-azure: #0369a1;
+  --provider-oss: #15803d;
+  --on-provider: #ffffff;
+}
+
 body {
-  background: #020617;
-  color: #f1f5f9;
+  background: var(--color-slate-950);
+  color: var(--color-slate-100);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   margin: 0;
 }

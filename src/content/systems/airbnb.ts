@@ -8,7 +8,6 @@ export const airbnb: SystemDesignInput = {
     "Search combines a geo-aware index of listings with each listing's availability calendar, so results only show places free on your dates. Booking reserves those nights with a conditional write on the calendar, authorises payment, and pays the host after check-in. Guests and hosts message in real time, and photos are served from a CDN.",
   category: "bookings",
   difficulty: 3,
-  sources: ["Vacation Rental Marketplace Platform (Airbnb-like) High-Level Design"],
   concepts: ["geospatial-indexing", "search-indexing", "distributed-locks", "idempotency", "caching", "presigned-urls"],
 
   requirements: {

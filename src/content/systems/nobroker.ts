@@ -8,7 +8,6 @@ export const nobroker: SystemDesignInput = {
     "Owners list properties with photos; listings are verified (automatically and by staff) before going live in a geo-search index. Tenants browse for free but unlock owners' contact details with a paid plan, then chat and schedule visits. Rent payments and add-on services run through the same payments platform.",
   category: "bookings",
   difficulty: 2,
-  sources: ["High-Level Design: Real Estate Platform (NoBroker-like)"],
   concepts: ["search-indexing", "geospatial-indexing", "presigned-urls", "websockets", "event-driven"],
 
   requirements: {
@@ -113,10 +112,10 @@ export const nobroker: SystemDesignInput = {
       name: "Post a listing",
       steps: [
         { edge: "owner-gateway", text: "The owner fills in details." },
-        { edge: "gateway-listing", text: "The listing is created as PENDING." },
+        { edge: "gateway-listing", text: "The listing service validates the details." },
+        { edge: "listing-db", text: "The listing is saved as PENDING and photo upload URLs are returned." },
         { edge: "owner-photos", text: "Photos upload straight to storage." },
-        { edge: "listing-db", text: "The listing is saved." },
-        { edge: "listing-events", text: "A 'listing created' event is published." },
+        { edge: "listing-events", text: "Once the photos are in, a 'listing created' event is published." },
         { edge: "events-verify", text: "Models check for brokers, duplicates and fake photos; borderline ones go to staff." },
         { edge: "verify-db", text: "The listing is approved." },
         { edge: "events-index", text: "It becomes searchable." },

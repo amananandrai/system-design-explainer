@@ -8,7 +8,6 @@ export const amazon: SystemDesignInput = {
     "Browsing is served almost entirely from caches, a CDN and a search index fed from the catalogue. Checkout is the hard part: an order touches inventory, payment and shipping, each owned by a different service, so it runs as a saga — a sequence of local steps with compensating actions if anything fails — instead of one distributed transaction.",
   category: "commerce-fintech",
   difficulty: 3,
-  sources: ["Amazon-Like Online Shopping Platform System Design", "Amazon-Style Online Shopping System in Go"],
   concepts: ["saga", "idempotency", "distributed-locks", "caching", "search-indexing", "change-data-capture", "microservices", "horizontal-scaling"],
 
   requirements: {

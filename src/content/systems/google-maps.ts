@@ -8,7 +8,6 @@ export const googleMaps: SystemDesignInput = {
     "A map is mostly static: an offline pipeline renders the world into tiles at every zoom level, served from a CDN. Places are found through a geo-aware search index. Routing runs on a pre-processed road graph, with edge weights updated by live traffic computed from millions of anonymous phone GPS pings, and an ML model turns all of that into ETAs.",
   category: "mobility",
   difficulty: 3,
-  sources: ["Google Maps-like Service: High-Level System Design"],
   concepts: ["geospatial-indexing", "caching", "sharding", "event-driven", "search-indexing"],
 
   requirements: {

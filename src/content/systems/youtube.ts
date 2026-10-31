@@ -8,7 +8,6 @@ export const youtube: SystemDesignInput = {
     "Creators upload large video files that are transcoded into many resolutions and served worldwide through a CDN with adaptive bitrate streaming. Metadata, engagement and search run on separately scaled services, and almost every byte watched comes from an edge cache rather than the origin.",
   category: "media-social",
   difficulty: 3,
-  sources: ["YouTube-like Video Streaming Service Design", "Youtube Low level design"],
   concepts: ["adaptive-bitrate-streaming", "presigned-urls", "back-pressure", "caching", "sharding", "search-indexing", "change-data-capture"],
 
   requirements: {

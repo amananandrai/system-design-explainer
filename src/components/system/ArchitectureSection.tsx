@@ -105,7 +105,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
                   onClick={() => selectFlow(activeFlow?.id === flow.id ? null : flow.id)}
                   className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                     activeFlow?.id === flow.id
-                      ? "bg-amber-400 text-slate-950"
+                      ? "bg-amber-400 text-[#020617]"
                       : "text-slate-400 hover:text-slate-200"
                   }`}
                 >

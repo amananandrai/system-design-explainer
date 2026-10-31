@@ -8,7 +8,6 @@ export const liveSports: SystemDesignInput = {
     "Official scorers and data partners send every ball, goal or point into an ingest service. Events flow through a stream where a processor updates the match state and statistics. The new score lands in a cache, is pushed over WebSockets to everyone watching, and triggers push notifications for big moments — while snapshots are cached at the CDN for everyone else.",
   category: "media-social",
   difficulty: 2,
-  sources: ["High-Level Design for Real-Time Sports Management System"],
   concepts: ["websockets", "event-driven", "caching", "back-pressure", "fan-out"],
 
   requirements: {

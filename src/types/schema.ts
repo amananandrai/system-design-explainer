@@ -100,8 +100,6 @@ export const systemSchema = z.object({
   description: z.string().min(1),
   category: systemCategorySchema,
   difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-  /** Titles of the source PDFs this design is based on. */
-  sources: z.array(z.string()).default([]),
   /** Concept slugs this design demonstrates. */
   concepts: z.array(z.string()).default([]),
   requirements: z

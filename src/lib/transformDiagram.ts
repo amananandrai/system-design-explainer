@@ -23,14 +23,14 @@ type Protocol = NonNullable<SystemEdge["protocol"]> | "default";
 export const edgeStyles: Record<Protocol, { label: string; color: string; dash?: string; animated?: boolean }> = {
   default: { label: "Request (HTTPS)", color: "#64748b" },
   https: { label: "Request (HTTPS)", color: "#64748b" },
-  grpc: { label: "Internal RPC (gRPC)", color: "#38bdf8" },
-  ws: { label: "Persistent connection (WebSocket)", color: "#4ade80" },
-  async: { label: "Async message / job", color: "#c084fc", dash: "6 4", animated: true },
-  stream: { label: "Event stream", color: "#2dd4bf", dash: "6 4", animated: true },
-  cdc: { label: "Change data capture", color: "#fb923c", dash: "2 4" },
+  grpc: { label: "Internal RPC (gRPC)", color: "#0ea5e9" },
+  ws: { label: "Persistent connection (WebSocket)", color: "#22c55e" },
+  async: { label: "Async message / job", color: "#a855f7", dash: "6 4", animated: true },
+  stream: { label: "Event stream", color: "#14b8a6", dash: "6 4", animated: true },
+  cdc: { label: "Change data capture", color: "#f97316", dash: "2 4" },
 };
 
-const FLOW_COLOR = "#fbbf24";
+const FLOW_COLOR = "#f59e0b";
 
 /** A request-flow walkthrough in progress: the current step's edge and the ones already shown. */
 export interface FlowHighlight {
@@ -112,8 +112,8 @@ export function systemToFlow(
         strokeDasharray: isActiveStep ? undefined : style.dash,
         opacity: dimmed ? 0.15 : 1,
       },
-      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "#cbd5e1", fontSize: 11 },
-      labelBgStyle: { fill: "#0f172a" },
+      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--color-slate-300)", fontSize: 11 },
+      labelBgStyle: { fill: "var(--color-slate-900)" },
       labelBgPadding: [4, 2] as [number, number],
       zIndex: isActiveStep ? 2 : emphasised ? 1 : 0,
     };

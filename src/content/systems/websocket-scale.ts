@@ -8,7 +8,6 @@ export const websocketScale: SystemDesignInput = {
     "A reusable real-time layer: lightweight Go gateway pods hold millions of WebSocket connections behind an L4 load balancer. Backend services publish events to a durable bus; a router looks up which gateway pod each recipient is connected to and forwards the event over a per-pod pub/sub channel, which pushes it down the socket. Offline recipients' events are stored for when they reconnect.",
   category: "infrastructure",
   difficulty: 3,
-  sources: ["Scalable WebSocket System Design in Golang on AWS"],
   concepts: ["websockets", "consistent-hashing", "back-pressure", "event-driven", "horizontal-scaling"],
 
   requirements: {

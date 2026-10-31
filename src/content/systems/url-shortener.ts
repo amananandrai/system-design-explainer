@@ -8,7 +8,6 @@ export const urlShortener: SystemDesignInput = {
     "A key generation service hands out unique 7-character Base62 keys from pre-allocated ranges, so creating a link never needs a uniqueness check. Redirects are a single key lookup served mostly from cache (and even from the CDN edge), and click events flow asynchronously to analytics so the redirect path stays tiny.",
   category: "infrastructure",
   difficulty: 1,
-  sources: ["URL Shortener Service High-Level Design"],
   concepts: ["id-generation", "caching", "sharding", "leader-election", "rate-limiting"],
 
   requirements: {

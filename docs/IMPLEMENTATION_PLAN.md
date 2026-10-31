@@ -79,7 +79,7 @@ interface ServiceOption { name: string; note?: string; managed: boolean; url?: s
 // A system (YouTube, Uber …)
 interface SystemDesign {
   slug: string; name: string; tagline: string; category: Category;
-  difficulty: 1 | 2 | 3; sources: string[];          // original PDF titles, for attribution
+  difficulty: 1 | 2 | 3; concepts: string[];
   requirements: { functional: string[]; nonFunctional: string[] };
   apis: { method: string; path: string; purpose: string }[];
   estimates: { label: string; value: string; derivation?: string }[];
@@ -214,7 +214,6 @@ Key ideas:
 2. Model nodes using only catalogue kinds; add `overrides` only when a system uses something specific.
 3. Write 1–3 `flows`.
 4. `npm run validate` (Zod) → visual check with each provider → commit.
-5. Credit the original PDF title in `sources` (shown in page footer).
 
 ## 7. Risks / decisions
 

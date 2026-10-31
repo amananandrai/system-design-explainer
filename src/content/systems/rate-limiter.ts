@@ -8,7 +8,6 @@ export const rateLimiter: SystemDesignInput = {
     "Every API request passes through a limiter at the gateway, which atomically updates a counter (or token bucket) for that client in a shared in-memory store and returns allow or deny. Rules live in a config database and are pushed out to every limiter instance, so changes apply in seconds without redeploys. If the counter store is down, the limiter fails open rather than taking the API down with it.",
   category: "infrastructure",
   difficulty: 2,
-  sources: ["API Rate Limiter Service High-Level System Design"],
   concepts: ["rate-limiting", "consistent-hashing", "caching", "leader-election"],
 
   requirements: {

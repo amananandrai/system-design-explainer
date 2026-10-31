@@ -7,6 +7,7 @@ import { Boxes, ChevronRight, Lightbulb, Menu, Network, Search, X } from "lucide
 import type { SystemCategory } from "@/types/schema";
 import type { SearchItem } from "@/lib/search-match";
 import SearchPalette from "./SearchPalette";
+import ThemeToggle from "./ThemeToggle";
 
 export interface NavSystem {
   slug: string;
@@ -184,7 +185,7 @@ function NavContent({
                         aria-current={active ? "page" : undefined}
                         className={`block rounded-lg px-3 py-1.5 text-sm transition-colors ${
                           active
-                            ? "bg-indigo-600 font-medium text-white"
+                            ? "bg-indigo-600 font-medium text-[#fff]"
                             : "text-slate-300 hover:bg-slate-800 hover:text-white"
                         }`}
                       >
@@ -198,6 +199,10 @@ function NavContent({
           );
         })}
       </nav>
+
+      <div className="border-t border-slate-800 px-3 py-3">
+        <ThemeToggle />
+      </div>
     </>
   );
 }

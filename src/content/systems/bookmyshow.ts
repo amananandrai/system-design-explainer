@@ -8,7 +8,6 @@ export const bookmyshow: SystemDesignInput = {
     "Browsing shows is a cached, search-driven read path. The hard part is the seat map: when you pick seats they are held for a few minutes with a short-lived lock, so nobody else can take them while you pay. Payment confirms the booking in one database transaction; if you walk away, the hold expires and the seats return. For blockbuster openings a virtual waiting room meters people into the booking flow.",
   category: "bookings",
   difficulty: 2,
-  sources: ["High-Level Design of an Online Ticket Booking System (BookMyShow-like)", "Movie Ticket Booking System Design in Go"],
   concepts: ["distributed-locks", "idempotency", "caching", "back-pressure", "search-indexing"],
 
   requirements: {

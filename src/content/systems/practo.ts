@@ -8,7 +8,6 @@ export const practo: SystemDesignInput = {
     "Patients search doctors by specialty and location, then book a slot from the doctor's calendar with a short hold while they pay. At the appointment time both join a video call set up through WebRTC signalling, with TURN relays for hard networks. Prescriptions and reports are stored as encrypted health records that only the patient and their doctors can access.",
   category: "bookings",
   difficulty: 2,
-  sources: ["High-Level Design for a Teleconsultation Healthcare Platform (Practo-like)"],
   concepts: ["webrtc", "distributed-locks", "websockets", "idempotency", "search-indexing", "authentication"],
 
   requirements: {

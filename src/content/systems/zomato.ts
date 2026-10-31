@@ -8,7 +8,6 @@ export const zomato: SystemDesignInput = {
     "Three apps meet in one order: the customer orders, the restaurant accepts and cooks, and a delivery partner picks up and drops off. Discovery is a geo search over restaurants that deliver to you. Once an order is paid and accepted, a dispatch service picks a nearby rider using a live geo index, timed so the rider arrives as the food is ready, and everyone watches progress on a live map.",
   category: "mobility",
   difficulty: 3,
-  sources: ["High-Level Design of a Food Delivery and Restaurant Discovery Platform (Zomato-like)"],
   concepts: ["geospatial-indexing", "websockets", "event-driven", "idempotency", "caching", "search-indexing"],
 
   requirements: {
@@ -118,9 +117,9 @@ export const zomato: SystemDesignInput = {
         { edge: "gateway-discovery", text: "Discovery finds restaurants that deliver here." },
         { edge: "discovery-index", text: "The index filters by delivery radius and ranks by rating, ETA and offers." },
         { edge: "gateway-order", text: "The customer checks out." },
-        { edge: "order-payment", text: "Payment is taken with an idempotency key." },
-        { edge: "payment-psp", text: "The payment provider approves." },
-        { edge: "order-db-write", text: "The order is saved as PLACED." },
+        { edge: "order-db-write", text: "The order is saved as PENDING_PAYMENT before any money moves." },
+        { edge: "order-payment", text: "Payment is taken, keyed by the order id so retries can't double-charge." },
+        { edge: "payment-psp", text: "The payment provider approves and the order becomes PLACED." },
         { edge: "order-events", text: "The restaurant is notified and accepts; 'accepted' is published." },
         { edge: "events-dispatch", text: "Dispatch starts looking for a rider, timed against the predicted cooking time." },
         { edge: "dispatch-geo", text: "It finds free riders near the restaurant." },

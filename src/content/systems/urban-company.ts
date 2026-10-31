@@ -8,7 +8,6 @@ export const urbanCompany: SystemDesignInput = {
     "Customers book a service for a time slot, not a person. Slot availability is computed from the schedules of nearby professionals with the right skill. Picking a slot places a short hold, payment confirms it, and an assignment service then picks the best professional by distance, rating and workload. On the day, the professional checks in and out through their app, and payouts follow completion.",
   category: "bookings",
   difficulty: 2,
-  sources: ["High-Level Design for On-Demand Home Services Platform (Urban Company-like)"],
   concepts: ["distributed-locks", "geospatial-indexing", "idempotency", "event-driven"],
 
   requirements: {
@@ -109,8 +108,8 @@ export const urbanCompany: SystemDesignInput = {
         { edge: "gateway-slots", text: "The slot service checks capacity for that zone and skill." },
         { edge: "slots-cache", text: "The 10am slot has capacity; a hold is placed for 10 minutes." },
         { edge: "gateway-booking", text: "The customer confirms." },
-        { edge: "booking-payment", text: "Payment is taken (or marked pay-after-service)." },
-        { edge: "booking-db", text: "The booking is saved." },
+        { edge: "booking-db", text: "The booking is saved as PENDING against the held slot." },
+        { edge: "booking-payment", text: "Payment is taken (or marked pay-after-service) and the booking is confirmed." },
         { edge: "booking-events", text: "'Booking confirmed' is published." },
         { edge: "events-assignment", text: "The assignment service picks it up." },
         { edge: "assignment-geo", text: "It shortlists nearby professionals with the skill and a free 10am." },

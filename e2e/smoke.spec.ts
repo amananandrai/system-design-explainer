@@ -58,3 +58,17 @@ test("unknown system is a 404", async ({ page }) => {
   const response = await page.goto("/systems/does-not-exist/");
   expect(response?.status()).toBe(404);
 });
+
+test("theme toggle switches and remembers light mode", async ({ page }) => {
+  await page.goto("/");
+  const html = page.locator("html");
+  await page.getByRole("radio", { name: "Light" }).click();
+  await expect(html).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(255, 255, 255)");
+
+  await page.reload();
+  await expect(html).toHaveAttribute("data-theme", "light");
+
+  await page.getByRole("radio", { name: "Dark" }).click();
+  await expect(html).toHaveAttribute("data-theme", "dark");
+});

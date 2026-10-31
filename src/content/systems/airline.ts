@@ -8,7 +8,6 @@ export const airline: SystemDesignInput = {
     "The airline owns its inventory: every flight has a fixed number of seats per fare class. A booking decrements that count with an optimistic concurrency check, creates a passenger record (PNR), takes payment and issues a ticket. Operations events — delays, gate changes, cancellations — flow through an event stream to notify passengers and rebook them.",
   category: "bookings",
   difficulty: 2,
-  sources: ["High-Level Design: Airline Management System", "Airline Management System Design in Go"],
   concepts: ["distributed-locks", "idempotency", "event-driven", "websockets"],
 
   requirements: {
@@ -117,7 +116,7 @@ export const airline: SystemDesignInput = {
         { edge: "booking-inventory", text: "It asks inventory to sell one seat in this fare class." },
         { edge: "inventory-db-rw", text: "A conditional update succeeds only if seats remain and nobody changed the row meanwhile; otherwise it retries or fails." },
         { edge: "booking-pnr", text: "A PNR is created with the passengers and segments." },
-        { edge: "booking-payment", text: "Payment is taken, keyed by the PNR." },
+        { edge: "booking-payment", text: "Payment is taken, keyed by the PNR. If it fails, the seat is released back to inventory." },
         { edge: "payment-psp", text: "The card is charged and a ticket number is issued." },
         { edge: "booking-events", text: "A booking event is published." },
         { edge: "events-notify", text: "The e-ticket is emailed." },

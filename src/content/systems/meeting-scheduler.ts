@@ -8,7 +8,6 @@ export const meetingScheduler: SystemDesignInput = {
     "Scheduling is mostly about free/busy: the system merges attendees' calendars (including external ones) into a cached view of busy intervals and finds common free slots. Booking claims the room with a conditional insert so two meetings can't take the same room and time, then sends invites. A scheduler fires reminders before each meeting.",
   category: "bookings",
   difficulty: 1,
-  sources: ["Designing a Meeting Scheduler System", "Meeting Scheduler System Design"],
   concepts: ["distributed-locks", "caching", "event-driven", "idempotency"],
 
   requirements: {

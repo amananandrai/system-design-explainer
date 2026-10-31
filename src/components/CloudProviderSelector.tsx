@@ -27,7 +27,7 @@ export default function CloudProviderSelector({
               onClick={() => onChange(provider.id)}
               className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 isActive
-                  ? "text-slate-950 shadow-sm"
+                  ? "text-[var(--on-provider)] shadow-sm"
                   : "text-slate-400 hover:text-slate-200"
               }`}
               style={

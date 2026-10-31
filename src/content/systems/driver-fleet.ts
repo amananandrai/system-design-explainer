@@ -8,7 +8,6 @@ export const driverFleet: SystemDesignInput = {
     "Customers book a verified driver by the hour or trip for their own car; fleet operators manage many drivers and vehicles from a dashboard. A dispatch service matches bookings to nearby available drivers, a real-time tier tracks shifts and trips, telematics stream vehicle health, and a payroll pipeline turns completed trips into driver payouts.",
   category: "mobility",
   difficulty: 2,
-  sources: ["High-Level Design: On-Demand Driver Booking and Fleet Management Platform"],
   concepts: ["geospatial-indexing", "websockets", "event-driven", "sharding"],
 
   requirements: {

@@ -8,7 +8,6 @@ export const astrotalk: SystemDesignInput = {
     "Users top up a prepaid wallet and start chat, voice or video sessions with online astrologers, billed per minute. Before a session starts the system reserves enough balance for a few minutes; a metering service then deducts each minute in the ledger and ends the session when funds run out. Chats run over WebSockets, calls over WebRTC or a telephony partner, and birth-chart calculations are computed on demand.",
   category: "bookings",
   difficulty: 2,
-  sources: ["HLD for AstroTalk", "AstroTalk-like Platform HLD"],
   concepts: ["websockets", "ledger", "idempotency", "webrtc", "event-driven"],
 
   requirements: {

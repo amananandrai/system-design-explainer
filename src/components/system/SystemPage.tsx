@@ -228,12 +228,6 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
             <BulletList items={system.extensions} />
           </Section>
         )}
-
-        {system.sources.length > 0 && (
-          <footer className="border-t border-slate-800 pt-6 text-xs text-slate-400">
-            Based on: {system.sources.join(" · ")}
-          </footer>
-        )}
       </div>
     </>
   );

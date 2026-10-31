@@ -11,7 +11,6 @@ export const netflix: SystemDesignInput = {
     "Netflix splits into two worlds: a control plane of stateless microservices in the cloud that handles sign-in, browsing, recommendations and playback decisions, and a purpose-built CDN (Open Connect) that sits inside ISPs and serves the actual video bytes. Studio content is encoded once into hundreds of streams and pushed to edge caches before anyone presses play.",
   category: "media-social",
   difficulty: 3,
-  sources: ["System Design: Netflix-like Video Streaming Platform (High-Level)"],
   concepts: ["adaptive-bitrate-streaming", "caching", "multi-region", "microservices", "event-driven", "sharding"],
 
   requirements: {

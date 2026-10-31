@@ -8,7 +8,6 @@ export const bnpl: SystemDesignInput = {
     "At a merchant's checkout the shopper chooses 'pay later'. The platform makes a credit decision in about a second — using its own risk model, the user's limit and, for new users, a credit-bureau check — then pays the merchant and records a loan in a double-entry ledger. A scheduler collects repayments by auto-debit, applies late fees and hands overdue accounts to collections.",
   category: "commerce-fintech",
   difficulty: 3,
-  sources: ["High-Level Design: BNPL & Credit Platform (LazyPay-like)"],
   concepts: ["ledger", "idempotency", "event-driven", "saga", "authentication"],
 
   requirements: {

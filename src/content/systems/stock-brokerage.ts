@@ -8,7 +8,6 @@ export const stockBrokerage: SystemDesignInput = {
     "Two very different flows share one platform. Market data streams from exchanges, is normalised, and is pushed to millions of screens over WebSockets. Orders go the other way: an order management system validates each one, a risk system checks margin and limits, and an exchange gateway sends it over FIX. Fills flow back to update positions and a funds ledger.",
   category: "commerce-fintech",
   difficulty: 3,
-  sources: ["High-Level System Design: Online Stock Brokerage Platform", "Designing an Online Stock Brokerage System"],
   concepts: ["websockets", "ledger", "idempotency", "event-driven", "back-pressure"],
 
   requirements: {

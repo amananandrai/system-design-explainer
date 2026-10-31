@@ -8,7 +8,6 @@ export const instagram: SystemDesignInput = {
     "Users upload photos straight to object storage, background workers create resized versions, and a fan-out service pushes each new post into followers' feeds. Celebrities are the exception — their posts are pulled in at read time so one upload doesn't trigger millions of writes. A CDN serves nearly every image.",
   category: "media-social",
   difficulty: 2,
-  sources: ["Instagram-like Photo Sharing Service System Design"],
   concepts: ["fan-out", "presigned-urls", "caching", "sharding", "id-generation", "event-driven", "read-replicas"],
 
   requirements: {
@@ -171,6 +170,7 @@ export const instagram: SystemDesignInput = {
       name: "Like → notification",
       steps: [
         { edge: "mobile-lb", text: "The user double-taps a photo." },
+        { edge: "lb-gateway", text: "The gateway authenticates the request." },
         { edge: "gateway-post", text: "The like is routed to the post service." },
         { edge: "post-activity", text: "The like is stored (one per user per post)." },
         { edge: "post-events", text: "A 'liked' event is published." },

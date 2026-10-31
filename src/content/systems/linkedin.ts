@@ -8,7 +8,6 @@ export const linkedin: SystemDesignInput = {
     "The professional graph is the core: connections live in a graph store that answers 'how am I connected to this person?' and powers 'People you may know'. Posts fan out to connections' feeds and are ranked by a model. Jobs are a separate search vertical matched to profiles, and messaging runs on a real-time tier.",
   category: "media-social",
   difficulty: 3,
-  sources: ["Professional Networking Platform Design (LinkedIn-like) in Go"],
   concepts: ["fan-out", "search-indexing", "sharding", "caching", "event-driven"],
 
   requirements: {

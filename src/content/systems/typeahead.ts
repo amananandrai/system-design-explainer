@@ -8,7 +8,6 @@ export const typeahead: SystemDesignInput = {
     "Suggestions are precomputed: an offline job turns query logs into tries that store the top completions at every prefix, so answering a keystroke is a single lookup. Tries are sharded by prefix, hot prefixes sit in memory and even at the CDN edge, and a stream job boosts queries that are trending right now.",
   category: "infrastructure",
   difficulty: 2,
-  sources: ["Typeahead Suggestion System Design"],
   concepts: ["prefix-trie", "caching", "sharding", "leader-election", "event-driven"],
 
   requirements: {

@@ -8,7 +8,6 @@ export const quora: SystemDesignInput = {
     "When someone asks a question, search first suggests similar existing questions to avoid duplicates. New questions and answers are stored in sharded relational tables, indexed for search, and fanned out to followers of the topic. Votes are counted in a fast cache and folded into a ranking model that orders answers and builds each reader's feed.",
   category: "media-social",
   difficulty: 2,
-  sources: ["Quora-like Q&A Platform System Architecture", "Q&A Platform Design in Go"],
   concepts: ["fan-out", "search-indexing", "caching", "sharding", "event-driven"],
 
   requirements: {

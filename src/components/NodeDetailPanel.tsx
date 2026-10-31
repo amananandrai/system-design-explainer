@@ -50,7 +50,7 @@ export default function NodeDetailPanel({
       <div className="flex items-start justify-between border-b border-slate-800 px-5 py-4">
         <div>
           <span
-            className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
+            className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#fff]"
             style={{ backgroundColor: color }}
           >
             {kind?.name ?? systemNode.kind}

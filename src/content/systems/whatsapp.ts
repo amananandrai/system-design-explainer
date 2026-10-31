@@ -8,7 +8,6 @@ export const whatsapp: SystemDesignInput = {
     "Each phone keeps one persistent WebSocket connection to a chat server. A session registry records which server each user is connected to, so a message can be stored, routed to the recipient's server over an internal bus and pushed down their socket in milliseconds. If the recipient is offline the message waits in the store and a push notification wakes their phone.",
   category: "media-social",
   difficulty: 2,
-  sources: ["High-Level Design: Facebook Messenger-Style Chat Service"],
   concepts: ["websockets", "consistent-hashing", "sharding", "presigned-urls", "idempotency", "multi-region"],
 
   requirements: {
@@ -138,6 +137,7 @@ export const whatsapp: SystemDesignInput = {
       name: "Message to an offline friend",
       steps: [
         { edge: "mobile-chat", text: "Alice sends a message while Bob's phone is asleep." },
+        { edge: "chat-lb-gw", text: "It reaches the chat server holding Alice's connection." },
         { edge: "gw-store", text: "It's stored durably, so nothing is lost." },
         { edge: "gw-sessions", text: "The registry shows Bob has no live connection." },
         { edge: "gw-bus", text: "The message is routed as an offline delivery." },

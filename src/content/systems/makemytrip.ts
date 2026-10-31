@@ -8,7 +8,6 @@ export const makemytrip: SystemDesignInput = {
     "The platform owns little inventory: flights and hotels live in airline systems, GDSs and hotel channel managers. Searches fan out to these suppliers in parallel, and results are cached briefly because supplier calls are slow and expensive. Booking a trip is a saga — hold with the supplier, take payment, then ticket — with compensating cancellations if any step fails.",
   category: "bookings",
   difficulty: 3,
-  sources: ["High-Level Design: Scalable Online Travel Booking Platform (MakeMyTrip-like)"],
   concepts: ["saga", "caching", "idempotency", "back-pressure", "search-indexing"],
 
   requirements: {

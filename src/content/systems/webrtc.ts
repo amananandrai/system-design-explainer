@@ -8,7 +8,6 @@ export const webrtc: SystemDesignInput = {
     "Servers never mix the video. A signalling service (over WebSockets) lets participants swap connection offers; most 1:1 calls then connect peer-to-peer, with TURN relays for the ones blocked by firewalls. Group calls send each participant's stream once to a Selective Forwarding Unit, which forwards it to everyone else, and can fork it to a recording pipeline.",
   category: "infrastructure",
   difficulty: 3,
-  sources: ["Scalable WebRTC Architecture with Golang on AWS: Implementation Guide"],
   concepts: ["webrtc", "websockets", "multi-region", "horizontal-scaling"],
 
   requirements: {

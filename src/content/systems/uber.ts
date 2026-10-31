@@ -8,7 +8,6 @@ export const uber: SystemDesignInput = {
     "Every online driver streams a GPS point every few seconds into a geo index sharded by map cell. A ride request finds nearby drivers in that index, ranks them by real road ETA, and offers the trip to one driver at a time. A trip service runs the ride's state machine, a stream processor turns supply and demand into surge prices, and payment happens asynchronously when the trip ends.",
   category: "mobility",
   difficulty: 3,
-  sources: ["Ride-Sharing Platform Architecture Design (Uber-Like)", "Uber Low Level Design"],
   concepts: ["geospatial-indexing", "websockets", "distributed-locks", "idempotency", "event-driven", "multi-region"],
 
   requirements: {

@@ -8,7 +8,6 @@ export const webCrawler: SystemDesignInput = {
     "A URL frontier hands URLs to fetcher workers, one queue per host so no site is hammered. Fetched pages are stored, parsed for links, and new links are checked against a Bloom filter of everything already seen before going back into the frontier. Content fingerprints catch the same page under different URLs, and a scheduler re-queues pages when they're due for a recrawl.",
   category: "infrastructure",
   difficulty: 3,
-  sources: ["Scalable Web Crawler System Design"],
   concepts: ["bloom-filter", "back-pressure", "consistent-hashing", "leader-election", "sharding"],
 
   requirements: {

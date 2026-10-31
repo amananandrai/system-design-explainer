@@ -8,7 +8,6 @@ export const dropbox: SystemDesignInput = {
     "The sync client splits files into 4 MB blocks and fingerprints each one. Only blocks the server hasn't seen are uploaded, straight to object storage, so edits to big files and duplicate files cost almost nothing. A metadata service records each file version as a list of block hashes and appends it to a change journal; other devices are told 'something changed' over a long-lived connection and pull just the new blocks.",
   category: "infrastructure",
   difficulty: 2,
-  sources: ["Dropbox High Level Design"],
   concepts: ["presigned-urls", "websockets", "sharding", "caching", "event-driven", "idempotency"],
 
   requirements: {

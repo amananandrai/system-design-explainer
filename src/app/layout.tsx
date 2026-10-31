@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteNav from "@/components/site/SiteNav";
 import { systemCategoryLabels, systems } from "@/content";
 import { buildSearchIndex } from "@/lib/search";
+import { themeInitScript } from "@/lib/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,11 +43,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      // The theme script sets data-theme before React hydrates.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full bg-slate-950">
         <a
           href="#main-content"
-          className="sr-only z-50 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-50 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-[#fff] focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>
