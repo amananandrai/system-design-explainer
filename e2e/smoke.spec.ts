@@ -86,3 +86,18 @@ test("details panel tabs switch content and follow the URL", async ({ page }) =>
   await page.goto("/systems/uber/?tab=reliability");
   await expect(page.getByText("Bottlenecks & fixes")).toBeVisible();
 });
+
+test("concept pages have interactive visuals and step-through diagrams", async ({ page }) => {
+  await page.goto("/concepts/consistent-hashing/");
+  await expect(page.getByRole("heading", { name: "See it in action" })).toBeVisible();
+  await expect(page.getByText(/0\s*of 16 keys moved/)).toBeVisible();
+  await page.getByRole("button", { name: "Add server D" }).click();
+  await expect(page.getByText(/[1-9]\d*\s*of 16 keys moved/)).toBeVisible();
+
+  await page.goto("/concepts/caching/");
+  await page.getByRole("tab", { name: "Cache miss" }).click();
+  await expect(page.getByText("1/4")).toBeVisible();
+  await page.getByRole("button", { name: "Next step" }).click();
+  await expect(page.getByText("2/4")).toBeVisible();
+  await expect(page.locator(".react-flow__node-architecture")).toHaveCount(4);
+});

@@ -11,13 +11,14 @@ import {
 } from "@/types/schema";
 import { componentCatalogue } from "./components";
 import { conceptInputs } from "./concepts";
+import { conceptDiagrams } from "./conceptDiagrams";
 import { systemInputs } from "./systems";
 
 /** Parsed content with defaults applied. Throws at build time if a file is malformed. */
 export const components: ComponentKind[] = componentCatalogue.map((c) => componentKindSchema.parse(c));
 export const systems: SystemDesign[] = systemInputs.map((s) => systemSchema.parse(s));
 export const concepts: Concept[] = conceptInputs
-  .map((c) => conceptSchema.parse(c))
+  .map((c) => conceptSchema.parse({ ...c, ...conceptDiagrams[c.slug] }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const componentsById = new Map(components.map((c) => [c.id, c]));
@@ -40,6 +41,30 @@ export function usagesOfComponent(kindId: string): { system: SystemDesign; nodes
   return systems
     .map((system) => ({ system, nodes: system.nodes.filter((n) => n.kind === kindId) }))
     .filter((u) => u.nodes.length > 0);
+}
+
+/** Wraps a concept's diagram as a minimal SystemDesign so the shared diagram engine can render it. */
+export function conceptDiagramSystem(concept: Concept): SystemDesign | null {
+  if (!concept.diagram) return null;
+  return {
+    slug: `concept-${concept.slug}`,
+    name: concept.name,
+    tagline: concept.summary,
+    description: concept.summary,
+    category: "infrastructure",
+    difficulty: 1,
+    concepts: [],
+    requirements: { functional: [], nonFunctional: [] },
+    apis: [],
+    estimates: [],
+    dataModel: [],
+    nodes: concept.diagram.nodes,
+    edges: concept.diagram.edges,
+    flows: concept.diagram.flows,
+    bottlenecks: [],
+    scaling: [],
+    extensions: [],
+  };
 }
 
 export function systemsUsingConcept(slug: string): SystemDesign[] {

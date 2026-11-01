@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { componentsUsingConcept, concepts, getConcept, systemsUsingConcept } from "@/content";
+import ConceptFlow from "@/components/concepts/ConceptFlow";
+import ConceptVisual from "@/components/concepts/visuals";
+import {
+  componentsUsingConcept,
+  conceptDiagramSystem,
+  concepts,
+  getConcept,
+  systemsUsingConcept,
+} from "@/content";
 import { KindIcon } from "@/lib/icons";
 import { getCategoryColor } from "@/lib/resolve";
 
@@ -25,13 +33,14 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
 
   const usedBySystems = systemsUsingConcept(concept.slug);
   const usedByComponents = componentsUsingConcept(concept.slug);
+  const diagram = conceptDiagramSystem(concept);
 
   return (
-    <div className="max-w-4xl px-4 py-6 md:px-8 md:py-10">
+    <div className="mx-auto max-w-4xl px-4 py-6 md:px-8 md:py-10">
       <Link href="/concepts" className="text-xs text-muted hover:text-fg">
         ← All concepts
       </Link>
-      <h1 className="mt-4 text-3xl font-bold text-fg">{concept.name}</h1>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-fg md:text-4xl">{concept.name}</h1>
       <p className="mt-2 text-lg text-fg-soft">{concept.summary}</p>
 
       <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-fg-soft">
@@ -40,7 +49,22 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
         ))}
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
+      {(concept.visual || diagram) && (
+        <section aria-labelledby="in-action" className="mt-10 space-y-5">
+          <div>
+            <h2 id="in-action" className="text-xl font-semibold text-fg">
+              See it in action
+            </h2>
+            <p className="mt-1 text-sm text-muted">
+              {concept.visual ? "Play with the idea, then follow it through a real architecture." : "Step through the scenarios on the diagram."}
+            </p>
+          </div>
+          {concept.visual && <ConceptVisual visual={concept.visual} />}
+          {diagram && <ConceptFlow system={diagram} />}
+        </section>
+      )}
+
+      <div className="mt-10 grid gap-4 md:grid-cols-2">
         {concept.howItWorks.length > 0 && <ListCard title="How it works" items={concept.howItWorks} />}
         {concept.tradeoffs.length > 0 && <ListCard title="Trade-offs" items={concept.tradeoffs} />}
       </div>

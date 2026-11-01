@@ -1,8 +1,12 @@
 // Validates every content file: schema (on import) plus cross-references.
 import { components, concepts, systems } from "../src/content";
 import { validateContent } from "../src/lib/validate";
+import { conceptDiagrams } from "../src/content/conceptDiagrams";
 
 const problems = validateContent(components, systems, concepts);
+for (const slug of Object.keys(conceptDiagrams)) {
+  if (!concepts.some((c) => c.slug === slug)) problems.push(`conceptDiagrams has an entry for unknown concept "${slug}"`);
+}
 
 if (problems.length > 0) {
   console.error(`Content validation failed (${problems.length}):`);

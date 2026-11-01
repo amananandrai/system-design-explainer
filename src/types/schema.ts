@@ -93,6 +93,14 @@ export const edgeSchema = z.object({
 });
 export type SystemEdge = z.infer<typeof edgeSchema>;
 
+/** A named, step-by-step path through a diagram; each step highlights one edge. */
+export const flowSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  steps: z.array(z.object({ edge: z.string(), text: z.string() })).min(1),
+});
+export type Flow = z.infer<typeof flowSchema>;
+
 export const systemSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string().min(1),
@@ -130,15 +138,7 @@ export const systemSchema = z.object({
     .default([]),
   nodes: z.array(nodeSchema).min(1),
   edges: z.array(edgeSchema),
-  flows: z
-    .array(
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        steps: z.array(z.object({ edge: z.string(), text: z.string() })).min(1),
-      }),
-    )
-    .default([]),
+  flows: z.array(flowSchema).default([]),
   bottlenecks: z
     .array(z.object({ problem: z.string(), fix: z.string(), nodes: z.array(z.string()) }))
     .default([]),
@@ -151,6 +151,17 @@ export type SystemDesignInput = z.input<typeof systemSchema>;
 
 /* Concepts ----------------------------------------------------------------- */
 
+export const conceptVisuals = [
+  "hash-ring",
+  "bloom-filter",
+  "token-bucket",
+  "prefix-trie",
+  "snowflake-id",
+  "geo-grid",
+  "ledger-table",
+] as const;
+export type ConceptVisual = (typeof conceptVisuals)[number];
+
 export const conceptSchema = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
   name: z.string().min(1),
@@ -160,6 +171,16 @@ export const conceptSchema = z.object({
   howItWorks: z.array(z.string()).default([]),
   tradeoffs: z.array(z.string()).default([]),
   related: z.array(z.string()).default([]),
+  /** A small architecture showing the concept in action, with step-through flows. */
+  diagram: z
+    .object({
+      nodes: z.array(nodeSchema).min(2),
+      edges: z.array(edgeSchema).min(1),
+      flows: z.array(flowSchema).default([]),
+    })
+    .optional(),
+  /** A bespoke interactive illustration shown above the diagram. */
+  visual: z.enum(conceptVisuals).optional(),
 });
 export type Concept = z.infer<typeof conceptSchema>;
 export type ConceptInput = z.input<typeof conceptSchema>;

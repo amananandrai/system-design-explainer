@@ -1,4 +1,4 @@
-import type { ComponentKind, Concept, SystemDesign } from "@/types/schema";
+import type { ComponentKind, Concept, Flow, SystemDesign, SystemEdge, SystemNode } from "@/types/schema";
 
 /** Cross-reference checks the schemas can't express. Returns human-readable problems. */
 export function validateContent(
@@ -40,26 +40,7 @@ export function validateContent(
       if (!conceptSlugs.has(r)) problems.push(`${at} links to unknown concept "${r}"`);
     }
 
-    const nodeIds = new Set<string>();
-    for (const n of s.nodes) {
-      if (nodeIds.has(n.id)) problems.push(`${at}: node "${n.id}" is defined twice`);
-      nodeIds.add(n.id);
-      if (!kindIds.has(n.kind)) problems.push(`${at}: node "${n.id}" uses unknown kind "${n.kind}"`);
-    }
-
-    const edgeIds = new Set<string>();
-    for (const e of s.edges) {
-      if (edgeIds.has(e.id)) problems.push(`${at}: edge "${e.id}" is defined twice`);
-      edgeIds.add(e.id);
-      if (!nodeIds.has(e.from)) problems.push(`${at}: edge "${e.id}" starts at unknown node "${e.from}"`);
-      if (!nodeIds.has(e.to)) problems.push(`${at}: edge "${e.id}" ends at unknown node "${e.to}"`);
-    }
-
-    for (const f of s.flows) {
-      for (const step of f.steps) {
-        if (!edgeIds.has(step.edge)) problems.push(`${at}: flow "${f.id}" references unknown edge "${step.edge}"`);
-      }
-    }
+    const nodeIds = checkGraph(at, s.nodes, s.edges, s.flows, kindIds, problems);
 
     for (const b of s.bottlenecks) {
       for (const id of b.nodes) {
@@ -68,5 +49,41 @@ export function validateContent(
     }
   }
 
+  for (const c of concepts) {
+    if (c.diagram) checkGraph(`concept "${c.slug}" diagram`, c.diagram.nodes, c.diagram.edges, c.diagram.flows, kindIds, problems);
+  }
+
   return problems;
+}
+
+/** Shared structural checks for any diagram: unique ids, known kinds, edges and flow steps that resolve. */
+function checkGraph(
+  at: string,
+  nodes: SystemNode[],
+  edges: SystemEdge[],
+  flows: Flow[],
+  kindIds: Set<string>,
+  problems: string[],
+): Set<string> {
+  const nodeIds = new Set<string>();
+  for (const n of nodes) {
+    if (nodeIds.has(n.id)) problems.push(`${at}: node "${n.id}" is defined twice`);
+    nodeIds.add(n.id);
+    if (!kindIds.has(n.kind)) problems.push(`${at}: node "${n.id}" uses unknown kind "${n.kind}"`);
+  }
+
+  const edgeIds = new Set<string>();
+  for (const e of edges) {
+    if (edgeIds.has(e.id)) problems.push(`${at}: edge "${e.id}" is defined twice`);
+    edgeIds.add(e.id);
+    if (!nodeIds.has(e.from)) problems.push(`${at}: edge "${e.id}" starts at unknown node "${e.from}"`);
+    if (!nodeIds.has(e.to)) problems.push(`${at}: edge "${e.id}" ends at unknown node "${e.to}"`);
+  }
+
+  for (const f of flows) {
+    for (const step of f.steps) {
+      if (!edgeIds.has(step.edge)) problems.push(`${at}: flow "${f.id}" references unknown edge "${step.edge}"`);
+    }
+  }
+  return nodeIds;
 }
