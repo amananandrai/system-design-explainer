@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function ConceptsPage() {
   return (
     <div className="px-4 py-6 md:px-8 md:py-10">
-      <h1 className="text-3xl font-bold text-white">Concepts</h1>
-      <p className="mt-2 max-w-2xl text-slate-400">
+      <h1 className="text-3xl font-bold text-fg">Concepts</h1>
+      <p className="mt-2 max-w-2xl text-muted">
         The same handful of ideas appear again and again across the designs. Each page explains one and
         links to the systems that rely on it.
       </p>
@@ -23,11 +23,11 @@ export default function ConceptsPage() {
             <li key={concept.slug}>
               <Link
                 href={`/concepts/${concept.slug}`}
-                className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900/40 p-5 transition-colors hover:border-slate-600 hover:bg-slate-900"
+                className="flex h-full flex-col rounded-xl border border-line bg-surface/40 p-5 transition-colors hover:border-line-strong hover:bg-surface"
               >
-                <p className="font-semibold text-white">{concept.name}</p>
-                <p className="mt-1 flex-1 text-sm text-slate-400">{concept.summary}</p>
-                <p className="mt-3 text-xs text-slate-400">
+                <p className="font-semibold text-fg">{concept.name}</p>
+                <p className="mt-1 flex-1 text-sm text-muted">{concept.summary}</p>
+                <p className="mt-3 text-xs text-muted">
                   {usedIn.length > 0 ? `Seen in ${usedIn.map((s) => s.name).join(", ")}` : "Reference"}
                 </p>
               </Link>

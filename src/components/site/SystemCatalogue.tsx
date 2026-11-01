@@ -52,14 +52,14 @@ export default function SystemCatalogue({
 
   return (
     <>
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3">
-          <Search size={14} className="text-slate-400" />
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <label className="flex items-center gap-2 rounded-lg border border-line-strong bg-surface px-3">
+          <Search size={14} className="text-muted" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Filter systems…"
-            className="h-9 w-44 bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+            className="h-9 w-44 bg-transparent text-sm text-fg placeholder:text-muted focus:outline-none"
           />
         </label>
 
@@ -84,7 +84,7 @@ export default function SystemCatalogue({
           value={concept}
           onChange={(e) => setConcept(e.target.value)}
           aria-label="Filter by concept"
-          className="h-9 rounded-lg border border-slate-700 bg-slate-900 px-3 text-sm text-slate-200 focus:outline-none"
+          className="h-9 rounded-lg border border-line-strong bg-surface px-3 text-sm text-fg-soft focus:outline-none"
         >
           <option value="">Any concept</option>
           {conceptOptions.map((o) => (
@@ -103,14 +103,14 @@ export default function SystemCatalogue({
               setDifficulty(null);
               setConcept("");
             }}
-            className="text-xs text-slate-400 underline-offset-2 hover:text-white hover:underline"
+            className="text-xs text-muted underline-offset-2 hover:text-fg hover:underline"
           >
             Clear filters
           </button>
         )}
       </div>
 
-      <p className="mt-4 text-xs text-slate-400">
+      <p className="mt-4 text-xs text-muted">
         {visible.length} of {cards.length} systems
       </p>
 
@@ -119,13 +119,13 @@ export default function SystemCatalogue({
           <li key={card.slug}>
             <Link
               href={`/systems/${card.slug}`}
-              className="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900/40 p-5 transition-colors hover:border-slate-600 hover:bg-slate-900"
+              className="flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-soft"
             >
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-muted">
                 {card.categoryLabel} · {card.difficultyLabel}
               </p>
-              <p className="mt-1 text-lg font-semibold text-white">{card.name}</p>
-              <p className="mt-1 flex-1 text-sm text-slate-400">{card.tagline}</p>
+              <p className="mt-1 text-lg font-semibold text-fg">{card.name}</p>
+              <p className="mt-1 flex-1 text-sm text-muted">{card.tagline}</p>
               {card.concepts.length > 0 && (
                 <div className="mt-3 flex flex-wrap gap-1">
                   {card.concepts.slice(0, 4).map((c) => (
@@ -134,11 +134,11 @@ export default function SystemCatalogue({
                     </span>
                   ))}
                   {card.concepts.length > 4 && (
-                    <span className="px-1 text-[11px] text-slate-400">+{card.concepts.length - 4}</span>
+                    <span className="px-1 text-[11px] text-muted">+{card.concepts.length - 4}</span>
                   )}
                 </div>
               )}
-              <p className="mt-3 text-xs text-slate-400">
+              <p className="mt-3 text-xs text-muted">
                 {card.componentCount} components · {card.flowCount} walkthroughs
                 {!card.complete && " · diagram only"}
               </p>
@@ -148,7 +148,7 @@ export default function SystemCatalogue({
       </ul>
 
       {visible.length === 0 && (
-        <p className="mt-10 text-center text-sm text-slate-400">No systems match these filters.</p>
+        <p className="mt-10 text-center text-sm text-muted">No systems match these filters.</p>
       )}
     </>
   );
@@ -166,14 +166,14 @@ function ChipGroup({
   allLabel: string;
 }) {
   return (
-    <div className="flex flex-wrap rounded-xl border border-slate-700 bg-slate-900 p-1">
+    <div className="flex flex-wrap rounded-xl border border-line-strong bg-surface p-1">
       {[{ value: null, label: allLabel }, ...options].map((o) => (
         <button
           key={o.label}
           type="button"
           onClick={() => onChange(o.value)}
           className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
-            value === o.value ? "bg-slate-700 text-white" : "text-slate-400 hover:text-slate-200"
+            value === o.value ? "bg-line-strong text-fg" : "text-muted hover:text-fg-soft"
           }`}
         >
           {o.label}

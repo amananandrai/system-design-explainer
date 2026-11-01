@@ -29,10 +29,14 @@ test("provider switch relabels the diagram and node details open", async ({ page
 
 test("walkthrough steps through a flow", async ({ page }) => {
   await page.goto("/systems/youtube/");
-  await page.getByRole("button", { name: "Upload a video" }).click();
-  await expect(page.getByText(/Upload a video · 1\/9/)).toBeVisible();
+  await page.getByRole("tab", { name: "Walkthrough" }).click();
+  await expect(page.getByText(/Upload a video · \d\/9/)).toBeVisible();
+  await expect(page).toHaveURL(/flow=upload/);
 
+  // Starting a walkthrough auto-plays, so pause first and compare relative steps.
   await page.getByRole("button", { name: "Pause" }).click();
+  await page.getByRole("button", { name: "Restart" }).click();
+  await expect(page.getByText(/Upload a video · 1\/9/)).toBeVisible();
   await page.getByRole("button", { name: "Next step" }).click();
   await expect(page.getByText(/Upload a video · 2\/9/)).toBeVisible();
   await expect(page).toHaveURL(/flow=upload&step=1/);
@@ -64,11 +68,21 @@ test("theme toggle switches and remembers light mode", async ({ page }) => {
   const html = page.locator("html");
   await page.getByRole("radio", { name: "Light" }).click();
   await expect(html).toHaveAttribute("data-theme", "light");
-  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(250, 250, 249)");
 
   await page.reload();
   await expect(html).toHaveAttribute("data-theme", "light");
 
   await page.getByRole("radio", { name: "Dark" }).click();
   await expect(html).toHaveAttribute("data-theme", "dark");
+});
+
+test("details panel tabs switch content and follow the URL", async ({ page }) => {
+  await page.goto("/systems/uber/");
+  await page.getByRole("tab", { name: "Data" }).click();
+  await expect(page).toHaveURL(/tab=data/);
+  await expect(page.getByRole("heading", { name: "Ride", exact: true })).toBeVisible();
+
+  await page.goto("/systems/uber/?tab=reliability");
+  await expect(page.getByText("Bottlenecks & fixes")).toBeVisible();
 });

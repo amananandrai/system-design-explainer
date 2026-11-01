@@ -33,6 +33,8 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
 
   // Phones get a tiered list by default; a pan-and-zoom canvas is awkward on small screens.
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  // Wide screens: the diagram fills the workspace column and details open in the side panel.
+  const isWide = useMediaQuery("(min-width: 1024px)");
   const [preferDiagram, setPreferDiagram] = useState(false);
   const showDiagram = isDesktop || preferDiagram;
 
@@ -88,42 +90,68 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
   );
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 px-4 py-3">
-        <CloudProviderSelector
-          selected={provider}
-          onChange={(next) => updateSearchParams({ cloud: next === "generic" ? null : next })}
-        />
+    <div className={isWide ? "flex h-full flex-col" : "mx-4 my-4 overflow-hidden rounded-2xl border border-line bg-bg md:mx-6"}>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-line px-4 py-2.5 md:px-6">
         {system.flows.length > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium uppercase tracking-wider text-slate-400">Walkthrough</span>
-            <div className="flex rounded-xl border border-slate-700 bg-slate-900 p-1">
-              {system.flows.map((flow) => (
-                <button
-                  key={flow.id}
-                  type="button"
-                  onClick={() => selectFlow(activeFlow?.id === flow.id ? null : flow.id)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-                    activeFlow?.id === flow.id
-                      ? "bg-amber-400 text-[#020617]"
-                      : "text-slate-400 hover:text-slate-200"
-                  }`}
-                >
-                  {flow.name}
-                </button>
-              ))}
-            </div>
+          <div role="tablist" aria-label="Diagram mode" className="flex rounded-lg bg-surface-2 p-0.5">
+            {[
+              { id: "architecture", label: "Architecture", active: !activeFlow, onClick: () => selectFlow(null) },
+              {
+                id: "walkthrough",
+                label: "Walkthrough",
+                active: Boolean(activeFlow),
+                onClick: () => !activeFlow && selectFlow(system.flows[0].id),
+              },
+            ].map((mode) => (
+              <button
+                key={mode.id}
+                type="button"
+                role="tab"
+                aria-selected={mode.active}
+                onClick={mode.onClick}
+                className={`rounded-md px-3 py-1 text-xs font-semibold transition-colors ${
+                  mode.active ? "shadow-soft bg-surface text-fg" : "text-muted hover:text-fg"
+                }`}
+              >
+                {mode.label}
+              </button>
+            ))}
           </div>
         )}
+        {activeFlow && system.flows.length > 1 && (
+          <div className="flex flex-wrap gap-1">
+            {system.flows.map((flow) => (
+              <button
+                key={flow.id}
+                type="button"
+                onClick={() => selectFlow(flow.id)}
+                aria-pressed={activeFlow.id === flow.id}
+                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
+                  activeFlow.id === flow.id
+                    ? "bg-amber-400 text-[#1c1917]"
+                    : "border border-line text-muted hover:text-fg"
+                }`}
+              >
+                {flow.name}
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="ml-auto">
+          <CloudProviderSelector
+            selected={provider}
+            onChange={(next) => updateSearchParams({ cloud: next === "generic" ? null : next })}
+          />
+        </div>
       </div>
 
       {!isDesktop && (
-        <div className="flex items-center justify-between border-b border-slate-800 px-4 py-2">
-          <span className="text-xs text-slate-400">Tap a component for details</span>
+        <div className="flex items-center justify-between border-b border-line px-4 py-2">
+          <span className="text-xs text-muted">Tap a component for details</span>
           <button
             type="button"
             onClick={() => setPreferDiagram(!preferDiagram)}
-            className="rounded-lg border border-slate-700 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-slate-500"
+            className="rounded-lg border border-line-strong px-2.5 py-1 text-xs font-medium text-fg-soft hover:border-line-strong"
           >
             {preferDiagram ? "Show as list" : "Show diagram"}
           </button>
@@ -131,7 +159,11 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
       )}
 
       {/* The diagram gets the full width; details slide over it when a node is selected. */}
-      <div className={`relative p-3 ${showDiagram ? "h-[min(78vh,820px)] min-h-[420px] md:min-h-[520px]" : ""}`}>
+      <div
+        className={`relative p-3 ${
+          isWide ? "min-h-0 flex-1" : showDiagram ? "h-[min(78vh,820px)] min-h-[420px] md:min-h-[520px]" : ""
+        }`}
+      >
         {showDiagram ? (
           <ArchitectureDiagram
             system={system}
@@ -149,12 +181,12 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
             onNodeSelect={handleNodeSelect}
           />
         )}
-        {selectedNodeId && (
+        {selectedNodeId && !isWide && (
           <div
             className={
               isDesktop
                 ? "absolute inset-y-0 right-0 z-10 shadow-2xl shadow-black/60"
-                : "fixed inset-0 z-40 bg-slate-950"
+                : "fixed inset-0 z-40 bg-bg"
             }
           >
             <NodeDetailPanel
@@ -193,7 +225,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
               <RotateCcw size={14} />
             </IconButton>
           </div>
-          <p className="min-w-0 flex-1 text-sm text-slate-200" aria-live="polite">
+          <p className="min-w-0 flex-1 text-sm text-fg-soft" aria-live="polite">
             <span className="mr-2 font-semibold text-amber-300">
               {activeFlow.name} · {step + 1}/{activeFlow.steps.length}
             </span>
@@ -226,7 +258,7 @@ function IconButton({
       title={label}
       disabled={disabled}
       onClick={onClick}
-      className="rounded-lg p-1.5 text-slate-300 transition-colors hover:bg-slate-800 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent"
+      className="rounded-lg p-1.5 text-fg-soft transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-30 disabled:hover:bg-transparent"
     >
       {children}
     </button>

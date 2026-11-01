@@ -112,8 +112,8 @@ export function systemToFlow(
         strokeDasharray: isActiveStep ? undefined : style.dash,
         opacity: dimmed ? 0.15 : 1,
       },
-      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--color-slate-300)", fontSize: 11 },
-      labelBgStyle: { fill: "var(--color-slate-900)" },
+      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--fg-soft)", fontSize: 11 },
+      labelBgStyle: { fill: "var(--surface)" },
       labelBgPadding: [4, 2] as [number, number],
       zIndex: isActiveStep ? 2 : emphasised ? 1 : 0,
     };

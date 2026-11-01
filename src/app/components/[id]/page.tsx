@@ -43,7 +43,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
 
   return (
     <div className="max-w-5xl px-4 py-6 md:px-8 md:py-10">
-      <Link href="/components" className="text-xs text-slate-400 hover:text-white">
+      <Link href="/components" className="text-xs text-muted hover:text-fg">
         ← All components
       </Link>
 
@@ -58,8 +58,8 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
           <p className="text-xs font-semibold uppercase tracking-widest" style={{ color }}>
             {componentCategoryLabels[kind.category]}
           </p>
-          <h1 className="mt-1 text-3xl font-bold text-white">{kind.name}</h1>
-          <p className="mt-2 max-w-2xl text-slate-300">{kind.what}</p>
+          <h1 className="mt-1 text-3xl font-bold text-fg">{kind.name}</h1>
+          <p className="mt-2 max-w-2xl text-fg-soft">{kind.what}</p>
         </div>
       </div>
 
@@ -72,14 +72,14 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
 
       {(Object.keys(kind.providers).length > 0 || kind.thirdParty.length > 0) && (
         <section className="mt-10">
-          <h2 className="text-xl font-bold text-white">Options by provider</h2>
-          <p className="mt-1 text-sm text-slate-400">The first option is what diagrams show for that provider.</p>
+          <h2 className="text-xl font-bold text-fg">Options by provider</h2>
+          <p className="mt-1 text-sm text-muted">The first option is what diagrams show for that provider.</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {serviceProviders.map((p) => {
               const options = kind.providers[p.id];
               if (!options) return null;
               return (
-                <div key={p.id} className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+                <div key={p.id} className="rounded-xl border border-line bg-surface/40 p-4">
                   <h3 className="text-sm font-semibold" style={{ color: p.accent }}>
                     {p.name}
                   </h3>
@@ -88,8 +88,8 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
               );
             })}
             {kind.thirdParty.length > 0 && (
-              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
-                <h3 className="text-sm font-semibold text-slate-300">Third-party (works with any cloud)</h3>
+              <div className="rounded-xl border border-line bg-surface/40 p-4">
+                <h3 className="text-sm font-semibold text-fg-soft">Third-party (works with any cloud)</h3>
                 <OptionList options={kind.thirdParty} />
               </div>
             )}
@@ -99,7 +99,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
 
       {kind.concepts.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-xl font-bold text-white">Related concepts</h2>
+          <h2 className="text-xl font-bold text-fg">Related concepts</h2>
           <div className="mt-3 flex flex-wrap gap-2">
             {kind.concepts.map((slug) => (
               <Link
@@ -115,14 +115,14 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
       )}
 
       <section className="mt-10">
-        <h2 className="text-xl font-bold text-white">Used in</h2>
+        <h2 className="text-xl font-bold text-fg">Used in</h2>
         {usages.length === 0 ? (
-          <p className="mt-2 text-sm text-slate-400">Not used in any system yet.</p>
+          <p className="mt-2 text-sm text-muted">Not used in any system yet.</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {usages.map(({ system, nodes }) => (
-              <li key={system.slug} className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
-                <Link href={`/systems/${system.slug}`} className="font-semibold text-white hover:underline">
+              <li key={system.slug} className="rounded-xl border border-line bg-surface/40 p-4">
+                <Link href={`/systems/${system.slug}`} className="font-semibold text-fg hover:underline">
                   {system.name}
                 </Link>
                 <ul className="mt-2 space-y-1.5">
@@ -134,7 +134,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
                       >
                         {node.label}
                       </Link>
-                      <span className="text-slate-400"> — {node.role}</span>
+                      <span className="text-muted"> — {node.role}</span>
                     </li>
                   ))}
                 </ul>
@@ -152,13 +152,13 @@ function OptionList({ options }: { options: ServiceOption[] }) {
     <ul className="mt-2 space-y-1.5">
       {options.map((o) => (
         <li key={o.name} className="flex items-baseline justify-between gap-3 text-sm">
-          <span className="text-slate-200">
+          <span className="text-fg-soft">
             {o.name}
-            {o.note && <span className="text-xs text-slate-400"> — {o.note}</span>}
+            {o.note && <span className="text-xs text-muted"> — {o.note}</span>}
           </span>
           <span
             className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
-              o.managed ? "bg-sky-500/10 text-sky-300" : "bg-slate-700/50 text-slate-300"
+              o.managed ? "bg-sky-500/10 text-sky-300" : "bg-line-strong/50 text-fg-soft"
             }`}
           >
             {o.managed ? "Managed" : "Self-hosted"}
@@ -171,9 +171,9 @@ function OptionList({ options }: { options: ServiceOption[] }) {
 
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-5">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{title}</h3>
-      <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-slate-300 marker:text-slate-600">
+    <div className="rounded-xl border border-line bg-surface/40 p-5">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">{title}</h3>
+      <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-fg-soft marker:text-faint">
         {items.map((item) => (
           <li key={item}>{item}</li>
         ))}

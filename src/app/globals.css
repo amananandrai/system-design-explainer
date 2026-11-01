@@ -1,43 +1,67 @@
 @import "tailwindcss";
 @import "@xyflow/react/dist/style.css";
 
+/*
+ * Semantic design tokens. Components use these names (bg-surface, text-muted,
+ * border-line …) and never raw greys, so each theme only redefines the values.
+ */
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-soft: var(--fg-soft);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 }
 
-/*
- * Theming. The UI is written with Tailwind's slate scale for a dark look; the
- * light theme inverts that scale (and darkens accent tints for contrast) by
- * redefining the colour variables Tailwind reads. Colours that must not flip
- * (text on solid buttons, diagram strokes) are written as fixed values.
- */
 :root {
   color-scheme: dark;
-  --provider-generic: #94a3b8;
+  --bg: #0b0d12;
+  --surface: #12151c;
+  --surface-2: #1a1e28;
+  --line: #232836;
+  --line-strong: #343b4d;
+  --fg: #eceef2;
+  --fg-soft: #c6cad3;
+  --muted: #9ba1ae;
+  --faint: #5f6675;
+  --accent: #818cf8;
+  --accent-soft: rgb(129 140 248 / 0.14);
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px rgb(0 0 0 / 0.35);
+
+  --provider-generic: #9ba1ae;
   --provider-aws: #ff9900;
   --provider-gcp: #669df6;
   --provider-azure: #50a0e8;
   --provider-oss: #4ade80;
   /* Text on a provider-coloured pill. */
-  --on-provider: #020617;
+  --on-provider: #0b0d12;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f5f5f4;
+  --line: #e7e5e4;
+  --line-strong: #d6d3d1;
+  --fg: #1c1917;
+  --fg-soft: #44403c;
+  --muted: #57534e;
+  --faint: #a8a29e;
+  --accent: #4f46e5;
+  --accent-soft: rgb(79 70 229 / 0.08);
+  --shadow: 0 1px 2px rgb(28 25 23 / 0.06), 0 8px 24px rgb(28 25 23 / 0.06);
 
-  --color-white: #0f172a;
-  --color-slate-950: #ffffff;
-  --color-slate-900: #f8fafc;
-  --color-slate-800: #e2e8f0;
-  --color-slate-700: #cbd5e1;
-  --color-slate-600: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-400: #475569;
-  --color-slate-300: #334155;
-  --color-slate-200: #1e293b;
-  --color-slate-100: #0f172a;
-
+  /* Accent tints used for text get darker for contrast on white. */
   --color-indigo-200: #3730a3;
   --color-indigo-300: #4338ca;
   --color-emerald-300: #047857;
@@ -48,7 +72,7 @@
   --color-violet-300: #6d28d9;
   --color-cyan-300: #0e7490;
 
-  --provider-generic: #475569;
+  --provider-generic: #57534e;
   --provider-aws: #c2410c;
   --provider-gcp: #1d4ed8;
   --provider-azure: #0369a1;
@@ -57,17 +81,23 @@
 }
 
 body {
-  background: var(--color-slate-950);
-  color: var(--color-slate-100);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 16px;
   margin: 0;
 }
 
 /* Visible keyboard focus everywhere, without rings on mouse clicks. */
 :focus-visible {
-  outline: 2px solid #818cf8;
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 6px;
+}
+
+/* A real utility (not a plain class) so variants like hover:shadow-soft work. */
+@utility shadow-soft {
+  box-shadow: var(--shadow);
 }
 
 @media (prefers-reduced-motion: reduce) {

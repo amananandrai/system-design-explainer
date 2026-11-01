@@ -17,7 +17,11 @@ export function updateSearchParams(
   const url = `${window.location.pathname}${query ? `?${query}` : ""}${hash}`;
   if (options.mode === "push") window.history.pushState(null, "", url);
   else window.history.replaceState(null, "", url);
+  window.dispatchEvent(new Event(URL_CHANGE_EVENT));
 }
+
+/** Fired after every updateSearchParams so non-Suspense components can follow the URL. */
+export const URL_CHANGE_EVENT = "sde:url-change";
 
 export function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });

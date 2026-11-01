@@ -12,7 +12,7 @@ export function NodeChip({ nodeId, label }: { nodeId: string; label: string }) {
         updateSearchParams({ node: nodeId, flow: null, step: null }, { hash: "architecture" });
         scrollToSection("architecture");
       }}
-      className="rounded-md border border-slate-700 bg-slate-900 px-2 py-0.5 text-xs text-slate-300 transition-colors hover:border-slate-500 hover:text-white"
+      className="rounded-md border border-line-strong bg-surface px-2 py-0.5 text-xs text-fg-soft transition-colors hover:border-line-strong hover:text-fg"
     >
       {label}
     </button>

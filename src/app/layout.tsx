@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import SiteNav from "@/components/site/SiteNav";
+import SiteHeader from "@/components/site/SiteHeader";
 import { systemCategoryLabels, systems } from "@/content";
 import { buildSearchIndex } from "@/lib/search";
 import { themeInitScript } from "@/lib/theme";
@@ -49,17 +49,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full bg-slate-950">
+      <body className="min-h-full bg-bg">
         <a
           href="#main-content"
           className="sr-only z-50 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-[#fff] focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>
-        <div className="flex h-dvh flex-col overflow-hidden bg-slate-950 text-slate-100 md:flex-row">
-          <SiteNav systemGroups={systemGroups} searchIndex={buildSearchIndex()} />
+        <div className="flex h-dvh flex-col overflow-hidden bg-bg text-fg">
+          <SiteHeader systemGroups={systemGroups} searchIndex={buildSearchIndex()} />
           {/* The single scroll container; section anchors and sticky headers live inside it. */}
-          <main id="main-content" tabIndex={-1} className="min-h-0 min-w-0 flex-1 overflow-y-auto scroll-smooth focus:outline-none">
+          <main id="main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto scroll-smooth focus:outline-none">
             {children}
           </main>
         </div>

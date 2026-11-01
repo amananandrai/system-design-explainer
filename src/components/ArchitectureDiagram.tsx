@@ -27,6 +27,8 @@ interface ArchitectureDiagramProps {
   selectedNodeId: string | null;
   flowHighlight?: FlowHighlight | null;
   onNodeSelect: (nodeId: string | null) => void;
+  /** View-only preview (landing page): no pan/zoom/selection, no controls or legend. */
+  staticView?: boolean;
 }
 
 export default function ArchitectureDiagram({
@@ -35,8 +37,12 @@ export default function ArchitectureDiagram({
   selectedNodeId,
   flowHighlight = null,
   onNodeSelect,
+  staticView = false,
 }: ArchitectureDiagramProps) {
-  const [computed, setComputed] = useState<{ slug: string; layout: SystemLayout } | null>(null);
+  const [computed, setComputed] = useState<{
+    slug: string;
+    layout: SystemLayout;
+  } | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -57,15 +63,13 @@ export default function ArchitectureDiagram({
 
   const protocols = useMemo(
     () => [
-      ...new Set(
-        system.edges.map((e) => (!e.protocol || e.protocol === "https" ? "default" : e.protocol)),
-      ),
+      ...new Set(system.edges.map((e) => (!e.protocol || e.protocol === "https" ? "default" : e.protocol))),
     ],
     [system],
   );
 
   return (
-    <div className="relative h-full w-full rounded-2xl border border-slate-800 bg-slate-950/50">
+    <div className="relative h-full w-full rounded-xl border border-line bg-bg">
       {graph ? (
         // Remount per system so fitView frames each new diagram.
         <FlowCanvas
@@ -74,11 +78,10 @@ export default function ArchitectureDiagram({
           edges={graph.edges}
           protocols={protocols}
           onNodeSelect={onNodeSelect}
+          staticView={staticView}
         />
       ) : (
-        <div className="flex h-full items-center justify-center text-sm text-slate-400">
-          Laying out diagram…
-        </div>
+        <div className="flex h-full items-center justify-center text-sm text-muted">Laying out diagram…</div>
       )}
     </div>
   );
@@ -89,9 +92,16 @@ interface FlowCanvasProps {
   edges: Edge[];
   protocols: (keyof typeof edgeStyles)[];
   onNodeSelect: (nodeId: string | null) => void;
+  staticView: boolean;
 }
 
-function FlowCanvas({ nodes: nextNodes, edges: nextEdges, protocols, onNodeSelect }: FlowCanvasProps) {
+function FlowCanvas({
+  nodes: nextNodes,
+  edges: nextEdges,
+  protocols,
+  onNodeSelect,
+  staticView,
+}: FlowCanvasProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(nextNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(nextEdges);
 
@@ -111,7 +121,12 @@ function FlowCanvas({ nodes: nextNodes, edges: nextEdges, protocols, onNodeSelec
       nodeTypes={nodeTypes}
       nodesDraggable={false}
       nodesConnectable={false}
-      elementsSelectable
+      elementsSelectable={!staticView}
+      panOnDrag={!staticView}
+      zoomOnScroll={!staticView}
+      zoomOnPinch={!staticView}
+      zoomOnDoubleClick={!staticView}
+      preventScrolling={!staticView}
       fitView
       fitViewOptions={{ padding: 0.12 }}
       minZoom={0.2}
@@ -119,34 +134,38 @@ function FlowCanvas({ nodes: nextNodes, edges: nextEdges, protocols, onNodeSelec
       proOptions={{ hideAttribution: true }}
       className="architecture-flow"
     >
-      <Background gap={20} size={1} color="var(--color-slate-800)" />
-      <Controls
-        showInteractive={false}
-        className="!border-slate-700 !bg-slate-900 !shadow-lg [&>button]:!border-slate-600 [&>button]:!bg-slate-800 [&>button]:!text-slate-200 [&>button:hover]:!bg-slate-700"
-      />
-      <Panel position="top-right">
-        <ul className="space-y-1 rounded-lg border border-slate-800 bg-slate-950/90 px-3 py-2">
-          {protocols.map((p) => {
-            const style = edgeStyles[p];
-            return (
-              <li key={p} className="flex items-center gap-2 text-[11px] text-slate-400">
-                <svg width="28" height="6" aria-hidden>
-                  <line
-                    x1="0"
-                    y1="3"
-                    x2="28"
-                    y2="3"
-                    stroke={style.color}
-                    strokeWidth="2"
-                    strokeDasharray={style.dash}
-                  />
-                </svg>
-                {style.label}
-              </li>
-            );
-          })}
-        </ul>
-      </Panel>
+      <Background gap={20} size={1} color="var(--line)" />
+      {!staticView && (
+        <Controls
+          showInteractive={false}
+          className="shadow-soft overflow-hidden !rounded-lg !border !border-line !bg-surface [&>button]:!border-line [&>button]:!bg-surface [&>button]:!text-fg-soft [&>button:hover]:!bg-surface-2"
+        />
+      )}
+      {!staticView && (
+        <Panel position="top-right">
+          <ul className="shadow-soft space-y-1 rounded-lg border border-line bg-surface/90 px-3 py-2 backdrop-blur">
+            {protocols.map((p) => {
+              const style = edgeStyles[p];
+              return (
+                <li key={p} className="flex items-center gap-2 text-[11px] text-muted">
+                  <svg width="28" height="6" aria-hidden>
+                    <line
+                      x1="0"
+                      y1="3"
+                      x2="28"
+                      y2="3"
+                      stroke={style.color}
+                      strokeWidth="2"
+                      strokeDasharray={style.dash}
+                    />
+                  </svg>
+                  {style.label}
+                </li>
+              );
+            })}
+          </ul>
+        </Panel>
+      )}
     </ReactFlow>
   );
 }

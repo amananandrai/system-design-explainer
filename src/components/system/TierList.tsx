@@ -35,7 +35,7 @@ export default function TierList({
     <div className="space-y-4">
       {groups.map(({ tier, nodes }) => (
         <section key={tier.id}>
-          <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">{tier.label}</h3>
+          <h3 className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">{tier.label}</h3>
           <ul className="space-y-1.5">
             {nodes.map((node) => {
               const kind = getComponentKind(node.kind);
@@ -52,8 +52,8 @@ export default function TierList({
                       inStep
                         ? "border-amber-400 bg-amber-500/10"
                         : selected
-                          ? "border-slate-300 bg-slate-900"
-                          : "border-slate-800 bg-slate-900/60 hover:border-slate-600"
+                          ? "border-fg bg-surface"
+                          : "border-line bg-surface/60 hover:border-line-strong"
                     }`}
                   >
                     <span
@@ -64,8 +64,8 @@ export default function TierList({
                       <KindIcon kindId={node.kind} size={16} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-semibold text-white">{resolved.label}</span>
-                      <span className="block truncate text-xs text-slate-400">
+                      <span className="block text-sm font-semibold text-fg">{resolved.label}</span>
+                      <span className="block truncate text-xs text-muted">
                         {resolved.mapped ? `${node.label} · ` : ""}
                         {node.role}
                       </span>

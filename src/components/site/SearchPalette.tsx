@@ -47,17 +47,17 @@ export default function SearchPalette({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/70 px-4 pt-[12vh] backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-bg/70 px-4 pt-[12vh] backdrop-blur-sm"
       onMouseDown={(e) => e.target === e.currentTarget && close()}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search"
-        className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl"
+        className="w-full max-w-xl overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-2xl"
       >
-        <div className="flex items-center gap-3 border-b border-slate-800 px-4">
-          <Search size={16} className="shrink-0 text-slate-400" />
+        <div className="flex items-center gap-3 border-b border-line px-4">
+          <Search size={16} className="shrink-0 text-muted" />
           <input
             ref={inputRef}
             value={query}
@@ -76,15 +76,15 @@ export default function SearchPalette({
               } else if (e.key === "Enter") go(results[active]);
             }}
             placeholder="Search systems, components, services, concepts…"
-            className="h-12 w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+            className="h-12 w-full bg-transparent text-sm text-fg placeholder:text-muted focus:outline-none"
           />
-          <kbd className="rounded border border-slate-700 px-1.5 py-0.5 text-[10px] text-slate-400">Esc</kbd>
+          <kbd className="rounded border border-line-strong px-1.5 py-0.5 text-[10px] text-muted">Esc</kbd>
         </div>
 
         {query && (
           <ul className="max-h-[50vh] overflow-y-auto py-2" role="listbox">
             {results.length === 0 && (
-              <li className="px-4 py-6 text-center text-sm text-slate-400">No matches for “{query}”</li>
+              <li className="px-4 py-6 text-center text-sm text-muted">No matches for “{query}”</li>
             )}
             {results.map((item, i) => (
               <li key={item.href} role="option" aria-selected={i === active}>
@@ -92,7 +92,7 @@ export default function SearchPalette({
                   type="button"
                   onMouseEnter={() => setActive(i)}
                   onClick={() => go(item)}
-                  className={`flex w-full items-start gap-3 px-4 py-2.5 text-left ${i === active ? "bg-slate-800" : ""}`}
+                  className={`flex w-full items-start gap-3 px-4 py-2.5 text-left ${i === active ? "bg-surface-2" : ""}`}
                 >
                   <span
                     className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${typeColors[item.type]}`}
@@ -100,8 +100,8 @@ export default function SearchPalette({
                     {item.type}
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-sm font-medium text-white">{item.title}</span>
-                    <span className="block truncate text-xs text-slate-400">{item.subtitle}</span>
+                    <span className="block text-sm font-medium text-fg">{item.title}</span>
+                    <span className="block truncate text-xs text-muted">{item.subtitle}</span>
                   </span>
                 </button>
               </li>
