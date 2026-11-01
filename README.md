@@ -68,3 +68,4 @@ flows or concept links.
 - `docs/NOTES.md` – content notes distilled from the source PDFs
 - `docs/IMPLEMENTATION_PLAN.md` – features, data model and milestones
 - `docs/REDESIGN_PLAN.md` – plan for a more modern visual redesign
+- `docs/IMPROVEMENTS_PLAN.md` – plan for deeper content: calculators, failure simulator, security, cost, interview prep, labs
