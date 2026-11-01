@@ -10,6 +10,7 @@ import { providerSchema, type Provider, type SystemDesign } from "@/types/schema
 import type { FlowHighlight } from "@/lib/transformDiagram";
 import { PLAY_FLOW_EVENT, updateSearchParams } from "@/lib/url";
 import { useMediaQuery } from "@/lib/useMediaQuery";
+import { useSlidingIndicator } from "@/lib/useSlidingIndicator";
 import TierList from "./TierList";
 
 const STEP_INTERVAL_MS = 2600;
@@ -30,6 +31,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
     : 0;
 
   const [playing, setPlaying] = useState(false);
+  const { ref: modeRef, box: modeBox } = useSlidingIndicator<HTMLDivElement>(activeFlow ? 1 : 0);
 
   // Phones get a tiered list by default; a pan-and-zoom canvas is awkward on small screens.
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -93,7 +95,19 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
     <div className={isWide ? "flex h-full flex-col" : "mx-4 my-4 overflow-hidden rounded-2xl border border-line bg-bg md:mx-6"}>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-line px-4 py-2.5 md:px-6">
         {system.flows.length > 0 && (
-          <div role="tablist" aria-label="Diagram mode" className="flex rounded-lg bg-surface-2 p-0.5">
+          <div
+            ref={modeRef}
+            role="tablist"
+            aria-label="Diagram mode"
+            className="relative flex rounded-lg bg-surface-2 p-0.5"
+          >
+            {modeBox && (
+              <span
+                aria-hidden
+                className="shadow-soft absolute top-0.5 bottom-0.5 rounded-md bg-surface transition-all duration-300 ease-out"
+                style={{ left: modeBox.left, width: modeBox.width }}
+              />
+            )}
             {[
               { id: "architecture", label: "Architecture", active: !activeFlow, onClick: () => selectFlow(null) },
               {
@@ -106,11 +120,14 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
               <button
                 key={mode.id}
                 type="button"
+                data-seg
                 role="tab"
                 aria-selected={mode.active}
                 onClick={mode.onClick}
-                className={`rounded-md px-3 py-1 text-xs font-semibold transition-colors ${
-                  mode.active ? "shadow-soft bg-surface text-fg" : "text-muted hover:text-fg"
+                className={`relative rounded-md px-3 py-1 text-xs font-semibold transition-colors ${
+                  mode.active
+                    ? `text-fg ${modeBox ? "" : "shadow-soft bg-surface"}`
+                    : "text-muted hover:text-fg"
                 }`}
               >
                 {mode.label}

@@ -2,16 +2,31 @@
 
 import { useState } from "react";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
+import { useRecordVisit } from "@/lib/visited";
 
 /**
  * Desktop split view: diagram on the left, tabbed panel on the right. Smaller
  * screens stack the two. Both columns arrive server-rendered as props.
  */
-export default function WorkspaceShell({ left, right }: { left: React.ReactNode; right: React.ReactNode }) {
+export default function WorkspaceShell({
+  left,
+  right,
+  category,
+  slug,
+}: {
+  left: React.ReactNode;
+  right: React.ReactNode;
+  /** Sets the page's identity colour (see data-category in globals.css). */
+  category: string;
+  /** Recorded as visited for learning-path progress. */
+  slug: string;
+}) {
   const [collapsed, setCollapsed] = useState(false);
+  useRecordVisit(slug);
 
   return (
     <div
+      data-category={category}
       className={`lg:grid lg:h-full ${
         collapsed ? "lg:grid-cols-1" : "lg:grid-cols-[minmax(0,1.6fr)_minmax(360px,1fr)]"
       }`}

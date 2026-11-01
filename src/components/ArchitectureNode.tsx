@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, type CSSProperties } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import type { ArchitectureNodeData } from "@/lib/transformDiagram";
 import { getCategoryColor } from "@/lib/resolve";
@@ -14,10 +14,23 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
   return (
     <div
       style={{ width: NODE_WIDTH, height: NODE_HEIGHT, borderLeftColor: color }}
-      className={`architecture-node shadow-soft flex cursor-pointer items-center gap-2.5 rounded-xl border border-l-[3px] bg-surface pl-2.5 pr-3 transition-all duration-200 ${
+      className={`architecture-node shadow-soft relative flex cursor-pointer items-center gap-2.5 rounded-xl border border-l-[3px] bg-surface pl-2.5 pr-3 transition-all duration-200 ${
         nodeData.dimmed ? "opacity-35" : ""
-      } ${selected ? "border-accent ring-2 ring-accent/30" : "border-line hover:-translate-y-px hover:border-line-strong"}`}
+      } ${
+        selected
+          ? "border-accent ring-2 ring-accent/30"
+          : nodeData.inStep
+            ? "border-[#f59e0b] ring-4 ring-[#f59e0b]/25"
+            : "border-line hover:-translate-y-px hover:border-line-strong"
+      }`}
     >
+      {/* Re-keyed on provider change so the ring replays as the labels swap. */}
+      <span
+        key={nodeData.provider}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 animate-flash rounded-xl"
+        style={{ "--flash-colour": `var(--provider-${nodeData.provider})` } as CSSProperties}
+      />
       <Handle type="target" position={Position.Top} className="!h-1.5 !w-1.5 !border-0 !bg-line-strong" />
 
       <span

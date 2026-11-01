@@ -9,7 +9,7 @@ export function VisualFrame({
   children: React.ReactNode;
 }) {
   return (
-    <figure className="overflow-hidden rounded-2xl border border-line bg-surface">
+    <figure className="border-brand overflow-hidden rounded-2xl shadow-soft">
       <figcaption className="border-b border-line px-4 py-3">
         <p className="font-semibold text-fg">{title}</p>
         <p className="text-sm text-muted">{hint}</p>

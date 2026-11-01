@@ -16,7 +16,7 @@ export interface NavSystem {
   category: SystemCategory;
 }
 
-type SystemGroup = { label: string; systems: NavSystem[] };
+type SystemGroup = { category: string; label: string; systems: NavSystem[] };
 
 /** Static export serves pages with a trailing slash; compare without it. */
 const normalise = (path: string) => (path.length > 1 ? path.replace(/\/$/, "") : path);
@@ -83,7 +83,7 @@ export default function SiteHeader({
   };
 
   return (
-    <header className="relative z-30 shrink-0 border-b border-line bg-bg/85 backdrop-blur">
+    <header className="relative z-30 shrink-0 bg-bg/85 backdrop-blur">
       <div className="flex h-14 items-center gap-2 px-4 md:px-6">
         <button
           type="button"
@@ -96,7 +96,7 @@ export default function SiteHeader({
         </button>
 
         <Link href="/" onClick={closeAll} className="mr-2 flex items-center gap-2 font-semibold text-fg">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-[#fff]" aria-hidden>
+          <span className="bg-brand flex h-7 w-7 items-center justify-center rounded-lg text-[#fff] shadow-soft" aria-hidden>
             <Network size={16} />
           </span>
           <span className="truncate">System Design Explainer</span>
@@ -120,8 +120,11 @@ export default function SiteHeader({
               <div className="shadow-soft absolute left-0 top-full mt-2 w-[min(92vw,960px)] rounded-2xl border border-line bg-surface p-5">
                 <div className="grid grid-cols-2 gap-6 lg:grid-cols-5">
                   {systemGroups.map((group) => (
-                    <div key={group.label}>
-                      <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">{group.label}</p>
+                    <div key={group.label} data-category={group.category}>
+                      <p className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest text-muted">
+                        <span className="h-2 w-2 rounded-full bg-cat" aria-hidden />
+                        {group.label}
+                      </p>
                       <ul className="space-y-0.5">
                         {group.systems.map((s) => (
                           <li key={s.slug}>
@@ -132,8 +135,8 @@ export default function SiteHeader({
                               aria-current={pathname === `/systems/${s.slug}` ? "page" : undefined}
                               className={`block rounded-md px-2 py-1 text-sm transition-colors ${
                                 pathname === `/systems/${s.slug}`
-                                  ? "bg-accent-soft font-medium text-accent"
-                                  : "text-fg-soft hover:bg-surface-2 hover:text-fg"
+                                  ? "bg-cat-tint font-medium text-fg"
+                                  : "text-fg-soft hover:bg-cat-tint hover:text-fg"
                               }`}
                             >
                               {s.name}
@@ -193,8 +196,11 @@ export default function SiteHeader({
                 {navLink("/concepts", "Concepts")}
               </div>
               {systemGroups.map((group) => (
-                <div key={group.label} className="mb-4">
-                  <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-widest text-muted">{group.label}</p>
+                <div key={group.label} className="mb-4" data-category={group.category}>
+                  <p className="mb-1 flex items-center gap-1.5 px-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
+                    <span className="h-2 w-2 rounded-full bg-cat" aria-hidden />
+                    {group.label}
+                  </p>
                   {group.systems.map((s) => (
                     <Link
                       key={s.slug}
@@ -202,7 +208,7 @@ export default function SiteHeader({
                       onClick={closeAll}
                       aria-current={pathname === `/systems/${s.slug}` ? "page" : undefined}
                       className={`block rounded-md px-2 py-1.5 text-sm ${
-                        pathname === `/systems/${s.slug}` ? "bg-accent-soft font-medium text-accent" : "text-fg-soft"
+                        pathname === `/systems/${s.slug}` ? "bg-cat-tint font-medium text-fg" : "text-fg-soft"
                       }`}
                     >
                       {s.name}
@@ -217,6 +223,9 @@ export default function SiteHeader({
           </aside>
         </div>
       )}
+
+      {/* Gradient hairline under the header. */}
+      <div className="bg-brand h-px opacity-60" aria-hidden />
 
       <SearchPalette items={searchIndex} open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>

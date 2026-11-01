@@ -15,11 +15,13 @@ import "@xyflow/react/dist/style.css";
 
 import ArchitectureNode from "./ArchitectureNode";
 import TierNode from "./TierNode";
+import PacketEdge from "./PacketEdge";
 import type { Provider, SystemDesign } from "@/types/schema";
 import { edgeStyles, systemToFlow, type FlowHighlight } from "@/lib/transformDiagram";
 import { layoutSystem, type SystemLayout } from "@/lib/layout";
 
 const nodeTypes = { architecture: ArchitectureNode, tier: TierNode };
+const edgeTypes = { packet: PacketEdge };
 
 interface ArchitectureDiagramProps {
   system: SystemDesign;
@@ -81,7 +83,16 @@ export default function ArchitectureDiagram({
           staticView={staticView}
         />
       ) : (
-        <div className="flex h-full items-center justify-center text-sm text-muted">Laying out diagram…</div>
+        <div className="flex h-full flex-col items-center justify-center gap-4 p-8" role="status">
+          <span className="sr-only">Laying out diagram…</span>
+          {[3, 4, 2].map((count, row) => (
+            <div key={row} className="flex gap-4" aria-hidden>
+              {Array.from({ length: count }, (_, i) => (
+                <div key={i} className="skeleton h-12 w-28 animate-shimmer rounded-xl" />
+              ))}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -119,6 +130,7 @@ function FlowCanvas({
       onNodeClick={(_, node) => node.type === "architecture" && onNodeSelect(node.id)}
       onPaneClick={() => onNodeSelect(null)}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={!staticView}

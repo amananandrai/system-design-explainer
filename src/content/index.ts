@@ -3,6 +3,7 @@ import {
   conceptSchema,
   systemSchema,
   type ComponentCategory,
+  type ConceptFamily,
   type ComponentKind,
   type Concept,
   type SystemCategory,
@@ -10,7 +11,7 @@ import {
   type SystemNode,
 } from "@/types/schema";
 import { componentCatalogue } from "./components";
-import { conceptInputs } from "./concepts";
+import { conceptFamilyBySlug, conceptInputs } from "./concepts";
 import { conceptDiagrams } from "./conceptDiagrams";
 import { systemInputs } from "./systems";
 
@@ -18,7 +19,7 @@ import { systemInputs } from "./systems";
 export const components: ComponentKind[] = componentCatalogue.map((c) => componentKindSchema.parse(c));
 export const systems: SystemDesign[] = systemInputs.map((s) => systemSchema.parse(s));
 export const concepts: Concept[] = conceptInputs
-  .map((c) => conceptSchema.parse({ ...c, ...conceptDiagrams[c.slug] }))
+  .map((c) => conceptSchema.parse({ ...c, family: conceptFamilyBySlug[c.slug], ...conceptDiagrams[c.slug] }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const componentsById = new Map(components.map((c) => [c.id, c]));
@@ -81,6 +82,14 @@ export const systemCategoryLabels: Record<SystemCategory, string> = {
   "commerce-fintech": "Commerce & Fintech",
   bookings: "Bookings & Marketplaces",
   infrastructure: "Building Blocks",
+};
+
+export const conceptFamilyLabels: Record<ConceptFamily, string> = {
+  data: "Data & storage",
+  scale: "Scale & distribution",
+  messaging: "Messaging & flow",
+  reliability: "Reliability & correctness",
+  security: "Security",
 };
 
 export const difficultyLabels = { 1: "Beginner", 2: "Intermediate", 3: "Advanced" } as const;

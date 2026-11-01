@@ -16,6 +16,16 @@ export const tiers = [
 ] as const;
 export type TierId = (typeof tiers)[number]["id"];
 
+/** Each tier lane gets its own hue, matching the node category colours it mostly contains. */
+export const tierHues: Record<TierId, string> = {
+  clients: "#6366f1",
+  edge: "#0ea5e9",
+  services: "#22c55e",
+  async: "#a855f7",
+  data: "#ec4899",
+  platform: "#14b8a6",
+};
+
 const tierByCategory: Record<ComponentCategory, TierId> = {
   client: "clients",
   edge: "edge",

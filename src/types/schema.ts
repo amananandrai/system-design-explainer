@@ -151,6 +151,9 @@ export type SystemDesignInput = z.input<typeof systemSchema>;
 
 /* Concepts ----------------------------------------------------------------- */
 
+export const conceptFamilies = ["data", "scale", "messaging", "reliability", "security"] as const;
+export type ConceptFamily = (typeof conceptFamilies)[number];
+
 export const conceptVisuals = [
   "hash-ring",
   "bloom-filter",
@@ -171,6 +174,8 @@ export const conceptSchema = z.object({
   howItWorks: z.array(z.string()).default([]),
   tradeoffs: z.array(z.string()).default([]),
   related: z.array(z.string()).default([]),
+  /** Colour family used for the concept's identity on cards and pages. */
+  family: z.enum(conceptFamilies),
   /** A small architecture showing the concept in action, with step-through flows. */
   diagram: z
     .object({

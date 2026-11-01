@@ -12,10 +12,15 @@ export interface ArchitectureNodeData extends Record<string, unknown> {
   category: ComponentCategory | undefined;
   mapped: boolean;
   dimmed: boolean;
+  /** An endpoint of the current walkthrough step. */
+  inStep: boolean;
+  /** Current provider, so nodes can flash when it changes. */
+  provider: Provider;
 }
 
 export interface TierNodeData extends Record<string, unknown> {
   label: string;
+  tier: string;
 }
 
 type Protocol = NonNullable<SystemEdge["protocol"]> | "default";
@@ -46,8 +51,13 @@ export function systemToFlow(
   flow: FlowHighlight | null = null,
 ): { nodes: Node[]; edges: Edge[] } {
   const flowNodeIds = new Set<string>();
+  const stepNodeIds = new Set<string>();
   if (flow) {
     for (const edge of system.edges) {
+      if (edge.id === flow.activeEdgeId) {
+        stepNodeIds.add(edge.from);
+        stepNodeIds.add(edge.to);
+      }
       if (edge.id === flow.activeEdgeId || flow.visitedEdgeIds.has(edge.id)) {
         flowNodeIds.add(edge.from);
         flowNodeIds.add(edge.to);
@@ -59,7 +69,7 @@ export function systemToFlow(
     id: `tier-${box.id}`,
     type: "tier",
     position: { x: box.x, y: box.y },
-    data: { label: box.label },
+    data: { label: box.label, tier: box.id },
     style: { width: box.width, height: box.height },
     draggable: false,
     selectable: false,
@@ -84,6 +94,8 @@ export function systemToFlow(
         category: kind?.category,
         mapped: resolved.mapped,
         dimmed: flow !== null && !flowNodeIds.has(node.id),
+        inStep: stepNodeIds.has(node.id),
+        provider,
       },
     };
   });
@@ -102,9 +114,11 @@ export function systemToFlow(
       id: edge.id,
       source: edge.from,
       target: edge.to,
-      type: "smoothstep",
+      type: "packet",
       label: edge.label,
-      animated: isActiveStep || style.animated,
+      // The active step carries a packet dot instead of marching dashes.
+      animated: !isActiveStep && style.animated,
+      data: { packet: isActiveStep, packetColor: FLOW_COLOR },
       markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
       style: {
         stroke: color,

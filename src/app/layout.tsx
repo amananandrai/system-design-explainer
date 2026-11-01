@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   const systemGroups = Object.entries(systemCategoryLabels)
     .map(([category, label]) => ({
+      category,
       label,
       systems: systems
         .filter((s) => s.category === category)

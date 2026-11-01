@@ -1,10 +1,11 @@
-import type { ConceptInput } from "@/types/schema";
+import type { ConceptFamily, ConceptInput } from "@/types/schema";
 
 /*
  * Cross-cutting ideas that show up in many systems. Systems and components link
  * here by slug; "Seen in" lists on concept pages are derived from those links.
  */
-export const conceptInputs: ConceptInput[] = [
+// `family` is merged in from conceptFamilyBySlug below (and required by the schema).
+export const conceptInputs: Omit<ConceptInput, "family">[] = [
   {
     slug: "caching",
     name: "Caching",
@@ -485,3 +486,34 @@ export const conceptInputs: ConceptInput[] = [
     related: ["websockets", "multi-region"],
   },
 ];
+
+/** Colour family for each concept (validated: every concept must have one). */
+export const conceptFamilyBySlug: Record<string, ConceptFamily> = {
+  caching: "data",
+  sharding: "data",
+  "read-replicas": "data",
+  "search-indexing": "data",
+  "change-data-capture": "data",
+  ledger: "data",
+  "horizontal-scaling": "scale",
+  "consistent-hashing": "scale",
+  "multi-region": "scale",
+  "geospatial-indexing": "scale",
+  "id-generation": "scale",
+  "bloom-filter": "scale",
+  "prefix-trie": "scale",
+  "event-driven": "messaging",
+  "fan-out": "messaging",
+  "back-pressure": "messaging",
+  websockets: "messaging",
+  saga: "messaging",
+  "adaptive-bitrate-streaming": "messaging",
+  "presigned-urls": "messaging",
+  webrtc: "messaging",
+  idempotency: "reliability",
+  "distributed-locks": "reliability",
+  "leader-election": "reliability",
+  "rate-limiting": "reliability",
+  microservices: "reliability",
+  authentication: "security",
+};

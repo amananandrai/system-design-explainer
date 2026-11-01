@@ -33,7 +33,7 @@ export default function WorkspaceTabs({ tabs }: { tabs: WorkspaceTab[] }) {
               aria-controls={`panel-${tab.id}`}
               onClick={() => updateSearchParams({ tab: tab.id === tabs[0].id ? null : tab.id })}
               className={`shrink-0 border-b-2 px-3 pb-2.5 pt-1.5 text-sm font-medium transition-colors ${
-                selected ? "border-accent text-fg" : "border-transparent text-muted hover:text-fg"
+                selected ? "border-cat text-fg" : "border-transparent text-muted hover:text-fg"
               }`}
             >
               {tab.label}

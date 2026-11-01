@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyIllustration from "./EmptyIllustration";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
@@ -84,7 +85,10 @@ export default function SearchPalette({
         {query && (
           <ul className="max-h-[50vh] overflow-y-auto py-2" role="listbox">
             {results.length === 0 && (
-              <li className="px-4 py-6 text-center text-sm text-muted">No matches for “{query}”</li>
+              <li className="flex flex-col items-center gap-2 px-4 py-6 text-center text-sm text-muted">
+                <EmptyIllustration className="h-14 w-24" />
+                No matches for “{query}”
+              </li>
             )}
             {results.map((item, i) => (
               <li key={item.href} role="option" aria-selected={i === active}>

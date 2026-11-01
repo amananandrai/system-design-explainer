@@ -101,3 +101,10 @@ test("concept pages have interactive visuals and step-through diagrams", async (
   await expect(page.getByText("2/4")).toBeVisible();
   await expect(page.locator(".react-flow__node-architecture")).toHaveCount(4);
 });
+
+test("learning paths track visited systems", async ({ page }) => {
+  await page.goto("/systems/url-shortener/");
+  await expect(page.getByRole("heading", { level: 1, name: "URL shortener" })).toBeVisible();
+  await page.goto("/");
+  await expect(page.getByRole("img", { name: "1 of 4 visited" })).toBeVisible();
+});
