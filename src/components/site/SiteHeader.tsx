@@ -67,7 +67,7 @@ export default function SiteHeader({
 
   const onSystems = pathname === "/" || pathname.startsWith("/systems");
   const navLink = (href: string, label: string) => {
-    const active = pathname.startsWith(href);
+    const active = href === "/" ? onSystems : pathname === href || pathname.startsWith(`${href}/`);
     return (
       <Link
         href={href}
@@ -155,6 +155,7 @@ export default function SiteHeader({
           </div>
           {navLink("/components", "Components")}
           {navLink("/concepts", "Concepts")}
+          {navLink("/blog", "Blog")}
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
@@ -190,10 +191,11 @@ export default function SiteHeader({
               </button>
             </div>
             <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-3 py-3">
-              <div className="mb-3 flex gap-1">
+              <div className="mb-3 flex flex-wrap gap-1">
                 {navLink("/", "Systems")}
                 {navLink("/components", "Components")}
                 {navLink("/concepts", "Concepts")}
+                {navLink("/blog", "Blog")}
               </div>
               {systemGroups.map((group) => (
                 <div key={group.label} className="mb-4" data-category={group.category}>

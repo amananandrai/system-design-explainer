@@ -58,6 +58,16 @@ test("concept page links back to systems", async ({ page }) => {
   await expect(page).toHaveURL(/\/systems\/instagram\/?$/);
 });
 
+test("blog post links to the URL shortener diagram", async ({ page }) => {
+  await page.goto("/blog/");
+  await page.getByRole("link", { name: /20,000 redirects/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: /20,000 redirects a second/ })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Redirect" }).getByText("Edge cache")).toBeVisible();
+  await page.getByRole("link", { name: "Open the interactive diagram" }).click();
+  await expect(page).toHaveURL(/\/systems\/url-shortener\/?$/);
+  await expect(page.getByRole("heading", { level: 1, name: "URL shortener" })).toBeVisible();
+});
+
 test("unknown system is a 404", async ({ page }) => {
   const response = await page.goto("/systems/does-not-exist/");
   expect(response?.status()).toBe(404);

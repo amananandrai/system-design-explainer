@@ -14,6 +14,16 @@ import { componentCatalogue } from "./components";
 import { conceptFamilyBySlug, conceptInputs } from "./concepts";
 import { conceptDiagrams } from "./conceptDiagrams";
 import { systemInputs } from "./systems";
+export {
+  formatPostDate,
+  getPost,
+  posts,
+  readingMinutes,
+  toDevMarkdown,
+  withCounts,
+  type BlogPost,
+  type CatalogueCounts,
+} from "./blog";
 
 /** Parsed content with defaults applied. Throws at build time if a file is malformed. */
 export const components: ComponentKind[] = componentCatalogue.map((c) => componentKindSchema.parse(c));

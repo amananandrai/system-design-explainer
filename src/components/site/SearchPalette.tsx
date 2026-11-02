@@ -10,6 +10,7 @@ const typeColors: Record<SearchItem["type"], string> = {
   System: "text-indigo-300 bg-indigo-500/10",
   Component: "text-sky-300 bg-sky-500/10",
   Concept: "text-emerald-300 bg-emerald-500/10",
+  Article: "text-amber-300 bg-amber-500/10",
 };
 
 export default function SearchPalette({
@@ -76,7 +77,7 @@ export default function SearchPalette({
                 setActive((i) => Math.max(i - 1, 0));
               } else if (e.key === "Enter") go(results[active]);
             }}
-            placeholder="Search systems, components, services, concepts…"
+            placeholder="Search systems, components, services, concepts, articles…"
             className="h-12 w-full bg-transparent text-sm text-fg placeholder:text-muted focus:outline-none"
           />
           <kbd className="rounded border border-line-strong px-1.5 py-0.5 text-[10px] text-muted">Esc</kbd>

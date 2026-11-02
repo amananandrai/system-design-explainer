@@ -1,4 +1,4 @@
-import { components, concepts, getComponentKind, getConcept, systemCategoryLabels, systems } from "@/content";
+import { components, concepts, getComponentKind, getConcept, posts, systemCategoryLabels, systems } from "@/content";
 import type { SearchItem } from "./search-match";
 
 /** Built on the server and handed to the client palette as plain data. */
@@ -35,5 +35,13 @@ export function buildSearchIndex(): SearchItem[] {
     keywords: [...c.explanation, ...c.related].join(" "),
   }));
 
-  return [...systemItems, ...componentItems, ...conceptItems];
+  const articleItems = posts.map((post) => ({
+    type: "Article" as const,
+    title: post.title,
+    subtitle: post.description,
+    href: `/blog/${post.slug}`,
+    keywords: [post.description, post.tags.join(" "), post.keywords ?? ""].join(" "),
+  }));
+
+  return [...systemItems, ...componentItems, ...conceptItems, ...articleItems];
 }

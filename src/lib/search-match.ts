@@ -1,7 +1,7 @@
 // Client-safe: no content imports, so the palette stays small.
 
 export interface SearchItem {
-  type: "System" | "Component" | "Concept";
+  type: "System" | "Component" | "Concept" | "Article";
   title: string;
   subtitle: string;
   href: string;

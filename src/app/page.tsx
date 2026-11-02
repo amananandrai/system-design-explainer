@@ -7,8 +7,10 @@ import {
   components,
   concepts,
   difficultyLabels,
+  formatPostDate,
   getConcept,
   getSystem,
+  posts,
   systemCategoryLabels,
   systems,
 } from "@/content";
@@ -156,6 +158,31 @@ export default function HomePage() {
                 </span>
                 <h3 className="mt-3 font-semibold text-fg">{title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-muted">{text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section aria-labelledby="blog" className="py-6">
+          <div className="flex items-end justify-between gap-4">
+            <h2 id="blog" className="text-2xl font-semibold tracking-tight text-fg">
+              From the blog
+            </h2>
+            <Link href="/blog" className="text-sm font-medium text-accent hover:underline">
+              All posts
+            </Link>
+          </div>
+          <ul className="mt-4 grid gap-4">
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="block rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
+                >
+                  <p className="text-xs font-medium uppercase tracking-widest text-muted">{formatPostDate(post.publishedAt)}</p>
+                  <h3 className="mt-2 text-lg font-semibold text-fg">{post.title}</h3>
+                  <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted">{post.description}</p>
+                </Link>
               </li>
             ))}
           </ul>
