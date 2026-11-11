@@ -70,3 +70,7 @@ flows or concept links.
 - `docs/REDESIGN_PLAN.md` – plan for a more modern visual redesign
 - `docs/IMPROVEMENTS_PLAN.md` – plan for deeper content: calculators, failure simulator, security, cost, interview prep, labs
 - `docs/VISUAL_REFRESH_PLAN.md` – plan to make the UI more vibrant: colour identity, depth, imagery, motion
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
