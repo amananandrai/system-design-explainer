@@ -73,10 +73,6 @@ flows or concept links.
 - `src/lib/` – layout (ELK), provider resolution, search, validation, OG images
 - `e2e/` – Playwright smoke tests
 - `docs/NOTES.md` – content notes distilled from the source PDFs
-- `docs/IMPLEMENTATION_PLAN.md` – features, data model and milestones
-- `docs/REDESIGN_PLAN.md` – plan for a more modern visual redesign
-- `docs/IMPROVEMENTS_PLAN.md` – plan for deeper content: calculators, failure simulator, security, cost, interview prep, labs
-- `docs/VISUAL_REFRESH_PLAN.md` – plan to make the UI more vibrant: colour identity, depth, imagery, motion
 
 ## License
 
