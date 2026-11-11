@@ -1,5 +1,12 @@
 # System Design Explainer
 
+[![Live site](https://img.shields.io/badge/live_site-vercel.app-000000?logo=vercel&logoColor=white)](https://system-design-explainer.vercel.app)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16.3-000000?logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+
 An interactive site that explains how large systems — YouTube, Instagram, Uber, Amazon and 30 more —
 are built. Each system walks through requirements, APIs, capacity estimates, the data model, an
 architecture diagram you can switch between **AWS, Google Cloud, Azure and open-source tools**,
