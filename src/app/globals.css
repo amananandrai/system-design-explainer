@@ -191,6 +191,34 @@ body {
 @utility shadow-glow {
   box-shadow: var(--shadow), 0 8px 28px -6px var(--cat-glow);
 }
+/* Blueprint cards: crisp corners, a strong outline that takes the identity colour on hover. */
+@utility bp-card {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  transition: border-color 200ms, transform 200ms;
+  &:hover {
+    border-color: var(--cat);
+    transform: translateY(-2px);
+  }
+  &:hover .sketch-edge {
+    animation: sketch-flow 1s linear infinite;
+  }
+}
+/* Drafting-grid paper behind sketches and card headers. */
+@utility bp-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-position: -1px -1px;
+}
+@utility bp-label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 @utility bg-brand {
   background-image: linear-gradient(135deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
 }
@@ -219,6 +247,9 @@ body {
   0% { box-shadow: 0 0 0 0 var(--flash-colour, var(--accent)); }
   40% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--flash-colour, var(--accent)) 45%, transparent); }
   100% { box-shadow: 0 0 0 0 transparent; }
+}
+@keyframes sketch-flow {
+  to { stroke-dashoffset: -12; }
 }
 @keyframes drift {
   0%, 100% { transform: translate(0, 0) scale(1); }

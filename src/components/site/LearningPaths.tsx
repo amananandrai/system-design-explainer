@@ -51,23 +51,23 @@ export default function LearningPaths({ paths }: { paths: LearningPath[] }) {
           <article
             key={path.title}
             data-category={path.hue}
-            className="overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
+            className="bp-card overflow-hidden"
           >
-            <header className="flex items-center justify-between gap-3 bg-gradient-to-br from-cat-tint to-transparent px-5 pb-3 pt-5">
+            <header className="bp-grid flex items-center justify-between gap-3 border-b border-line-strong px-5 py-4">
               <div>
-                <p className="text-xs font-semibold text-cat">{path.level}</p>
+                <p className="bp-label text-cat">{path.level}</p>
                 <h3 className="mt-1 font-semibold text-fg">{path.title}</h3>
               </div>
               <ProgressRing done={done} total={path.systems.length} />
             </header>
-            <ol className="space-y-2 px-5 pb-5 pt-2">
+            <ol className="space-y-2 px-5 pb-5 pt-4">
               {path.systems.map((s, i) => {
                 const seen = visited.includes(s.slug);
                 return (
                   <li key={s.slug}>
                     <Link href={`/systems/${s.slug}`} className="group flex items-center gap-3 text-sm">
                       <span
-                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded font-mono text-xs font-medium transition-colors ${
                           seen
                             ? "bg-cat text-bg"
                             : "bg-surface-2 text-muted group-hover:bg-cat-tint group-hover:text-fg"

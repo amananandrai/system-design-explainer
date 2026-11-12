@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Boxes, Cloud, Lightbulb, PlayCircle } from "lucide-react";
 import SystemCatalogue, { type CatalogueCard } from "@/components/site/SystemCatalogue";
 import HeroDiagram from "@/components/site/HeroDiagram";
+import { buildSketch } from "@/lib/sketch";
 import LearningPaths, { type LearningPath } from "@/components/site/LearningPaths";
 import {
   components,
@@ -82,6 +83,7 @@ export default function HomePage() {
     flowCount: s.flows.length,
     complete: s.requirements.functional.length > 0,
     concepts: s.concepts.map((slug) => ({ slug, name: getConcept(slug)?.name ?? slug })),
+    sketch: buildSketch(s),
   }));
 
   const paths: LearningPath[] = learningPaths.map(({ slugs, ...path }) => ({
@@ -146,10 +148,10 @@ export default function HomePage() {
               <li
                 key={title}
                 data-category={hue}
-                className="rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
+                className="bp-card p-5"
               >
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-cat-tint text-cat"
+                  className="flex h-9 w-9 items-center justify-center rounded border border-cat bg-cat-tint text-cat"
                   aria-hidden
                 >
                   <Icon size={18} />

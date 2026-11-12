@@ -55,13 +55,13 @@ export default function ConceptsPage() {
                   <li key={concept.slug}>
                     <Link
                       href={`/concepts/${concept.slug}`}
-                      className="flex h-full flex-col rounded-2xl border border-line border-t-[3px] border-t-cat bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
+                      className="bp-card flex h-full flex-col p-4"
                     >
                       <p className="font-semibold text-fg">{concept.name}</p>
                       <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{concept.summary}</p>
-                      <p className="mt-3 flex items-center gap-2 text-xs text-muted">
+                      <p className="mt-3 flex items-center gap-2 border-t border-dashed border-line-strong pt-2.5 text-xs text-muted">
                         {concept.visual && (
-                          <span className="rounded-full bg-cat-tint px-2 py-0.5 font-medium text-fg">Interactive</span>
+                          <span className="bp-label shrink-0 text-cat">Interactive</span>
                         )}
                         <span className="truncate">
                           {usedIn.length > 0 ? `Seen in ${usedIn.map((s) => s.name).join(", ")}` : "Reference"}
