@@ -265,20 +265,6 @@ body {
     animation: sketch-flow 1s linear infinite;
   }
 }
-/* Tiles filled with the solid pale identity colour. */
-@utility tile {
-  position: relative;
-  overflow: hidden;
-  border: 2px solid var(--edge);
-  border-radius: 22px;
-  background: var(--cat-tint);
-  box-shadow: var(--shadow);
-  transition: transform 180ms, box-shadow 180ms;
-  &:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: var(--shadow-lift);
-  }
-}
 /* Drafting-grid paper behind sketches and card headers. */
 @utility bp-grid {
   background-color: var(--surface-2);
