@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Boxes, Cloud, Lightbulb, PlayCircle } from "lucide-react";
 import SystemCatalogue, { type CatalogueCard } from "@/components/site/SystemCatalogue";
-import HeroDiagram from "@/components/site/HeroDiagram";
+import SystemDeck, { type DeckCard } from "@/components/site/SystemDeck";
 import { buildSketch } from "@/lib/sketch";
 import LearningPaths, { type LearningPath } from "@/components/site/LearningPaths";
 import {
@@ -68,8 +68,25 @@ const learningPaths = [
   },
 ];
 
+/** One system per category for the hero deck. */
+const deckSlugs = ["youtube", "uber", "payments", "bookmyshow", "url-shortener"];
+
 export default function HomePage() {
-  const hero = getSystem("url-shortener") ?? systems[0];
+  const deck: DeckCard[] = deckSlugs.flatMap((slug) => {
+    const s = getSystem(slug);
+    return s
+      ? [
+          {
+            slug,
+            name: s.name,
+            tagline: s.tagline,
+            category: s.category,
+            categoryLabel: systemCategoryLabels[s.category],
+            sketch: buildSketch(s),
+          },
+        ]
+      : [];
+  });
 
   const cards: CatalogueCard[] = systems.map((s) => ({
     slug: s.slug,
@@ -135,7 +152,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <HeroDiagram system={hero} />
+          <SystemDeck cards={deck} total={systems.length} />
         </section>
 
         {/* What you can do */}

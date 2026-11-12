@@ -27,6 +27,8 @@ function PacketEdgeComponent({
     targetY,
     sourcePosition,
     targetPosition,
+    // Right-angled corners, like a drafted line.
+    borderRadius: 0,
   });
   const { packet, packetColor } = (data ?? {}) as PacketEdgeData;
 

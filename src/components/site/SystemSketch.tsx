@@ -20,7 +20,7 @@ const paths: Record<string, string> = {
 };
 
 /** Blueprint thumbnail at the top of a system card. Decorative: the card text carries the meaning. */
-export default function SystemSketch({ sketch }: { sketch: Sketch }) {
+export default function SystemSketch({ sketch, animated = false }: { sketch: Sketch; animated?: boolean }) {
   return (
     <svg viewBox="0 0 320 100" className="block h-auto w-full" aria-hidden>
       {sketch.links.map((link) => (
@@ -31,7 +31,7 @@ export default function SystemSketch({ sketch }: { sketch: Sketch }) {
           stroke="var(--cat)"
           strokeWidth="1.2"
           strokeDasharray="3 3"
-          className="sketch-edge"
+          className={animated ? "sketch-edge sketch-edge-live" : "sketch-edge"}
         />
       ))}
       {sketch.labels.map((label, i) => {

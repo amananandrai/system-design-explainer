@@ -143,7 +143,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
                 type="button"
                 onClick={() => selectFlow(flow.id)}
                 aria-pressed={activeFlow.id === flow.id}
-                className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
+                className={`rounded-[3px] px-2.5 py-1 font-mono text-xs transition-colors ${
                   activeFlow.id === flow.id
                     ? "bg-amber-400 text-[#1c1917]"
                     : "border border-line text-muted hover:text-fg"
@@ -243,7 +243,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
             </IconButton>
           </div>
           <p className="min-w-0 flex-1 text-sm text-fg-soft" aria-live="polite">
-            <span className="mr-2 font-semibold text-amber-300">
+            <span className="mr-2 font-mono text-xs font-medium text-amber-300">
               {activeFlow.name} · {step + 1}/{activeFlow.steps.length}
             </span>
             {activeFlow.steps[step].text}
@@ -275,7 +275,7 @@ function IconButton({
       title={label}
       disabled={disabled}
       onClick={onClick}
-      className="rounded-lg p-1.5 text-fg-soft transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-30 disabled:hover:bg-transparent"
+      className="rounded-[3px] border border-line-strong p-1.5 text-fg-soft transition-colors hover:border-faint hover:text-fg disabled:opacity-30 disabled:hover:border-line-strong"
     >
       {children}
     </button>

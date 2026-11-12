@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ReactFlow,
   Background,
+  BackgroundVariant,
   Controls,
   Panel,
   useEdgesState,
@@ -71,7 +72,7 @@ export default function ArchitectureDiagram({
   );
 
   return (
-    <div className="relative h-full w-full rounded-xl border border-line bg-bg">
+    <div className="relative h-full w-full overflow-hidden rounded-md border border-line-strong bg-bg">
       {graph ? (
         // Remount per system so fitView frames each new diagram.
         <FlowCanvas
@@ -88,7 +89,7 @@ export default function ArchitectureDiagram({
           {[3, 4, 2].map((count, row) => (
             <div key={row} className="flex gap-4" aria-hidden>
               {Array.from({ length: count }, (_, i) => (
-                <div key={i} className="skeleton h-12 w-28 animate-shimmer rounded-xl" />
+                <div key={i} className="skeleton h-12 w-28 animate-shimmer rounded-[3px]" />
               ))}
             </div>
           ))}
@@ -146,20 +147,25 @@ function FlowCanvas({
       proOptions={{ hideAttribution: true }}
       className="architecture-flow"
     >
-      <Background gap={20} size={1} color="var(--line)" />
+      <Background
+        variant={BackgroundVariant.Lines}
+        gap={24}
+        lineWidth={1}
+        color="color-mix(in srgb, var(--line) 60%, transparent)"
+      />
       {!staticView && (
         <Controls
           showInteractive={false}
-          className="shadow-soft overflow-hidden !rounded-lg !border !border-line !bg-surface [&>button]:!border-line [&>button]:!bg-surface [&>button]:!text-fg-soft [&>button:hover]:!bg-surface-2"
+          className="overflow-hidden !rounded-[3px] !border !border-line-strong !bg-surface !shadow-none [&>button]:!border-line [&>button]:!bg-surface [&>button]:!text-fg-soft [&>button:hover]:!bg-surface-2"
         />
       )}
       {!staticView && (
         <Panel position="top-right">
-          <ul className="shadow-soft space-y-1 rounded-lg border border-line bg-surface/90 px-3 py-2 backdrop-blur">
+          <ul className="space-y-1 rounded-[3px] border border-line-strong bg-surface/90 px-3 py-2 backdrop-blur">
             {protocols.map((p) => {
               const style = edgeStyles[p];
               return (
-                <li key={p} className="flex items-center gap-2 text-[11px] text-muted">
+                <li key={p} className="flex items-center gap-2 font-mono text-[10.5px] text-muted">
                   <svg width="28" height="6" aria-hidden>
                     <line
                       x1="0"
