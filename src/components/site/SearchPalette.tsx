@@ -7,9 +7,9 @@ import { Search } from "lucide-react";
 import { searchItems, type SearchItem } from "@/lib/search-match";
 
 const typeColors: Record<SearchItem["type"], string> = {
-  System: "text-indigo-300 bg-indigo-500/10",
-  Component: "text-sky-300 bg-sky-500/10",
-  Concept: "text-emerald-300 bg-emerald-500/10",
+  System: "text-indigo-300 bg-indigo-soft",
+  Component: "text-sky-300 bg-sky-soft",
+  Concept: "text-emerald-300 bg-emerald-soft",
 };
 
 export default function SearchPalette({
@@ -48,14 +48,14 @@ export default function SearchPalette({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-bg/70 px-4 pt-[12vh] backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-transparent px-4 pt-[12vh]"
       onMouseDown={(e) => e.target === e.currentTarget && close()}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search"
-        className="w-full max-w-xl overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-2xl"
+        className="w-full max-w-xl overflow-hidden rounded-[10px] border-2 border-edge bg-surface shadow-soft"
       >
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search size={16} className="shrink-0 text-muted" />

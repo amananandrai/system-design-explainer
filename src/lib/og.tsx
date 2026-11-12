@@ -19,13 +19,13 @@ export function ogCard({ eyebrow, title, subtitle, chips = [] }: {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "linear-gradient(135deg, #020617 0%, #1e1b4b 100%)",
-          color: "#f1f5f9",
+          background: "#18181b",
+          color: "#fafafa",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <div style={{ fontSize: 28, color: "#a5b4fc", textTransform: "uppercase", letterSpacing: 4 }}>{eyebrow}</div>
+            <div style={{ fontSize: 28, color: "#facc15", textTransform: "uppercase", letterSpacing: 4 }}>{eyebrow}</div>
             <div style={{ fontSize: 26, color: "#94a3b8" }}>System Design Explainer</div>
           </div>
           <div style={{ fontSize: 84, fontWeight: 700, marginTop: 20, lineHeight: 1.05 }}>{title}</div>

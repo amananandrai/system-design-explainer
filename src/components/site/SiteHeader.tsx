@@ -83,7 +83,7 @@ export default function SiteHeader({
   };
 
   return (
-    <header className="relative z-30 shrink-0 bg-bg/85 backdrop-blur">
+    <header className="relative z-30 shrink-0 bg-bg">
       <div className="flex h-14 items-center gap-2 px-4 md:px-6">
         <button
           type="button"
@@ -96,7 +96,7 @@ export default function SiteHeader({
         </button>
 
         <Link href="/" onClick={closeAll} className="mr-2 flex items-center gap-2 font-semibold text-fg">
-          <span className="bg-brand flex h-7 w-7 items-center justify-center rounded-lg text-[#fff] shadow-soft" aria-hidden>
+          <span className="bg-brand flex h-7 w-7 items-center justify-center rounded-md border-2 border-edge" aria-hidden>
             <Network size={16} />
           </span>
           <span className="truncate">System Design Explainer</span>
@@ -176,7 +176,7 @@ export default function SiteHeader({
 
       {drawerOpen && (
         <div className="fixed inset-0 z-40 md:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
-          <div className="absolute inset-0 bg-bg/70" onClick={() => setDrawerOpen(false)} />
+          <div className="absolute inset-0 bg-transparent" onClick={() => setDrawerOpen(false)} />
           <aside className="relative flex h-full w-80 max-w-[88vw] flex-col border-r border-line bg-surface">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <span className="font-semibold text-fg">Menu</span>
@@ -224,8 +224,8 @@ export default function SiteHeader({
         </div>
       )}
 
-      {/* Gradient hairline under the header. */}
-      <div className="bg-brand h-px opacity-60" aria-hidden />
+      {/* Ink rule under the header. */}
+      <div className="h-0.5 bg-edge" aria-hidden />
 
       <SearchPalette items={searchIndex} open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>

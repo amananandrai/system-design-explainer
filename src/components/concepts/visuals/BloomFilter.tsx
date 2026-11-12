@@ -31,7 +31,7 @@ export default function BloomFilter() {
             <div
               key={i}
               className={`flex h-8 items-center justify-center rounded font-mono text-xs transition-colors ${
-                set ? "bg-accent text-[#fff]" : "bg-surface-2 text-faint"
+                set ? "bg-primary text-on-primary" : "bg-surface-2 text-faint"
               } ${probed ? "ring-2 ring-amber-400" : ""}`}
               title={`bit ${i}`}
             >

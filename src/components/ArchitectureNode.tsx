@@ -14,14 +14,14 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
   return (
     <div
       style={{ width: NODE_WIDTH, height: NODE_HEIGHT, borderLeftColor: color }}
-      className={`architecture-node relative flex cursor-pointer items-center gap-2.5 rounded-[3px] border border-l-[3px] pl-2.5 pr-3 transition-colors duration-200 ${
-        nodeData.dimmed ? "opacity-35" : ""
+      className={`architecture-node relative flex cursor-pointer items-center gap-2.5 rounded-[3px] border-2 border-l-[7px] pl-2.5 pr-3 transition-colors duration-200 ${
+        nodeData.dimmed ? "is-dimmed" : ""
       } ${
         selected
-          ? "border-accent bg-surface ring-2 ring-accent/30"
+          ? "border-fg bg-surface ring-2 ring-fg"
           : nodeData.inStep
             ? "border-[#f59e0b] bg-[color-mix(in_srgb,#f59e0b_12%,var(--surface))]"
-            : "border-line-strong bg-surface hover:border-faint"
+            : "border-edge bg-surface hover:border-fg"
       }`}
     >
       {/* Re-keyed on provider change so the ring replays as the labels swap. */}
@@ -35,7 +35,7 @@ function ArchitectureNodeComponent({ data, selected }: NodeProps) {
 
       <span
         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm"
-        style={{ backgroundColor: `${color}1f`, color }}
+        style={{ backgroundColor: `color-mix(in srgb, ${color} 22%, var(--surface))`, color }}
         aria-hidden
       >
         <KindIcon kindId={nodeData.kindId} size={16} />

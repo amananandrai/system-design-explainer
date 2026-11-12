@@ -31,7 +31,7 @@ export default function ConceptsPage() {
             data-family={family}
             className="flex items-center gap-2 rounded-full bg-cat-tint px-3 py-1.5 text-sm font-medium text-fg transition-opacity hover:opacity-80"
           >
-            <span className="text-cat">
+            <span className="text-cat-ink">
               <FamilyIcon family={family} size={14} />
             </span>
             {conceptFamilyLabels[family]}
@@ -44,7 +44,7 @@ export default function ConceptsPage() {
         {groups.map(({ family, items }) => (
           <section key={family} id={family} data-family={family} className="scroll-mt-6">
             <h2 className="flex items-center gap-2.5 text-xl font-semibold text-fg">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cat-tint text-cat">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cat-tint text-cat-ink">
                 <FamilyIcon family={family} size={16} />
               </span>
               {conceptFamilyLabels[family]}
@@ -55,27 +55,24 @@ export default function ConceptsPage() {
                 return (
                   <li key={concept.slug}>
                     <Link href={`/concepts/${concept.slug}`} className="tile group flex h-full flex-col gap-3 p-[22px]">
-                      <span className="pointer-events-none absolute -right-7 -top-7 text-cat opacity-[0.13]" aria-hidden>
-                        <FamilyIcon family={family} size={150} />
-                      </span>
-                      <span className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-cat text-bg">
+                      <span className="flex h-[46px] w-[46px] items-center justify-center rounded-full border-2 border-edge bg-cat text-on-cat">
                         <FamilyIcon family={family} size={22} />
                       </span>
-                      {concept.visual && <p className="mt-1.5 text-xs font-semibold text-cat">Interactive</p>}
+                      {concept.visual && <p className="chip mt-1.5">Interactive</p>}
                       <p className="text-2xl font-semibold leading-tight tracking-tight text-fg">{concept.name}</p>
                       <p className="flex-1 text-[14.5px] leading-relaxed text-fg-soft">{concept.summary}</p>
                       <div className="mt-1.5 flex items-end justify-between gap-3">
                         <ul className="flex flex-wrap gap-1.5" aria-label={usedIn.length > 0 ? "Seen in" : undefined}>
                           {usedIn.length === 0 && (
-                            <li className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">Reference</li>
+                            <li className="rounded-full bg-surface px-2.5 py-0.5 text-[11.5px] text-fg-soft">Reference</li>
                           )}
                           {usedIn.slice(0, 3).map((s) => (
-                            <li key={s.slug} className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">
+                            <li key={s.slug} className="rounded-full bg-surface px-2.5 py-0.5 text-[11.5px] text-fg-soft">
                               {s.name}
                             </li>
                           ))}
                           {usedIn.length > 3 && (
-                            <li className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">
+                            <li className="rounded-full bg-surface px-2.5 py-0.5 text-[11.5px] text-fg-soft">
                               +{usedIn.length - 3}
                             </li>
                           )}

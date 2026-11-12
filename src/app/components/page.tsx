@@ -36,10 +36,10 @@ export default function ComponentsPage() {
               {componentCategoryLabels[category]}
               <span className="text-faint">/ {items.length}</span>
             </h2>
-            <div className="mt-2.5 overflow-x-auto rounded-md border border-line-strong bg-surface">
+            <div className="mt-2.5 overflow-x-auto rounded-[10px] border-2 border-edge bg-surface shadow-soft">
               <table className="w-full min-w-[900px] border-collapse text-left text-[13.5px]">
                 <thead className="bp-grid font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted">
-                  <tr className="[&>th+th]:border-l [&>th+th]:border-line [&>th]:border-b [&>th]:border-line-strong">
+                  <tr className="[&>th+th]:border-l [&>th+th]:border-line [&>th]:border-b-2 [&>th]:border-edge">
                     <th className="w-60 px-3.5 py-2.5 font-medium">Component</th>
                     {serviceProviders.map((p) => (
                       <th key={p.id} className="whitespace-nowrap px-3.5 py-2.5 font-medium" style={{ color: p.accent }}>
@@ -64,12 +64,12 @@ export default function ComponentsPage() {
                       >
                         <td
                           className="px-3.5 py-2.5"
-                          style={{ boxShadow: `inset 3px 0 0 ${getCategoryColor(c.category)}` }}
+                          style={{ boxShadow: `inset 5px 0 0 ${getCategoryColor(c.category)}` }}
                         >
                           <Link href={`/components/${c.id}`} className="group flex items-center gap-2.5">
                             <span
                               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm"
-                              style={{ backgroundColor: `${getCategoryColor(c.category)}26`, color: getCategoryColor(c.category) }}
+                              style={{ backgroundColor: `color-mix(in srgb, ${getCategoryColor(c.category)} 22%, var(--surface))`, color: getCategoryColor(c.category) }}
                             >
                               <KindIcon kindId={c.id} size={15} />
                             </span>

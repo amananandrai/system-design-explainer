@@ -9,7 +9,7 @@ export function VisualFrame({
   children: React.ReactNode;
 }) {
   return (
-    <figure className="border-brand overflow-hidden rounded-2xl shadow-soft">
+    <figure className="border-brand overflow-hidden rounded-[10px] shadow-soft">
       <figcaption className="border-b border-line px-4 py-3">
         <p className="font-semibold text-fg">{title}</p>
         <p className="text-sm text-muted">{hint}</p>
@@ -36,7 +36,7 @@ export function VisualButton({
       onClick={onClick}
       disabled={disabled}
       className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors disabled:opacity-40 ${
-        primary ? "bg-accent text-[#fff] hover:opacity-90" : "border border-line text-fg-soft hover:border-line-strong hover:text-fg"
+        primary ? "bg-primary text-on-primary hover:opacity-90" : "border border-line text-fg-soft hover:border-line-strong hover:text-fg"
       }`}
     >
       {children}

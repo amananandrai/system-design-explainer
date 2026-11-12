@@ -45,7 +45,7 @@ export default function LedgerTable() {
           </thead>
           <tbody className="divide-y divide-line">
             {entries.map((e, i) => (
-              <tr key={i} className={i >= PAYMENT.length ? "bg-amber-500/5" : ""}>
+              <tr key={i} className={i >= PAYMENT.length ? "bg-amber-soft" : ""}>
                 <td className="px-3 py-2 text-muted">{e.txn}</td>
                 <td className="px-3 py-2 text-fg">{e.account}</td>
                 <td className="px-3 py-2 text-right font-mono text-fg-soft">{money(e.debit)}</td>

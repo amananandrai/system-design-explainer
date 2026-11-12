@@ -202,7 +202,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
           <div
             className={
               isDesktop
-                ? "absolute inset-y-0 right-0 z-10 shadow-2xl shadow-black/60"
+                ? "absolute inset-y-0 right-0 z-10 shadow-soft"
                 : "fixed inset-0 z-40 bg-bg"
             }
           >
@@ -217,7 +217,7 @@ export default function ArchitectureSection({ system }: { system: SystemDesign }
       </div>
 
       {activeFlow && (
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-amber-500/30 bg-amber-500/5 px-4 py-3">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-edge bg-amber-soft px-4 py-3">
           <div className="flex shrink-0 items-center gap-1">
             <IconButton label="Previous step" disabled={step === 0} onClick={() => goToStep(step - 1)}>
               <ChevronLeft size={16} />

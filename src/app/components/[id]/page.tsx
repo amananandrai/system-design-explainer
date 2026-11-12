@@ -50,7 +50,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
       <div className="mt-4 flex items-start gap-4">
         <span
           className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-          style={{ backgroundColor: `${color}26`, color }}
+          style={{ backgroundColor: `color-mix(in srgb, ${color} 22%, var(--surface))`, color }}
         >
           <KindIcon kindId={kind.id} size={24} />
         </span>
@@ -79,7 +79,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
               const options = kind.providers[p.id];
               if (!options) return null;
               return (
-                <div key={p.id} className="rounded-xl border border-line bg-surface/40 p-4">
+                <div key={p.id} className="rounded-xl border border-line bg-surface p-4">
                   <h3 className="text-sm font-semibold" style={{ color: p.accent }}>
                     {p.name}
                   </h3>
@@ -88,7 +88,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
               );
             })}
             {kind.thirdParty.length > 0 && (
-              <div className="rounded-xl border border-line bg-surface/40 p-4">
+              <div className="rounded-xl border border-line bg-surface p-4">
                 <h3 className="text-sm font-semibold text-fg-soft">Third-party (works with any cloud)</h3>
                 <OptionList options={kind.thirdParty} />
               </div>
@@ -105,7 +105,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
               <Link
                 key={slug}
                 href={`/concepts/${slug}`}
-                className="rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-500/15"
+                className="rounded-full border border-line-strong bg-emerald-soft px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-soft"
               >
                 {getConcept(slug)?.name ?? slug}
               </Link>
@@ -121,7 +121,7 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
         ) : (
           <ul className="mt-4 space-y-3">
             {usages.map(({ system, nodes }) => (
-              <li key={system.slug} className="rounded-xl border border-line bg-surface/40 p-4">
+              <li key={system.slug} className="rounded-xl border border-line bg-surface p-4">
                 <Link href={`/systems/${system.slug}`} className="font-semibold text-fg hover:underline">
                   {system.name}
                 </Link>
@@ -158,7 +158,7 @@ function OptionList({ options }: { options: ServiceOption[] }) {
           </span>
           <span
             className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
-              o.managed ? "bg-sky-500/10 text-sky-300" : "bg-line-strong/50 text-fg-soft"
+              o.managed ? "bg-sky-soft text-sky-300" : "bg-line-strong/50 text-fg-soft"
             }`}
           >
             {o.managed ? "Managed" : "Self-hosted"}
@@ -171,7 +171,7 @@ function OptionList({ options }: { options: ServiceOption[] }) {
 
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-xl border border-line bg-surface/40 p-5">
+    <div className="rounded-xl border border-line bg-surface p-5">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-muted">{title}</h3>
       <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-fg-soft marker:text-faint">
         {items.map((item) => (

@@ -68,7 +68,7 @@ test("theme toggle switches and remembers light mode", async ({ page }) => {
   const html = page.locator("html");
   await page.getByRole("radio", { name: "Light" }).click();
   await expect(html).toHaveAttribute("data-theme", "light");
-  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(250, 250, 249)");
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(244, 244, 241)");
 
   await page.reload();
   await expect(html).toHaveAttribute("data-theme", "light");
