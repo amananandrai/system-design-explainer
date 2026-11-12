@@ -205,6 +205,18 @@ body {
     animation: sketch-flow 1s linear infinite;
   }
 }
+/* Tinted tiles: borderless, washed in the identity colour. */
+@utility tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--cat) 13%, var(--surface));
+  transition: background-color 250ms, transform 250ms;
+  &:hover {
+    background: color-mix(in srgb, var(--cat) 22%, var(--surface));
+    transform: translateY(-3px);
+  }
+}
 /* Drafting-grid paper behind sketches and card headers. */
 @utility bp-grid {
   background-image:
