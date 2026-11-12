@@ -53,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-bg">
         <a
           href="#main-content"
-          className="sr-only z-50 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-[#fff] focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-50 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-on-primary focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>

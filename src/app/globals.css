@@ -18,8 +18,21 @@
   --color-fg-soft: var(--fg-soft);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-edge: var(--edge);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-step: var(--step);
+  --color-cat-ink: var(--cat-ink);
+  --color-on-cat: var(--on-cat);
+  --color-emerald-soft: var(--emerald-soft);
+  --color-sky-soft: var(--sky-soft);
+  --color-amber-soft: var(--amber-soft);
+  --color-rose-soft: var(--rose-soft);
+  --color-indigo-soft: var(--indigo-soft);
+  --color-cyan-soft: var(--cyan-soft);
+  --color-violet-soft: var(--violet-soft);
   /* Identity colours: the current page's category or concept family. */
   --color-cat: var(--cat);
   --color-cat-tint: var(--cat-tint);
@@ -31,80 +44,110 @@
   --animate-flash: flash 600ms ease-out;
 }
 
-/* Dark (default): deep navy with soft depth. */
+/*
+ * Solid palette: every surface is one flat, opaque colour. No gradients, glows or
+ * see-through tints. Depth comes from ink borders and hard offset shadows.
+ *
+ * Identity colours come in three parts: --cat fills blocks (text on it uses
+ * --on-cat), --cat-ink is the text-safe version, --cat-tint is a solid pale fill.
+ */
+
+/* Dark (default): neutral graphite with poster colours. */
 :root {
   color-scheme: dark;
-  --bg: #0a0f1e;
-  --surface: #111830;
-  --surface-2: #172040;
-  --line: #1f2a4a;
-  --line-strong: #2c3a63;
-  --fg: #eef1f8;
-  --fg-soft: #c9d0e4;
-  --muted: #9aa4c0;
-  --faint: #5b6788;
-  --accent: #818cf8;
-  --accent-2: #a78bfa;
-  --accent-3: #22d3ee;
-  --accent-soft: rgb(129 140 248 / 0.16);
-  --shadow: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 10px 30px rgb(0 0 0 / 0.35);
+  --bg: #18181b;
+  --surface: #232326;
+  --surface-2: #2e2e33;
+  --line: #3a3a40;
+  --line-strong: #55555e;
+  --edge: #7a7a86;
+  --fg: #fafafa;
+  --fg-soft: #d4d4d8;
+  --muted: #a1a1aa;
+  --faint: #6b6b76;
+  --primary: #facc15;
+  --on-primary: #18181b;
+  --accent: #facc15;
+  --accent-soft: #45401f;
+  --step: #facc15;
+  --shadow-ink: #000000;
+  --on-cat: #18181b;
 
-  /* Categories: solid colour for icons and edges, tint for backgrounds, glow for hover. */
-  --cat-media: #fb7185;
-  --cat-mobility: #fbbf24;
-  --cat-commerce: #34d399;
-  --cat-bookings: #a78bfa;
-  --cat-infra: #38bdf8;
-  /* Concept families. */
-  --fam-data: #60a5fa;
-  --fam-scale: #fb923c;
-  --fam-messaging: #c084fc;
-  --fam-reliability: #4ade80;
-  --fam-security: #f87171;
-  --tint-strength: 16%;
-  --glow-strength: 38%;
+  --cat-media: #ff6b6b;
+  --cat-mobility: #ffb020;
+  --cat-commerce: #2dd4a7;
+  --cat-bookings: #b197fc;
+  --cat-infra: #4dabf7;
+  --fam-data: #4dabf7;
+  --fam-scale: #ff922b;
+  --fam-messaging: #da77f2;
+  --fam-reliability: #51cf66;
+  --fam-security: #ff6b6b;
+  /* On graphite the fill colours are readable as text too. */
+  --cat-media-ink: var(--cat-media);
+  --cat-mobility-ink: var(--cat-mobility);
+  --cat-commerce-ink: var(--cat-commerce);
+  --cat-bookings-ink: var(--cat-bookings);
+  --cat-infra-ink: var(--cat-infra);
+  --fam-data-ink: var(--fam-data);
+  --fam-scale-ink: var(--fam-scale);
+  --fam-messaging-ink: var(--fam-messaging);
+  --fam-reliability-ink: var(--fam-reliability);
+  --fam-security-ink: var(--fam-security);
+  --tint-strength: 24%;
 
-  --provider-generic: #9aa4c0;
+  --provider-generic: #a1a1aa;
   --provider-aws: #ff9900;
   --provider-gcp: #669df6;
   --provider-azure: #50a0e8;
   --provider-oss: #4ade80;
   /* Text on a provider-coloured pill. */
-  --on-provider: #0a0f1e;
+  --on-provider: #18181b;
 
-  --cat: var(--accent);
-  --fam: var(--accent);
+  --cat: var(--primary);
+  --cat-ink: var(--accent);
+  --fam: var(--primary);
 }
 
+/* Light: white paper, ink borders, pastel fills. */
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #fafaf9;
+  --bg: #f4f4f1;
   --surface: #ffffff;
-  --surface-2: #f5f5f4;
-  --line: #e7e5e4;
-  --line-strong: #d6d3d1;
-  --fg: #1c1917;
-  --fg-soft: #44403c;
-  --muted: #57534e;
-  --faint: #a8a29e;
-  --accent: #4f46e5;
-  --accent-2: #7c3aed;
-  --accent-3: #0891b2;
-  --accent-soft: rgb(79 70 229 / 0.08);
-  --shadow: 0 1px 2px rgb(28 25 23 / 0.06), 0 8px 24px rgb(28 25 23 / 0.06);
+  --surface-2: #e9e9e4;
+  --line: #d4d4cf;
+  --line-strong: #a3a39c;
+  --edge: #18181b;
+  --fg: #18181b;
+  --fg-soft: #3f3f46;
+  --muted: #5f5f68;
+  --faint: #8e8e96;
+  --accent: #8a5a00;
+  --accent-soft: #fef3c0;
+  --step: #f08c00;
+  --shadow-ink: #18181b;
 
-  --cat-media: #e11d48;
-  --cat-mobility: #d97706;
-  --cat-commerce: #059669;
-  --cat-bookings: #7c3aed;
-  --cat-infra: #0284c7;
-  --fam-data: #2563eb;
-  --fam-scale: #ea580c;
-  --fam-messaging: #9333ea;
-  --fam-reliability: #16a34a;
-  --fam-security: #dc2626;
-  --tint-strength: 9%;
-  --glow-strength: 28%;
+  --cat-media: #ff8787;
+  --cat-mobility: #ffc94d;
+  --cat-commerce: #5eddb8;
+  --cat-bookings: #c4b0ff;
+  --cat-infra: #74c0fc;
+  --fam-data: #74c0fc;
+  --fam-scale: #ffa94d;
+  --fam-messaging: #e599f7;
+  --fam-reliability: #8ce99a;
+  --fam-security: #ffa8a8;
+  --cat-media-ink: #c92a2a;
+  --cat-mobility-ink: #8a5a00;
+  --cat-commerce-ink: #087f5b;
+  --cat-bookings-ink: #6741d9;
+  --cat-infra-ink: #1864ab;
+  --fam-data-ink: #1864ab;
+  --fam-scale-ink: #b34700;
+  --fam-messaging-ink: #9c36b5;
+  --fam-reliability-ink: #2b8a3e;
+  --fam-security-ink: #c92a2a;
+  --tint-strength: 38%;
 
   /* Accent tints used for text get darker for contrast on white. */
   --color-indigo-200: #3730a3;
@@ -117,7 +160,7 @@
   --color-violet-300: #6d28d9;
   --color-cyan-300: #0e7490;
 
-  --provider-generic: #57534e;
+  --provider-generic: #5f5f68;
   --provider-aws: #c2410c;
   --provider-gcp: #1d4ed8;
   --provider-azure: #0369a1;
@@ -128,45 +171,61 @@
 /* A band that stays dark in both themes (e.g. learning paths on the home page). */
 .scope-dark {
   color-scheme: dark;
-  --bg: #0a0f1e;
-  --surface: #111830;
-  --surface-2: #172040;
-  --line: #24305a;
-  --line-strong: #2c3a63;
-  --fg: #eef1f8;
-  --fg-soft: #c9d0e4;
-  --muted: #9aa4c0;
-  --faint: #5b6788;
-  --accent: #a5b4fc;
-  --accent-soft: rgb(165 180 252 / 0.16);
-  --cat-media: #fb7185;
-  --cat-mobility: #fbbf24;
-  --cat-commerce: #34d399;
-  --cat-bookings: #a78bfa;
-  --cat-infra: #38bdf8;
-  --tint-strength: 16%;
-  --glow-strength: 38%;
+  --bg: #18181b;
+  --surface: #232326;
+  --surface-2: #2e2e33;
+  --line: #3a3a40;
+  --line-strong: #55555e;
+  --edge: #7a7a86;
+  --fg: #fafafa;
+  --fg-soft: #d4d4d8;
+  --muted: #a1a1aa;
+  --faint: #6b6b76;
+  --accent: #facc15;
+  --accent-soft: #45401f;
+  --step: #facc15;
+  --shadow-ink: #000000;
+  --cat-media: #ff6b6b;
+  --cat-mobility: #ffb020;
+  --cat-commerce: #2dd4a7;
+  --cat-bookings: #b197fc;
+  --cat-infra: #4dabf7;
+  --cat-media-ink: var(--cat-media);
+  --cat-mobility-ink: var(--cat-mobility);
+  --cat-commerce-ink: var(--cat-commerce);
+  --cat-bookings-ink: var(--cat-bookings);
+  --cat-infra-ink: var(--cat-infra);
+  --tint-strength: 24%;
 }
 
 /* Page-level identity: set data-category / data-family on a wrapper. */
-[data-category="media-social"] { --cat: var(--cat-media); }
-[data-category="mobility"] { --cat: var(--cat-mobility); }
-[data-category="commerce-fintech"] { --cat: var(--cat-commerce); }
-[data-category="bookings"] { --cat: var(--cat-bookings); }
-[data-category="infrastructure"] { --cat: var(--cat-infra); }
-[data-family="data"] { --fam: var(--fam-data); --cat: var(--fam-data); }
-[data-family="scale"] { --fam: var(--fam-scale); --cat: var(--fam-scale); }
-[data-family="messaging"] { --fam: var(--fam-messaging); --cat: var(--fam-messaging); }
-[data-family="reliability"] { --fam: var(--fam-reliability); --cat: var(--fam-reliability); }
-[data-family="security"] { --fam: var(--fam-security); --cat: var(--fam-security); }
+[data-category="media-social"] { --cat: var(--cat-media); --cat-ink: var(--cat-media-ink); }
+[data-category="mobility"] { --cat: var(--cat-mobility); --cat-ink: var(--cat-mobility-ink); }
+[data-category="commerce-fintech"] { --cat: var(--cat-commerce); --cat-ink: var(--cat-commerce-ink); }
+[data-category="bookings"] { --cat: var(--cat-bookings); --cat-ink: var(--cat-bookings-ink); }
+[data-category="infrastructure"] { --cat: var(--cat-infra); --cat-ink: var(--cat-infra-ink); }
+[data-family="data"] { --fam: var(--fam-data); --cat: var(--fam-data); --cat-ink: var(--fam-data-ink); }
+[data-family="scale"] { --fam: var(--fam-scale); --cat: var(--fam-scale); --cat-ink: var(--fam-scale-ink); }
+[data-family="messaging"] { --fam: var(--fam-messaging); --cat: var(--fam-messaging); --cat-ink: var(--fam-messaging-ink); }
+[data-family="reliability"] { --fam: var(--fam-reliability); --cat: var(--fam-reliability); --cat-ink: var(--fam-reliability-ink); }
+[data-family="security"] { --fam: var(--fam-security); --cat: var(--fam-security); --cat-ink: var(--fam-security-ink); }
 
+/* Solid pale fills: each colour mixed into the opaque surface, never into transparency. */
 :root,
 [data-category],
 [data-family],
 .scope-dark {
-  --cat-tint: color-mix(in srgb, var(--cat) var(--tint-strength), transparent);
-  --cat-glow: color-mix(in srgb, var(--cat) var(--glow-strength), transparent);
-  --fam-tint: color-mix(in srgb, var(--fam) var(--tint-strength), transparent);
+  --cat-tint: color-mix(in srgb, var(--cat) var(--tint-strength), var(--surface));
+  --fam-tint: color-mix(in srgb, var(--fam) var(--tint-strength), var(--surface));
+  --shadow: 4px 4px 0 var(--shadow-ink);
+  --shadow-lift: 7px 7px 0 var(--shadow-ink);
+  --emerald-soft: color-mix(in srgb, #2dd4a7 20%, var(--surface));
+  --sky-soft: color-mix(in srgb, #4dabf7 20%, var(--surface));
+  --amber-soft: color-mix(in srgb, #ffb020 20%, var(--surface));
+  --rose-soft: color-mix(in srgb, #ff6b6b 20%, var(--surface));
+  --indigo-soft: color-mix(in srgb, #748ffc 20%, var(--surface));
+  --cyan-soft: color-mix(in srgb, #3bc9db 20%, var(--surface));
+  --violet-soft: color-mix(in srgb, #b197fc 20%, var(--surface));
 }
 
 body {
@@ -189,36 +248,40 @@ body {
   box-shadow: var(--shadow);
 }
 @utility shadow-glow {
-  box-shadow: var(--shadow), 0 8px 28px -6px var(--cat-glow);
+  box-shadow: var(--shadow-lift);
 }
-/* Blueprint cards: crisp corners, a strong outline that takes the identity colour on hover. */
+/* Cut-paper cards: ink border, hard offset shadow, lifts toward the top-left on hover. */
 @utility bp-card {
   background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  transition: border-color 200ms, transform 200ms;
+  border: 2px solid var(--edge);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  transition: transform 180ms, box-shadow 180ms;
   &:hover {
-    border-color: var(--cat);
-    transform: translateY(-2px);
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-lift);
   }
   &:hover .sketch-edge {
     animation: sketch-flow 1s linear infinite;
   }
 }
-/* Tinted tiles: borderless, washed in the identity colour. */
+/* Tiles filled with the solid pale identity colour. */
 @utility tile {
   position: relative;
   overflow: hidden;
-  border-radius: 26px;
-  background: color-mix(in srgb, var(--cat) 13%, var(--surface));
-  transition: background-color 250ms, transform 250ms;
+  border: 2px solid var(--edge);
+  border-radius: 22px;
+  background: var(--cat-tint);
+  box-shadow: var(--shadow);
+  transition: transform 180ms, box-shadow 180ms;
   &:hover {
-    background: color-mix(in srgb, var(--cat) 22%, var(--surface));
-    transform: translateY(-3px);
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-lift);
   }
 }
 /* Drafting-grid paper behind sketches and card headers. */
 @utility bp-grid {
+  background-color: var(--surface-2);
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
     linear-gradient(90deg, var(--line) 1px, transparent 1px);
@@ -231,20 +294,49 @@ body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-@utility bg-brand {
-  background-image: linear-gradient(135deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+/* Solid chip in the identity colour. */
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  border-radius: 3px;
+  background: var(--cat);
+  color: var(--on-cat);
+  padding: 2px 7px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
+/* Buttons: ink border and hard shadow, same lift as cards. */
+@utility btn {
+  border: 2px solid var(--edge);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  transition: transform 180ms, box-shadow 180ms;
+  &:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+@utility bg-brand {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+/* Highlighter block behind a word, in place of gradient text. */
 @utility text-brand {
-  background-image: linear-gradient(120deg, var(--accent), var(--accent-2) 50%, var(--accent-3));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-radius: 4px;
+  padding: 0 0.18em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 @utility border-brand {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)) border-box;
+  border: 2px solid var(--edge);
+  background: var(--surface);
 }
 
 @keyframes shimmer {
@@ -257,7 +349,7 @@ body {
 }
 @keyframes flash {
   0% { box-shadow: 0 0 0 0 var(--flash-colour, var(--accent)); }
-  40% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--flash-colour, var(--accent)) 45%, transparent); }
+  40% { box-shadow: 0 0 0 4px var(--flash-colour, var(--accent)); }
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 .sketch-edge-live {
@@ -266,15 +358,18 @@ body {
 @keyframes sketch-flow {
   to { stroke-dashoffset: -12; }
 }
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(6%, -4%) scale(1.08); }
-  66% { transform: translate(-5%, 5%) scale(0.95); }
+/* Walkthrough dimming without transparency: off-path nodes go flat and grey. */
+.architecture-node.is-dimmed {
+  background: var(--bg);
+  border-color: var(--line);
+}
+.architecture-node.is-dimmed * {
+  color: var(--faint) !important;
+  background-color: transparent !important;
 }
 
 .skeleton {
-  background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 37%, var(--surface-2) 63%);
-  background-size: 400% 100%;
+  background: var(--surface-2);
 }
 
 @media (prefers-reduced-motion: reduce) {

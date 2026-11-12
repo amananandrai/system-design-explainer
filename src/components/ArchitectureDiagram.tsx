@@ -72,7 +72,7 @@ export default function ArchitectureDiagram({
   );
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-md border border-line-strong bg-bg">
+    <div className="relative h-full w-full overflow-hidden rounded-[10px] border-2 border-edge bg-bg">
       {graph ? (
         // Remount per system so fitView frames each new diagram.
         <FlowCanvas
@@ -151,17 +151,17 @@ function FlowCanvas({
         variant={BackgroundVariant.Lines}
         gap={24}
         lineWidth={1}
-        color="color-mix(in srgb, var(--line) 60%, transparent)"
+        color="var(--line)"
       />
       {!staticView && (
         <Controls
           showInteractive={false}
-          className="overflow-hidden !rounded-[3px] !border !border-line-strong !bg-surface !shadow-none [&>button]:!border-line [&>button]:!bg-surface [&>button]:!text-fg-soft [&>button:hover]:!bg-surface-2"
+          className="overflow-hidden !rounded-[3px] !border-2 !border-edge !bg-surface !shadow-none [&>button]:!border-line [&>button]:!bg-surface [&>button]:!text-fg-soft [&>button:hover]:!bg-surface-2"
         />
       )}
       {!staticView && (
         <Panel position="top-right">
-          <ul className="space-y-1 rounded-[3px] border border-line-strong bg-surface/90 px-3 py-2 backdrop-blur">
+          <ul className="space-y-1 rounded-[3px] border-2 border-edge bg-surface px-3 py-2">
             {protocols.map((p) => {
               const style = edgeStyles[p];
               return (

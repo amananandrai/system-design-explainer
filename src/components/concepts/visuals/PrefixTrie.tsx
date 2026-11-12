@@ -46,7 +46,7 @@ export default function PrefixTrie() {
         {[...p].map((ch, i) => (
           <span key={i} className="flex items-center gap-1">
             <span className="text-faint">→</span>
-            <span className="rounded-md bg-accent px-2 py-1 font-mono text-xs text-[#fff]">{ch === " " ? "␣" : ch}</span>
+            <span className="rounded-md bg-primary px-2 py-1 font-mono text-xs text-on-primary">{ch === " " ? "␣" : ch}</span>
           </span>
         ))}
         {next.length > 0 && (

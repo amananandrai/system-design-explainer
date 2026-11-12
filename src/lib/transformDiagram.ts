@@ -108,7 +108,9 @@ export function systemToFlow(
       selectedNodeId !== null && (edge.from === selectedNodeId || edge.to === selectedNodeId);
     const emphasised = flow ? isActiveStep || isVisitedStep : touchesSelection;
     const dimmed = flow ? !emphasised : selectedNodeId !== null && !touchesSelection;
-    const color = isActiveStep ? FLOW_COLOR : style.color;
+    // Off-path edges go flat grey rather than see-through.
+    const color = isActiveStep ? FLOW_COLOR : dimmed ? "var(--line)" : style.color;
+    const markerColor = isActiveStep ? FLOW_COLOR : dimmed ? "#55555e" : style.color;
 
     return {
       id: edge.id,
@@ -119,12 +121,11 @@ export function systemToFlow(
       // The active step is a flowing dashed line that also carries a packet dot.
       animated: isActiveStep || style.animated,
       data: { packet: isActiveStep, packetColor: FLOW_COLOR },
-      markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
+      markerEnd: { type: MarkerType.ArrowClosed, color: markerColor, width: 16, height: 16 },
       style: {
         stroke: color,
         strokeWidth: isActiveStep ? 2.5 : emphasised ? 2 : 1.3,
         strokeDasharray: isActiveStep ? "6 4" : style.dash,
-        opacity: dimmed ? 0.15 : 1,
       },
       labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--fg-soft)", fontSize: 10.5, fontFamily: "var(--font-geist-mono), ui-monospace, monospace" },
       labelBgStyle: { fill: "var(--surface)" },

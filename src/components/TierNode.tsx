@@ -14,8 +14,8 @@ function TierNodeComponent({ data }: NodeProps) {
     <div
       className="pointer-events-none h-full w-full rounded-[3px] border border-dashed"
       style={{
-        background: `color-mix(in srgb, ${hue} 4%, transparent)`,
-        borderColor: `color-mix(in srgb, ${hue} 45%, var(--line-strong))`,
+        background: `color-mix(in srgb, ${hue} 5%, var(--bg))`,
+        borderColor: "var(--edge)",
       }}
     >
       <p className="flex items-center gap-1.5 px-4 pt-2 font-mono text-[10px] uppercase tracking-widest text-fg-soft">

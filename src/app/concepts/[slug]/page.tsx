@@ -39,13 +39,13 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
 
   return (
     <div data-family={concept.family}>
-      <header className="bg-gradient-to-b from-cat-tint to-transparent">
+      <header className="border-b-2 border-edge bg-cat-tint">
         <div className="mx-auto max-w-4xl px-4 pb-4 pt-6 md:px-8 md:pt-10">
           <Link href="/concepts" className="text-xs text-muted hover:text-fg">
             ← All concepts
           </Link>
           <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-fg shadow-soft">
-            <span className="text-cat">
+            <span className="text-cat-ink">
               <FamilyIcon family={concept.family} size={13} />
             </span>
             {conceptFamilyLabels[concept.family]}
@@ -91,7 +91,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
                 <li key={s.slug}>
                   <Link
                     href={`/systems/${s.slug}`}
-                    className="block rounded-xl border border-line bg-surface/40 p-4 hover:border-line-strong"
+                    className="block rounded-xl border border-line bg-surface p-4 hover:border-line-strong"
                   >
                     <span className="font-semibold text-fg">{s.name}</span>
                     <span className="mt-0.5 block text-sm text-muted">{s.tagline}</span>
@@ -110,7 +110,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
                 <Link
                   key={c.id}
                   href={`/components/${c.id}`}
-                  className="flex items-center gap-2 rounded-lg border border-line bg-surface/40 px-3 py-1.5 text-sm text-fg-soft hover:border-line-strong"
+                  className="flex items-center gap-2 rounded-lg border border-line bg-surface px-3 py-1.5 text-sm text-fg-soft hover:border-line-strong"
                 >
                   <span style={{ color: getCategoryColor(c.category) }}>
                     <KindIcon kindId={c.id} size={14} />
@@ -130,7 +130,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
                 <Link
                   key={r}
                   href={`/concepts/${r}`}
-                  className="rounded-full border border-emerald-500/30 bg-emerald-500/5 px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-500/15"
+                  className="rounded-full border border-line-strong bg-emerald-soft px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-soft"
                 >
                   {getConcept(r)?.name ?? r}
                 </Link>
@@ -145,7 +145,7 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
 
 function ListCard({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-xl border border-line bg-surface/40 p-5">
+    <div className="rounded-xl border border-line bg-surface p-5">
       <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{title}</h2>
       <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-fg-soft marker:text-faint">
         {items.map((item) => (

@@ -13,7 +13,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/#catalogue"
-        className="bg-brand shadow-soft mt-7 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-[#fff] transition-all hover:-translate-y-0.5"
+        className="btn bg-brand mt-7 inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold"
       >
         Browse all systems <ArrowRight size={16} aria-hidden />
       </Link>

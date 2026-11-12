@@ -127,12 +127,12 @@ export default function SystemCatalogue({
               href={`/systems/${card.slug}`}
               className="bp-card group flex h-full flex-col overflow-hidden"
             >
-              <div className="bp-grid border-b border-line-strong px-3 pb-2 pt-2.5">
+              <div className="bp-grid border-b-2 border-edge px-3 pb-2 pt-2.5">
                 <SystemSketch sketch={card.sketch} />
               </div>
               <div className="flex flex-1 flex-col gap-2 p-4">
-                <p className="bp-label flex items-center gap-1.5 text-cat">
-                  <SystemIcon slug={card.slug} size={13} />
+                <p className="chip">
+                  <SystemIcon slug={card.slug} size={12} />
                   {card.categoryLabel}
                 </p>
                 <p className="text-lg font-semibold leading-snug tracking-tight text-fg">{card.name}</p>
@@ -146,7 +146,7 @@ export default function SystemCatalogue({
                     {card.concepts.length > 3 && <span className="text-muted"> +{card.concepts.length - 3}</span>}
                   </p>
                 )}
-                <p className="mt-1 flex flex-wrap justify-between gap-x-3 gap-y-1 border-t border-dashed border-line-strong pt-2.5 font-mono text-[11.5px] text-muted">
+                <p className="mt-1 flex flex-wrap justify-between gap-x-3 gap-y-1 border-t border-dashed border-edge pt-2.5 font-mono text-[11.5px] text-muted">
                   <span>
                     {card.componentCount} components · {card.flowCount} flows
                   </span>
@@ -196,8 +196,8 @@ function ChipGroup({
           className={`flex h-9 items-center gap-1.5 rounded border px-2.5 font-mono text-xs lowercase transition-colors ${
             value === o.value
               ? categoryDots && o.value
-                ? "border-cat bg-cat-tint text-fg"
-                : "border-line-strong bg-surface-2 text-fg"
+                ? "border-edge bg-cat text-on-cat"
+                : "border-edge bg-primary text-on-primary"
               : "border-line text-muted hover:border-line-strong hover:text-fg"
           }`}
         >

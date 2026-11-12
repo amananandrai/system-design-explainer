@@ -35,7 +35,7 @@ export default function GeoGrid() {
               onClick={() => setRider([c, r])}
               aria-label={`Cell ${c},${r}${drivers ? `, ${drivers} driver` : ""}${isRider ? ", rider here" : ""}`}
               className={`flex aspect-square items-center justify-center rounded-md text-base transition-colors ${
-                near(c, r) ? "bg-accent-soft ring-1 ring-accent/40" : "bg-surface-2 hover:bg-line"
+                near(c, r) ? "bg-accent-soft ring-1 ring-accent" : "bg-surface-2 hover:bg-line"
               }`}
             >
               {isRider ? "🧍" : drivers ? "🚗" : ""}

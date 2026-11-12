@@ -119,15 +119,9 @@ export default function HomePage() {
     <div>
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Hero */}
-        <section className="relative isolate grid items-center gap-10 py-10 md:py-16 lg:grid-cols-[1fr_1.15fr]">
-          {/* Mesh gradient: three slow-drifting blurred blobs behind the hero. */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_72%)]">
-            <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[var(--accent)] opacity-20 blur-3xl [animation:drift_18s_ease-in-out_infinite]" />
-            <div className="absolute left-1/3 top-1/3 h-72 w-72 rounded-full bg-[var(--accent-2)] opacity-15 blur-3xl [animation:drift_22s_ease-in-out_infinite_reverse]" />
-            <div className="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-[var(--accent-3)] opacity-15 blur-3xl [animation:drift_26s_ease-in-out_infinite]" />
-          </div>
+        <section className="grid items-center gap-10 py-10 md:py-16 lg:grid-cols-[1fr_1.15fr]">
           <div>
-            <p className="text-sm font-medium text-accent">
+            <p className="font-mono text-xs text-muted">
               {systems.length} systems · {components.length} components · {concepts.length} concepts
             </p>
             <h1 className="mt-3 text-4xl font-semibold tracking-tight text-fg md:text-5xl">
@@ -140,13 +134,13 @@ export default function HomePage() {
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/systems/youtube"
-                className="inline-flex items-center gap-2 bg-brand shadow-soft rounded-xl px-4 py-2.5 text-sm font-semibold text-[#fff] transition-all hover:-translate-y-0.5 hover:opacity-95"
+                className="btn bg-brand inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold"
               >
                 Explore YouTube <ArrowRight size={16} aria-hidden />
               </Link>
               <a
                 href="#catalogue"
-                className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5 text-sm font-semibold text-fg transition-colors hover:border-line-strong"
+                className="btn inline-flex items-center gap-2 bg-surface px-4 py-2.5 text-sm font-semibold text-fg"
               >
                 Browse all systems
               </a>
@@ -168,7 +162,7 @@ export default function HomePage() {
                 className="bp-card p-5"
               >
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded border border-cat bg-cat-tint text-cat"
+                  className="flex h-9 w-9 items-center justify-center rounded border-2 border-edge bg-cat text-on-cat"
                   aria-hidden
                 >
                   <Icon size={18} />
@@ -184,13 +178,8 @@ export default function HomePage() {
       {/* Learning paths: a dark band in both themes breaks up the page. */}
       <section
         aria-labelledby="paths"
-        className="scope-dark relative isolate my-10 overflow-hidden bg-bg py-14"
+        className="scope-dark my-10 border-y-2 border-edge bg-bg py-14"
       >
-        <div aria-hidden className="bg-brand absolute inset-x-0 top-0 h-px opacity-60" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[var(--accent-2)] opacity-15 blur-3xl"
-        />
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <h2 id="paths" className="text-2xl font-semibold tracking-tight text-fg">
             Learning paths

@@ -31,42 +31,55 @@ export default function ComponentsPage() {
       <div className="mt-8 space-y-10">
         {groups.map(({ category, items }) => (
           <section key={category}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest" style={{ color: getCategoryColor(category) }}>
+            <h2 className="bp-label flex items-center gap-2" style={{ color: getCategoryColor(category) }}>
+              <span className="h-[7px] w-[7px]" style={{ background: getCategoryColor(category) }} aria-hidden />
               {componentCategoryLabels[category]}
+              <span className="text-faint">/ {items.length}</span>
             </h2>
-            <div className="mt-3 overflow-x-auto rounded-xl border border-line">
-              <table className="w-full min-w-[900px] text-left text-sm">
-                <thead className="bg-surface text-[11px] uppercase tracking-wider text-muted">
-                  <tr>
-                    <th className="w-60 px-4 py-2.5 font-semibold">Component</th>
+            <div className="mt-2.5 overflow-x-auto rounded-[10px] border-2 border-edge bg-surface shadow-soft">
+              <table className="w-full min-w-[900px] border-collapse text-left text-[13.5px]">
+                <thead className="bp-grid font-mono text-[10.5px] uppercase tracking-[0.08em] text-muted">
+                  <tr className="[&>th+th]:border-l [&>th+th]:border-line [&>th]:border-b-2 [&>th]:border-edge">
+                    <th className="w-60 px-3.5 py-2.5 font-medium">Component</th>
                     {serviceProviders.map((p) => (
-                      <th key={p.id} className="px-4 py-2.5 font-semibold" style={{ color: p.accent }}>
+                      <th key={p.id} className="whitespace-nowrap px-3.5 py-2.5 font-medium" style={{ color: p.accent }}>
+                        <span
+                          className="mr-1.5 inline-block h-1.5 w-1.5 align-[1px]"
+                          style={{ background: p.accent }}
+                          aria-hidden
+                        />
                         {p.shortName}
                       </th>
                     ))}
-                    <th className="w-24 px-4 py-2.5 font-semibold">Used in</th>
+                    <th className="w-28 px-3.5 py-2.5 font-medium">Used in</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line">
+                <tbody className="[&>tr+tr>td]:border-t [&>tr+tr>td]:border-dashed [&>tr+tr>td]:border-t-line-strong">
                   {items.map((c) => {
                     const used = usagesOfComponent(c.id).length;
                     return (
-                      <tr key={c.id} className="bg-surface/40 align-top">
-                        <td className="px-4 py-3">
+                      <tr
+                        key={c.id}
+                        className="align-top transition-colors hover:bg-surface-2 [&>td+td]:border-l [&>td+td]:border-l-line"
+                      >
+                        <td
+                          className="px-3.5 py-2.5"
+                          style={{ boxShadow: `inset 5px 0 0 ${getCategoryColor(c.category)}` }}
+                        >
                           <Link href={`/components/${c.id}`} className="group flex items-center gap-2.5">
                             <span
-                              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
-                              style={{ backgroundColor: `${getCategoryColor(c.category)}26`, color: getCategoryColor(c.category) }}
+                              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm"
+                              style={{ backgroundColor: `color-mix(in srgb, ${getCategoryColor(c.category)} 22%, var(--surface))`, color: getCategoryColor(c.category) }}
                             >
                               <KindIcon kindId={c.id} size={15} />
                             </span>
-                            <span className="font-medium text-fg group-hover:underline">{c.name}</span>
+                            <span className="font-semibold text-fg group-hover:underline">{c.name}</span>
                           </Link>
                         </td>
                         {serviceProviders.map((p) => {
                           const options = c.providers[p.id];
                           return (
-                            <td key={p.id} className="px-4 py-3 text-fg-soft">
+                            <td key={p.id} className="px-3.5 py-2.5 text-fg-soft">
                               {options ? (
                                 <>
                                   {options[0].name}
@@ -82,7 +95,7 @@ export default function ComponentsPage() {
                             </td>
                           );
                         })}
-                        <td className="px-4 py-3 text-muted">
+                        <td className="whitespace-nowrap px-3.5 py-2.5 font-mono text-xs tabular-nums text-muted">
                           {used > 0 ? `${used} system${used === 1 ? "" : "s"}` : "—"}
                         </td>
                       </tr>

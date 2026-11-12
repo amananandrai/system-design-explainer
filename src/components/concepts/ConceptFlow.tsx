@@ -44,7 +44,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-md border border-line-strong bg-surface">
+    <div className="overflow-hidden rounded-[10px] border-2 border-edge bg-surface shadow-soft">
       {system.flows.length > 1 && (
         <div role="tablist" aria-label="Scenarios" className="flex flex-wrap gap-1 border-b border-line px-3 py-2">
           {system.flows.map((f, i) => (
@@ -76,7 +76,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
       </div>
 
       {flow && (
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-amber-500/30 bg-amber-500/5 px-3 py-2.5">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-edge bg-amber-soft px-3 py-2.5">
           <div className="flex items-center gap-1">
             <ControlButton label="Previous step" disabled={step === 0} onClick={() => setStep(step - 1)}>
               <ChevronLeft size={16} />

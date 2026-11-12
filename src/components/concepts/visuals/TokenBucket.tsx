@@ -62,7 +62,7 @@ export default function TokenBucket() {
           <li
             key={entry.id}
             className={`rounded-md px-2 py-1 font-mono text-xs ${
-              entry.ok ? "bg-emerald-500/10 text-emerald-300" : "bg-rose-500/10 text-rose-300"
+              entry.ok ? "bg-emerald-soft text-emerald-300" : "bg-rose-soft text-rose-300"
             }`}
           >
             {entry.ok ? "200 OK" : "429 Too Many"}

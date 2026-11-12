@@ -19,7 +19,7 @@ export default function WorkspaceTabs({ tabs }: { tabs: WorkspaceTab[] }) {
       <div
         role="tablist"
         aria-label="System details"
-        className="sticky top-0 z-[5] flex gap-1 overflow-x-auto border-b border-line bg-surface/95 px-3 pt-2 backdrop-blur"
+        className="sticky top-0 z-[5] flex gap-1 overflow-x-auto border-b border-line bg-surface px-3 pt-2"
       >
         {tabs.map((tab) => {
           const selected = tab.id === active.id;

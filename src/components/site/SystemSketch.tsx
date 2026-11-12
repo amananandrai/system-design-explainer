@@ -28,8 +28,8 @@ export default function SystemSketch({ sketch, animated = false }: { sketch: Ske
           key={link}
           d={paths[link]}
           fill="none"
-          stroke="var(--cat)"
-          strokeWidth="1.2"
+          stroke="var(--fg-soft)"
+          strokeWidth="1.3"
           strokeDasharray="3 3"
           className={animated ? "sketch-edge sketch-edge-live" : "sketch-edge"}
         />
@@ -45,14 +45,16 @@ export default function SystemSketch({ sketch, animated = false }: { sketch: Ske
               width={W}
               height={H}
               rx="2"
-              fill={i === 1 ? "color-mix(in srgb, var(--cat) 14%, var(--surface))" : "var(--surface)"}
-              stroke={i === 1 ? "var(--cat)" : "var(--line-strong)"}
+              fill={i === 1 ? "var(--cat)" : "var(--surface)"}
+              stroke="var(--edge)"
+              strokeWidth="1.5"
             />
             <text
               x={x + W / 2}
               y={y + 14}
               textAnchor="middle"
-              fill="var(--fg-soft)"
+              fill={i === 1 ? "var(--on-cat)" : "var(--fg-soft)"}
+              fontWeight={i === 1 ? 600 : 400}
               fontSize="8.5"
               className="font-mono"
             >

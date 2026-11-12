@@ -11,24 +11,24 @@ import WorkspaceTabs, { type WorkspaceTab } from "./WorkspaceTabs";
 import { NodeChip, PlayFlowButton } from "./JumpLinks";
 
 const methodColors: Record<string, string> = {
-  GET: "text-emerald-300 bg-emerald-500/10",
-  POST: "text-sky-300 bg-sky-500/10",
-  PUT: "text-amber-300 bg-amber-500/10",
-  PATCH: "text-amber-300 bg-amber-500/10",
-  DELETE: "text-rose-300 bg-rose-500/10",
-  WS: "text-violet-300 bg-violet-500/10",
-  GRPC: "text-cyan-300 bg-cyan-500/10",
+  GET: "text-emerald-300 bg-emerald-soft",
+  POST: "text-sky-300 bg-sky-soft",
+  PUT: "text-amber-300 bg-amber-soft",
+  PATCH: "text-amber-300 bg-amber-soft",
+  DELETE: "text-rose-300 bg-rose-soft",
+  WS: "text-violet-300 bg-violet-soft",
+  GRPC: "text-cyan-300 bg-cyan-soft",
 };
 
 /** Store families, matched on the first keyword in a data model's free-text store. */
 const storeTypes: { match: RegExp; label: string; className: string }[] = [
-  { match: /relational/i, label: "Relational", className: "text-sky-300 bg-sky-500/10" },
-  { match: /wide-column/i, label: "Wide-column", className: "text-violet-300 bg-violet-500/10" },
-  { match: /key-value|document/i, label: "Key-value", className: "text-amber-300 bg-amber-500/10" },
-  { match: /in-memory|cache/i, label: "In-memory", className: "text-rose-300 bg-rose-500/10" },
-  { match: /object storage|disk/i, label: "Object", className: "text-emerald-300 bg-emerald-500/10" },
-  { match: /search/i, label: "Search", className: "text-cyan-300 bg-cyan-500/10" },
-  { match: /graph/i, label: "Graph", className: "text-indigo-300 bg-indigo-500/10" },
+  { match: /relational/i, label: "Relational", className: "text-sky-300 bg-sky-soft" },
+  { match: /wide-column/i, label: "Wide-column", className: "text-violet-300 bg-violet-soft" },
+  { match: /key-value|document/i, label: "Key-value", className: "text-amber-300 bg-amber-soft" },
+  { match: /in-memory|cache/i, label: "In-memory", className: "text-rose-300 bg-rose-soft" },
+  { match: /object storage|disk/i, label: "Object", className: "text-emerald-300 bg-emerald-soft" },
+  { match: /search/i, label: "Search", className: "text-cyan-300 bg-cyan-soft" },
+  { match: /graph/i, label: "Graph", className: "text-indigo-300 bg-indigo-soft" },
 ];
 
 function storeType(store: string) {
@@ -73,8 +73,8 @@ export default function SystemPage({ system }: { system: SystemDesign }) {
       slug={system.slug}
       left={
         <>
-          <div className="flex items-center gap-4 border-b border-line bg-gradient-to-r from-cat-tint via-cat-tint/40 to-transparent px-4 py-4 pr-14 md:px-6">
-            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-surface text-cat shadow-soft sm:flex">
+          <div className="flex items-center gap-4 border-b-2 border-edge bg-cat-tint px-4 py-4 pr-14 md:px-6">
+            <span className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl border-2 border-edge bg-cat text-on-cat sm:flex">
               <SystemIcon slug={system.slug} size={24} />
             </span>
             <div className="min-w-0">
@@ -195,9 +195,8 @@ function CapacityPanel({ system }: { system: SystemDesign }) {
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
       {system.estimates.map((e) => (
         <div key={e.label} className="relative overflow-hidden rounded-xl border border-line p-4">
-          <div className="bg-brand absolute inset-x-0 top-0 h-0.5 opacity-70" aria-hidden />
           <p className="text-xs font-medium uppercase tracking-wider text-muted">{e.label}</p>
-          <p className="text-brand mt-1 inline-block text-2xl font-bold tracking-tight tabular-nums">
+          <p className="mt-1 inline-block text-2xl font-bold text-fg tracking-tight tabular-nums">
             {e.value}
           </p>
           {e.derivation && (

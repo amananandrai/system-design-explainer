@@ -15,9 +15,9 @@ export interface LearningPath {
 /** Four-segment progress bar: one segment per system in the path. */
 function ProgressSegments({ done, total }: { done: number; total: number }) {
   return (
-    <div role="img" aria-label={`${done} of ${total} visited`} className="mt-2.5 flex gap-[3px]">
+    <div role="img" aria-label={`${done} of ${total} visited`} className="flex gap-[3px]">
       {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={`h-[5px] flex-1 transition-colors duration-500 ${i < done ? "bg-cat" : "bg-line-strong"}`} />
+        <span key={i} className={`h-[7px] flex-1 border border-edge transition-colors duration-500 ${i < done ? "bg-cat" : "bg-surface-2"}`} />
       ))}
     </div>
   );
@@ -40,11 +40,13 @@ export default function LearningPaths({ paths }: { paths: LearningPath[] }) {
             data-category={path.hue}
             className={`bp-card overflow-hidden ${stairs[index] ?? ""}`}
           >
-            <header className="bp-grid border-b border-line-strong px-5 py-4">
-              <p className="bp-label text-cat">{path.level}</p>
-              <h3 className="mt-1 font-semibold text-fg">{path.title}</h3>
-              <ProgressSegments done={done} total={path.systems.length} />
+            <header className="border-b-2 border-edge bg-cat px-5 py-3 text-on-cat">
+              <p className="bp-label">{path.level}</p>
+              <h3 className="mt-0.5 font-semibold">{path.title}</h3>
             </header>
+            <div className="px-5 pt-3">
+              <ProgressSegments done={done} total={path.systems.length} />
+            </div>
             <ol className="space-y-2 px-5 py-4">
               {path.systems.map((s, i) => {
                 const seen = visited.includes(s.slug);
@@ -54,7 +56,7 @@ export default function LearningPaths({ paths }: { paths: LearningPath[] }) {
                       <span
                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded font-mono text-xs font-medium transition-colors ${
                           seen
-                            ? "bg-cat text-bg"
+                            ? "bg-cat text-on-cat"
                             : "bg-surface-2 text-muted group-hover:bg-cat-tint group-hover:text-fg"
                         }`}
                       >
@@ -69,12 +71,12 @@ export default function LearningPaths({ paths }: { paths: LearningPath[] }) {
             {next ? (
               <Link
                 href={`/systems/${next.slug}`}
-                className="block border-t border-dashed border-line-strong px-5 py-2.5 font-mono text-[11.5px] text-cat hover:underline"
+                className="block border-t border-dashed border-edge px-5 py-2.5 font-mono text-[11.5px] text-fg hover:underline"
               >
                 {done > 0 ? "continue" : "start"} → {next.name}
               </Link>
             ) : (
-              <p className="border-t border-dashed border-line-strong px-5 py-2.5 font-mono text-[11.5px] text-cat">
+              <p className="border-t border-dashed border-edge px-5 py-2.5 font-mono text-[11.5px] text-fg">
                 path complete
               </p>
             )}

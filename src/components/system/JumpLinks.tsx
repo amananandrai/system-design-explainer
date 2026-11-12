@@ -29,7 +29,7 @@ export function PlayFlowButton({ flowId }: { flowId: string }) {
         window.dispatchEvent(new Event(PLAY_FLOW_EVENT));
         scrollToSection("architecture");
       }}
-      className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/15 px-2.5 py-1 text-xs font-semibold text-amber-300 transition-colors hover:bg-amber-500/25"
+      className="inline-flex items-center gap-1.5 rounded-lg bg-amber-soft px-2.5 py-1 text-xs font-semibold text-amber-300 transition-colors hover:bg-amber-soft"
     >
       <Play size={12} /> Play on diagram
     </button>
