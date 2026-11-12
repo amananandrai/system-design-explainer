@@ -57,7 +57,7 @@ export default function NodeDetailPanel({
       <div className="flex items-start justify-between border-b border-line px-5 py-4">
         <div>
           <span
-            className="inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--on-provider)]"
+            className="inline-block rounded-[3px] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--on-provider)]"
             style={{ backgroundColor: color }}
           >
             {kind?.name ?? systemNode.kind}
@@ -167,7 +167,8 @@ export default function NodeDetailPanel({
                 <Link
                   key={slug}
                   href={`/concepts/${slug}`}
-                  className="rounded-full bg-emerald-soft px-2 py-0.5 text-xs text-emerald-300 hover:bg-emerald-soft"
+                  data-family={getConcept(slug)?.family}
+                  className="tag-chip"
                 >
                   {getConcept(slug)?.name ?? slug}
                 </Link>

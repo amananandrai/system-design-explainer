@@ -130,12 +130,13 @@ function OverviewPanel({ system }: { system: SystemDesign }) {
 
       {system.concepts.length > 0 && (
         <Block title="Concepts">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {system.concepts.map((slug) => (
               <Link
                 key={slug}
                 href={`/concepts/${slug}`}
-                className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent transition-opacity hover:opacity-80"
+                data-family={getConcept(slug)?.family}
+                className="tag-chip"
               >
                 {getConcept(slug)?.name ?? slug}
               </Link>
@@ -219,7 +220,7 @@ function DataPanel({ system }: { system: SystemDesign }) {
               <h3 className="font-semibold text-fg">{d.entity}</h3>
               <span className="flex items-center gap-2 text-xs text-muted">
                 {type && (
-                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${type.className}`}>
+                  <span className={`rounded-[3px] px-2 py-0.5 text-[11px] font-semibold ${type.className}`}>
                     {type.label}
                   </span>
                 )}

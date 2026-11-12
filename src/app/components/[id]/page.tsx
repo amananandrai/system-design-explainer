@@ -105,7 +105,8 @@ export default async function ComponentPage(props: PageProps<"/components/[id]">
               <Link
                 key={slug}
                 href={`/concepts/${slug}`}
-                className="rounded-full border border-line-strong bg-emerald-soft px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-soft"
+                data-family={getConcept(slug)?.family}
+                className="tag-chip"
               >
                 {getConcept(slug)?.name ?? slug}
               </Link>

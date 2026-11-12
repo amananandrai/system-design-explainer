@@ -44,9 +44,9 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
           <Link href="/concepts" className="text-xs text-muted hover:text-fg">
             ← All concepts
           </Link>
-          <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs font-medium text-fg shadow-soft">
-            <span className="text-cat-ink">
-              <FamilyIcon family={concept.family} size={13} />
+          <p className="mt-4 flex w-fit items-center gap-2 rounded border-2 border-edge bg-surface py-1 pl-1 pr-2.5 text-xs font-medium text-fg">
+            <span className="flex h-5 w-5 items-center justify-center rounded-sm bg-cat text-on-cat">
+              <FamilyIcon family={concept.family} size={12} />
             </span>
             {conceptFamilyLabels[concept.family]}
           </p>
@@ -130,7 +130,8 @@ export default async function ConceptPage(props: PageProps<"/concepts/[slug]">) 
                 <Link
                   key={r}
                   href={`/concepts/${r}`}
-                  className="rounded-full border border-line-strong bg-emerald-soft px-3 py-1 text-sm text-emerald-300 hover:bg-emerald-soft"
+                  data-family={getConcept(r)?.family}
+                  className="tag-chip"
                 >
                   {getConcept(r)?.name ?? r}
                 </Link>
