@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { SystemIcon } from "@/lib/identity";
+import SystemSketch from "./SystemSketch";
+import type { Sketch } from "@/lib/sketch";
 
 export interface CatalogueCard {
   slug: string;
@@ -18,12 +20,13 @@ export interface CatalogueCard {
   flowCount: number;
   complete: boolean;
   concepts: { slug: string; name: string }[];
+  sketch: Sketch;
 }
 
-const difficultyPill = {
-  1: "bg-emerald-500/12 text-emerald-300",
-  2: "bg-amber-500/12 text-amber-300",
-  3: "bg-rose-500/12 text-rose-300",
+const difficultyText = {
+  1: "text-emerald-300",
+  2: "text-amber-300",
+  3: "text-rose-300",
 } as const;
 
 interface Option {
@@ -61,7 +64,7 @@ export default function SystemCatalogue({
   return (
     <>
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <label className="flex items-center gap-2 rounded-lg border border-line-strong bg-surface px-3">
+        <label className="flex items-center gap-2 rounded border border-line-strong bg-surface px-3">
           <Search size={14} className="text-muted" />
           <input
             value={query}
@@ -87,7 +90,7 @@ export default function SystemCatalogue({
           value={concept}
           onChange={(e) => setConcept(e.target.value)}
           aria-label="Filter by concept"
-          className="h-9 rounded-lg border border-line-strong bg-surface px-3 text-sm text-fg-soft focus:outline-none"
+          className="h-9 rounded border border-line-strong bg-surface px-3 text-sm text-fg-soft focus:outline-none"
         >
           <option value="">Any concept</option>
           {conceptOptions.map((o) => (
@@ -117,50 +120,40 @@ export default function SystemCatalogue({
         {visible.length} of {cards.length} systems
       </p>
 
-      <ul className="mt-3 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <ul className="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((card) => (
           <li key={card.slug} data-category={card.category}>
             <Link
               href={`/systems/${card.slug}`}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-200 hover:-translate-y-1 hover:border-line-strong hover:shadow-glow"
+              className="bp-card group flex h-full flex-col overflow-hidden"
             >
-              <div className="h-16 border-b border-line bg-cat-tint" aria-hidden>
-                <div className="h-1 bg-cat" />
+              <div className="bp-grid border-b border-line-strong px-3 pb-2 pt-2.5">
+                <SystemSketch sketch={card.sketch} />
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cat-tint text-cat">
-                    <SystemIcon slug={card.slug} size={19} />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-muted">
-                      <span className="h-1.5 w-1.5 rounded-full bg-cat" aria-hidden />
-                      {card.categoryLabel}
-                    </p>
-                    <p className="truncate text-lg font-semibold text-fg">{card.name}</p>
-                  </div>
-                </div>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{card.tagline}</p>
+              <div className="flex flex-1 flex-col gap-2 p-4">
+                <p className="bp-label flex items-center gap-1.5 text-cat">
+                  <SystemIcon slug={card.slug} size={13} />
+                  {card.categoryLabel}
+                </p>
+                <p className="text-lg font-semibold leading-snug tracking-tight text-fg">{card.name}</p>
+                <p className="flex-1 text-sm leading-relaxed text-muted">{card.tagline}</p>
                 {card.concepts.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1">
-                    {card.concepts.slice(0, 3).map((c) => (
-                      <span key={c.slug} className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] text-fg-soft">
-                        {c.name}
-                      </span>
-                    ))}
-                    {card.concepts.length > 3 && (
-                      <span className="px-1 text-[11px] text-muted">+{card.concepts.length - 3}</span>
-                    )}
-                  </div>
+                  <p className="text-xs leading-relaxed text-fg-soft">
+                    {card.concepts
+                      .slice(0, 3)
+                      .map((c) => c.name)
+                      .join(" · ")}
+                    {card.concepts.length > 3 && <span className="text-muted"> +{card.concepts.length - 3}</span>}
+                  </p>
                 )}
-                <div className="mt-4 flex items-center justify-between gap-2 text-xs">
-                  <span className={`rounded-full px-2 py-0.5 font-medium ${difficultyPill[card.difficulty]}`}>
-                    {card.difficultyLabel}
+                <p className="mt-1 flex flex-wrap justify-between gap-x-3 gap-y-1 border-t border-dashed border-line-strong pt-2.5 font-mono text-[11.5px] text-muted">
+                  <span>
+                    {card.componentCount} components · {card.flowCount} flows
                   </span>
-                  <span className="text-muted">
-                    {card.componentCount} components · {card.flowCount} walkthroughs
+                  <span className={`font-medium ${difficultyText[card.difficulty]}`}>
+                    L{card.difficulty} {card.difficultyLabel}
                   </span>
-                </div>
+                </p>
               </div>
             </Link>
           </li>
@@ -192,7 +185,7 @@ function ChipGroup({
   categoryDots?: boolean;
 }) {
   return (
-    <div className="flex flex-wrap rounded-xl border border-line bg-surface p-1">
+    <div className="flex flex-wrap gap-1.5">
       {[{ value: null, label: allLabel }, ...options].map((o) => (
         <button
           key={o.label}
@@ -200,15 +193,15 @@ function ChipGroup({
           onClick={() => onChange(o.value)}
           aria-pressed={value === o.value}
           data-category={categoryDots && o.value ? o.value : undefined}
-          className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
+          className={`flex h-9 items-center gap-1.5 rounded border px-2.5 font-mono text-xs lowercase transition-colors ${
             value === o.value
               ? categoryDots && o.value
-                ? "bg-cat-tint text-fg"
-                : "bg-surface-2 text-fg"
-              : "text-muted hover:text-fg"
+                ? "border-cat bg-cat-tint text-fg"
+                : "border-line-strong bg-surface-2 text-fg"
+              : "border-line text-muted hover:border-line-strong hover:text-fg"
           }`}
         >
-          {categoryDots && o.value && <span className="h-2 w-2 rounded-full bg-cat" aria-hidden />}
+          {categoryDots && o.value && <span className="h-1.5 w-1.5 rounded-[1px] bg-cat" aria-hidden />}
           {o.label}
         </button>
       ))}

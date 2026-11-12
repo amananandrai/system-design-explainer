@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Boxes, Cloud, Lightbulb, PlayCircle } from "lucide-react";
 import SystemCatalogue, { type CatalogueCard } from "@/components/site/SystemCatalogue";
-import HeroDiagram from "@/components/site/HeroDiagram";
+import SystemDeck, { type DeckCard } from "@/components/site/SystemDeck";
+import { buildSketch } from "@/lib/sketch";
 import LearningPaths, { type LearningPath } from "@/components/site/LearningPaths";
 import {
   components,
@@ -67,8 +68,25 @@ const learningPaths = [
   },
 ];
 
+/** One system per category for the hero deck. */
+const deckSlugs = ["youtube", "uber", "payments", "bookmyshow", "url-shortener"];
+
 export default function HomePage() {
-  const hero = getSystem("url-shortener") ?? systems[0];
+  const deck: DeckCard[] = deckSlugs.flatMap((slug) => {
+    const s = getSystem(slug);
+    return s
+      ? [
+          {
+            slug,
+            name: s.name,
+            tagline: s.tagline,
+            category: s.category,
+            categoryLabel: systemCategoryLabels[s.category],
+            sketch: buildSketch(s),
+          },
+        ]
+      : [];
+  });
 
   const cards: CatalogueCard[] = systems.map((s) => ({
     slug: s.slug,
@@ -82,6 +100,7 @@ export default function HomePage() {
     flowCount: s.flows.length,
     complete: s.requirements.functional.length > 0,
     concepts: s.concepts.map((slug) => ({ slug, name: getConcept(slug)?.name ?? slug })),
+    sketch: buildSketch(s),
   }));
 
   const paths: LearningPath[] = learningPaths.map(({ slugs, ...path }) => ({
@@ -133,7 +152,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <HeroDiagram system={hero} />
+          <SystemDeck cards={deck} total={systems.length} />
         </section>
 
         {/* What you can do */}
@@ -146,10 +165,10 @@ export default function HomePage() {
               <li
                 key={title}
                 data-category={hue}
-                className="rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
+                className="bp-card p-5"
               >
                 <span
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-cat-tint text-cat"
+                  className="flex h-9 w-9 items-center justify-center rounded border border-cat bg-cat-tint text-cat"
                   aria-hidden
                 >
                   <Icon size={18} />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { conceptFamilies } from "@/types/schema";
 import { conceptFamilyLabels, concepts, systemsUsingConcept } from "@/content";
 import { FamilyIcon } from "@/lib/identity";
@@ -48,25 +49,41 @@ export default function ConceptsPage() {
               </span>
               {conceptFamilyLabels[family]}
             </h2>
-            <ul className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="mt-4 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {items.map((concept) => {
                 const usedIn = systemsUsingConcept(concept.slug);
                 return (
                   <li key={concept.slug}>
-                    <Link
-                      href={`/concepts/${concept.slug}`}
-                      className="flex h-full flex-col rounded-2xl border border-line border-t-[3px] border-t-cat bg-surface p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-glow"
-                    >
-                      <p className="font-semibold text-fg">{concept.name}</p>
-                      <p className="mt-1 flex-1 text-sm leading-relaxed text-muted">{concept.summary}</p>
-                      <p className="mt-3 flex items-center gap-2 text-xs text-muted">
-                        {concept.visual && (
-                          <span className="rounded-full bg-cat-tint px-2 py-0.5 font-medium text-fg">Interactive</span>
-                        )}
-                        <span className="truncate">
-                          {usedIn.length > 0 ? `Seen in ${usedIn.map((s) => s.name).join(", ")}` : "Reference"}
+                    <Link href={`/concepts/${concept.slug}`} className="tile group flex h-full flex-col gap-3 p-[22px]">
+                      <span className="pointer-events-none absolute -right-7 -top-7 text-cat opacity-[0.13]" aria-hidden>
+                        <FamilyIcon family={family} size={150} />
+                      </span>
+                      <span className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-cat text-bg">
+                        <FamilyIcon family={family} size={22} />
+                      </span>
+                      {concept.visual && <p className="mt-1.5 text-xs font-semibold text-cat">Interactive</p>}
+                      <p className="text-2xl font-semibold leading-tight tracking-tight text-fg">{concept.name}</p>
+                      <p className="flex-1 text-[14.5px] leading-relaxed text-fg-soft">{concept.summary}</p>
+                      <div className="mt-1.5 flex items-end justify-between gap-3">
+                        <ul className="flex flex-wrap gap-1.5" aria-label={usedIn.length > 0 ? "Seen in" : undefined}>
+                          {usedIn.length === 0 && (
+                            <li className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">Reference</li>
+                          )}
+                          {usedIn.slice(0, 3).map((s) => (
+                            <li key={s.slug} className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">
+                              {s.name}
+                            </li>
+                          ))}
+                          {usedIn.length > 3 && (
+                            <li className="rounded-full bg-fg/8 px-2.5 py-0.5 text-[11.5px] text-fg-soft">
+                              +{usedIn.length - 3}
+                            </li>
+                          )}
+                        </ul>
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-fg text-bg transition-transform duration-200 group-hover:-rotate-45">
+                          <ArrowRight size={16} aria-hidden />
                         </span>
-                      </p>
+                      </div>
                     </Link>
                   </li>
                 );

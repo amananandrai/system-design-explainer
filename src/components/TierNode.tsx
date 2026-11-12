@@ -12,14 +12,14 @@ function TierNodeComponent({ data }: NodeProps) {
 
   return (
     <div
-      className="pointer-events-none h-full w-full rounded-2xl border-l-[3px]"
+      className="pointer-events-none h-full w-full rounded-[3px] border border-dashed"
       style={{
-        background: `color-mix(in srgb, ${hue} 7%, transparent)`,
-        borderLeftColor: `color-mix(in srgb, ${hue} 55%, transparent)`,
+        background: `color-mix(in srgb, ${hue} 4%, transparent)`,
+        borderColor: `color-mix(in srgb, ${hue} 45%, var(--line-strong))`,
       }}
     >
-      <p className="flex items-center gap-1.5 px-4 pt-2 text-[10px] font-semibold uppercase tracking-widest text-muted">
-        <span className="h-1.5 w-1.5 rounded-full" style={{ background: hue }} aria-hidden />
+      <p className="flex items-center gap-1.5 px-4 pt-2 font-mono text-[10px] uppercase tracking-widest text-fg-soft">
+        <span className="h-1.5 w-1.5 rounded-[1px]" style={{ background: hue }} aria-hidden />
         {label}
       </p>
     </div>

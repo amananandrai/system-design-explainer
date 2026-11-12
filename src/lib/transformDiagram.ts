@@ -116,17 +116,17 @@ export function systemToFlow(
       target: edge.to,
       type: "packet",
       label: edge.label,
-      // The active step carries a packet dot instead of marching dashes.
-      animated: !isActiveStep && style.animated,
+      // The active step is a flowing dashed line that also carries a packet dot.
+      animated: isActiveStep || style.animated,
       data: { packet: isActiveStep, packetColor: FLOW_COLOR },
       markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
       style: {
         stroke: color,
-        strokeWidth: isActiveStep ? 3.5 : emphasised ? 2.5 : 1.5,
-        strokeDasharray: isActiveStep ? undefined : style.dash,
+        strokeWidth: isActiveStep ? 2.5 : emphasised ? 2 : 1.3,
+        strokeDasharray: isActiveStep ? "6 4" : style.dash,
         opacity: dimmed ? 0.15 : 1,
       },
-      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--fg-soft)", fontSize: 11 },
+      labelStyle: { fill: isActiveStep ? FLOW_COLOR : "var(--fg-soft)", fontSize: 10.5, fontFamily: "var(--font-geist-mono), ui-monospace, monospace" },
       labelBgStyle: { fill: "var(--surface)" },
       labelBgPadding: [4, 2] as [number, number],
       zIndex: isActiveStep ? 2 : emphasised ? 1 : 0,

@@ -44,7 +44,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-surface">
+    <div className="overflow-hidden rounded-md border border-line-strong bg-surface">
       {system.flows.length > 1 && (
         <div role="tablist" aria-label="Scenarios" className="flex flex-wrap gap-1 border-b border-line px-3 py-2">
           {system.flows.map((f, i) => (
@@ -54,7 +54,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
               role="tab"
               aria-selected={i === flowIndex}
               onClick={() => chooseFlow(i)}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-[3px] px-3 py-1 font-mono text-xs transition-colors ${
                 i === flowIndex ? "bg-amber-400 text-[#1c1917]" : "border border-line text-muted hover:text-fg"
               }`}
             >
@@ -77,7 +77,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
 
       {flow && (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-amber-500/30 bg-amber-500/5 px-3 py-2.5">
-          <div className="flex items-center gap-0.5">
+          <div className="flex items-center gap-1">
             <ControlButton label="Previous step" disabled={step === 0} onClick={() => setStep(step - 1)}>
               <ChevronLeft size={16} />
             </ControlButton>
@@ -98,7 +98,7 @@ export default function ConceptFlow({ system }: { system: SystemDesign }) {
             </ControlButton>
           </div>
           <p className="min-w-0 flex-1 text-sm text-fg-soft" aria-live="polite">
-            <span className="mr-2 font-semibold text-amber-300">
+            <span className="mr-2 font-mono text-xs font-medium text-amber-300">
               {step + 1}/{flow.steps.length}
             </span>
             {flow.steps[step].text}
@@ -136,7 +136,7 @@ function ControlButton({
       title={label}
       disabled={disabled}
       onClick={onClick}
-      className="rounded-lg p-1.5 text-fg-soft transition-colors hover:bg-surface-2 hover:text-fg disabled:opacity-30 disabled:hover:bg-transparent"
+      className="rounded-[3px] border border-line-strong p-1.5 text-fg-soft transition-colors hover:border-faint hover:text-fg disabled:opacity-30 disabled:hover:border-line-strong"
     >
       {children}
     </button>
