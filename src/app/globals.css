@@ -296,6 +296,48 @@ body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+/* Family link chip: ink border, small hard shadow, lifts on hover. */
+@utility fam-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--edge);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--fg);
+  padding: 5px 10px 5px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 3px 3px 0 var(--shadow-ink);
+  transition: transform 150ms, box-shadow 150ms;
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--shadow-ink);
+  }
+}
+/* Outlined concept tag with a pin in its family colour (set data-family on it). */
+@utility tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid var(--edge);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--fg-soft);
+  padding: 3px 9px;
+  font-size: 13px;
+  transition: background-color 150ms;
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex: none;
+    background: var(--cat);
+  }
+  &:hover {
+    background: var(--cat-tint);
+  }
+}
 /* Buttons: ink border and hard shadow, same lift as cards. */
 @utility btn {
   border: 2px solid var(--edge);

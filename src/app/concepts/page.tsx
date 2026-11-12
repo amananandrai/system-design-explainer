@@ -23,19 +23,19 @@ export default function ConceptsPage() {
         diagram you can step through — and links to the systems that rely on it.
       </p>
 
-      <nav aria-label="Concept families" className="mt-6 flex flex-wrap gap-2">
+      <nav aria-label="Concept families" className="mt-6 flex flex-wrap gap-2.5">
         {groups.map(({ family, items }) => (
           <a
             key={family}
             href={`#${family}`}
             data-family={family}
-            className="flex items-center gap-2 rounded-full bg-cat-tint px-3 py-1.5 text-sm font-medium text-fg transition-opacity hover:opacity-80"
+            className="fam-chip"
           >
-            <span className="text-cat-ink">
+            <span className="flex h-6 w-6 items-center justify-center rounded-sm bg-cat text-on-cat">
               <FamilyIcon family={family} size={14} />
             </span>
             {conceptFamilyLabels[family]}
-            <span className="text-muted">{items.length}</span>
+            <span className="font-mono text-xs text-muted">{items.length}</span>
           </a>
         ))}
       </nav>
@@ -44,7 +44,7 @@ export default function ConceptsPage() {
         {groups.map(({ family, items }) => (
           <section key={family} id={family} data-family={family} className="scroll-mt-6">
             <h2 className="flex items-center gap-2.5 text-xl font-semibold text-fg">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cat-tint text-cat-ink">
+              <span className="flex h-8 w-8 items-center justify-center rounded border-2 border-edge bg-cat text-on-cat">
                 <FamilyIcon family={family} size={16} />
               </span>
               {conceptFamilyLabels[family]}
